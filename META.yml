@@ -18,6 +18,7 @@ no_index:
   directory:
     - html
     - inc
+    - static
 requires:
   RT::Extension::ConfigInDatabase: 0
   perl: 5.10.1

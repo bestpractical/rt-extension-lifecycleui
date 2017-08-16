@@ -4,6 +4,8 @@ use warnings;
 
 our $VERSION = '0.01';
 
+RT->AddStyleSheets("lifecycleui.css");
+
 =head1 NAME
 
 RT-Extension-LifecycleUI - manage lifecycles via admin UI
