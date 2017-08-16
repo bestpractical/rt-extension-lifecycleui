@@ -7,7 +7,7 @@
 % if (@lifecycles) {
 <ul>
 % for my $lifecycle (@lifecycles) {
-<li><a href=""><% $lifecycle %></a></li>
+<li><a href="<% RT->Config->Get('WebURL') %>Admin/Lifecycles/Modify.html?Type=<% $type |u %>&Name=<% $lifecycle |u %>"><% $lifecycle %></a></li>
 % }
 </ul>
 % } else {
