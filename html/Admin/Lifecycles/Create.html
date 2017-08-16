@@ -36,7 +36,7 @@ if (defined($Clone) || defined($Blank)) {
     my ($type, $clone_of);
 
     Abort("New lifecycle name required")
-        unless defined $Name;
+        unless length $Name;
 
     if (defined($Clone)) {
         ($type, $clone_of) = split '--', $Clone;
