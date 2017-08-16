@@ -1,3 +1,6 @@
+<%ARGS>
+$Path
+</%ARGS>
 <%INIT>
 return unless $session{'CurrentUser'}->HasRight( Object=> RT->System, Right => 'SuperUser');
 
@@ -17,4 +20,21 @@ $lifecycles->child( create =>
     title => loc('Create'),
     path  => '/Admin/Lifecycles/Create.html',
 );
+
+if ( $Path =~ m{^/Admin/Lifecycles} ) {
+    if (defined($DECODED_ARGS->{'Name'}) && defined($DECODED_ARGS->{'Type'}) ) {
+        my $LifecycleObj = RT::Lifecycle->new();
+        $LifecycleObj->Load(Name => $DECODED_ARGS->{'Name'}, Type => $DECODED_ARGS->{'Type'});
+
+        if ($LifecycleObj->Name && $LifecycleObj->{data}{type} eq $DECODED_ARGS->{'Type'}) {
+            my $Name_uri = $LifecycleObj->Name;
+            my $Type_uri = $LifecycleObj->Type;
+            RT::Interface::Web::EscapeURI(\$Name_uri);
+            RT::Interface::Web::EscapeURI(\$Type_uri);
+
+            my $menu = PageMenu();
+            $menu->child( basics => title => loc('Modify'),  path => "/Admin/Lifecycles/Modify.html?Type=" . $Type_uri . "&Name=" . $Name_uri );
+        }
+    }
+}
 </%INIT>
