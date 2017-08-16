@@ -15,6 +15,6 @@ $lifecycles->child( select =>
 
 $lifecycles->child( create =>
     title => loc('Create'),
-    path  => '/Admin/Lifecycles/',
+    path  => '/Admin/Lifecycles/Create.html',
 );
 </%INIT>

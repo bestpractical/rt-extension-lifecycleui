@@ -1,0 +1,46 @@
+<& /Admin/Elements/Header, Title => loc("Admin Lifecycles") &>
+<& /Elements/Tabs &>
+
+<form action="<%RT->Config->Get('WebPath')%>/Admin/Lifecycles/Create.html" name="CreateLifecycle" method="post" enctype="multipart/form-data">
+
+% for my $type (@types) {
+% my @lifecycles = @{ $lifecycles{$type} };
+<h2><&|/l, $type&>"[_1]" lifecycles</&></h2>
+% for my $lifecycle (@lifecycles) {
+<button type="submit" name="Clone" value="<% $type %>--<% $lifecycle %>"><&|/l, $lifecycle&>Clone "[_1]" lifecycle</&></button><br>
+% }
+<br>
+<button type="submit" name="Blank" value="<% $type %>"><&|/l, $type&>Blank "[_1]" lifecycle</&></button><br>
+% }
+</form>
+
+<%INIT>
+my @types = List::MoreUtils::uniq(
+    'ticket',
+    'asset',
+    sort keys %RT::Lifecycle::LIFECYCLES_TYPES,
+);
+
+my %lifecycles;
+
+for my $type (@types) {
+    @{ $lifecycles{$type} } = sort { loc($a) cmp loc($b) }
+                              grep { $_ ne 'approvals' }
+                              RT::Lifecycle->ListAll($type);
+}
+
+if (defined($Clone)) {
+    my ($type, $source_name) = split '--', $Clone;
+    Abort("Invalid $type lifecycle $source_name")
+        unless grep { $_ eq $source_name} RT::Lifecycle->ListAll($type);
+}
+elsif (defined($Blank)) {
+    my $type = $Blank;
+    Abort("Invalid lifecycle type $type")
+        unless $RT::Lifecycle::LIFECYCLES_TYPES{$type};
+}
+</%INIT>
+<%ARGS>
+$Clone => undef
+$Blank => undef
+</%ARGS>
