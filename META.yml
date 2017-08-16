@@ -16,6 +16,7 @@ meta-spec:
 name: RT-Extension-LifecycleUI
 no_index:
   directory:
+    - html
     - inc
 requires:
   RT::Extension::ConfigInDatabase: 0

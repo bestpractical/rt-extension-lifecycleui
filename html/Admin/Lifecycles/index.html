@@ -1,0 +1,31 @@
+<& /Admin/Elements/Header, Title => loc("Admin Lifecycles") &>
+<& /Elements/Tabs &>
+
+% for my $type (@types) {
+% my @lifecycles = @{ $lifecycles{$type} };
+<h2><&|/l, $type&>"[_1]" lifecycles</&></h2>
+% if (@lifecycles) {
+<ul>
+% for my $lifecycle (@lifecycles) {
+<li><a href=""><% $lifecycle %></a></li>
+% }
+</ul>
+% } else {
+<p><&|/l&>No lifecycles.</&></p>
+% }
+% }
+<%INIT>
+my @types = List::MoreUtils::uniq(
+    'ticket',
+    'asset',
+    sort keys %RT::Lifecycle::LIFECYCLES_TYPES,
+);
+
+my %lifecycles;
+
+for my $type (@types) {
+    @{ $lifecycles{$type} } = sort { loc($a) cmp loc($b) }
+                              grep { $_ ne 'approvals' }
+                              RT::Lifecycle->ListAll($type);
+}
+</%INIT>
