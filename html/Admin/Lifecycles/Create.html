@@ -3,6 +3,9 @@
 
 <form action="<%RT->Config->Get('WebPath')%>/Admin/Lifecycles/Create.html" name="CreateLifecycle" method="post" enctype="multipart/form-data">
 
+<&|/l&>New lifecycle name</&>: <input name="Name" value="" />
+<hr />
+
 % for my $type (@types) {
 % my @lifecycles = @{ $lifecycles{$type} };
 <h2><&|/l, $type&>"[_1]" lifecycles</&></h2>
@@ -29,18 +32,38 @@ for my $type (@types) {
                               RT::Lifecycle->ListAll($type);
 }
 
-if (defined($Clone)) {
-    my ($type, $source_name) = split '--', $Clone;
-    Abort("Invalid $type lifecycle $source_name")
-        unless grep { $_ eq $source_name} RT::Lifecycle->ListAll($type);
-}
-elsif (defined($Blank)) {
-    my $type = $Blank;
-    Abort("Invalid lifecycle type $type")
-        unless $RT::Lifecycle::LIFECYCLES_TYPES{$type};
+if (defined($Clone) || defined($Blank)) {
+    my ($type, $clone_of);
+
+    Abort("New lifecycle name required")
+        unless defined $Name;
+
+    if (defined($Clone)) {
+        ($type, $clone_of) = split '--', $Clone;
+        Abort("Invalid $type lifecycle $clone_of")
+            unless grep { $_ eq $clone_of } RT::Lifecycle->ListAll($type);
+    }
+    else {
+        $type = $Blank;
+        Abort("Invalid lifecycle type $type")
+            unless $RT::Lifecycle::LIFECYCLES_TYPES{$type};
+    }
+
+    Abort("$type lifecycle $Name already exists")
+        if grep { $_ eq $Name } RT::Lifecycle->ListAll($type);
+
+    # XXX create blank or clone
+
+    my $type_uri = $type;
+    my $Name_uri = $Name;
+    RT::Interface::Web::EscapeURI(\$type_uri);
+    RT::Interface::Web::EscapeURI(\$Name_uri);
+
+    RT::Interface::Web::Redirect( RT->Config->Get('WebURL') ."Admin/Lifecycles/Modify.html?Type=". $type_uri."&Name=".$Name_uri);
 }
 </%INIT>
 <%ARGS>
 $Clone => undef
 $Blank => undef
+$Name => undef
 </%ARGS>
