@@ -6,6 +6,9 @@ our $VERSION = '0.01';
 
 RT->AddStyleSheets("lifecycleui.css");
 
+$RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
+$RT::Config::META{Lifecycles}{EditLinkLabel} = "lifecycles administration";
+
 =head1 NAME
 
 RT-Extension-LifecycleUI - manage lifecycles via admin UI
