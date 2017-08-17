@@ -51,12 +51,11 @@ if (defined($Clone) || defined($Blank)) {
 
     Abort($msg) if !$ok;
 
-    my $type_uri = $type;
-    my $Name_uri = $Name;
-    RT::Interface::Web::EscapeURI(\$type_uri);
-    RT::Interface::Web::EscapeURI(\$Name_uri);
-
-    RT::Interface::Web::Redirect( RT->Config->Get('WebURL') ."Admin/Lifecycles/Modify.html?Type=". $type_uri."&Name=".$Name_uri);
+    MaybeRedirectForResults(
+        Actions   => [ $msg ],
+        Path      => 'Admin/Lifecycles/Modify.html',
+        Arguments => { Type => $type, Name => $Name },
+    );
 }
 </%INIT>
 <%ARGS>
