@@ -35,24 +35,21 @@ for my $type (@types) {
 if (defined($Clone) || defined($Blank)) {
     my ($type, $clone_of);
 
-    Abort("New lifecycle name required")
-        unless length $Name;
-
     if (defined($Clone)) {
         ($type, $clone_of) = split '--', $Clone;
-        Abort("Invalid $type lifecycle $clone_of")
-            unless grep { $_ eq $clone_of } RT::Lifecycle->ListAll($type);
     }
     else {
         $type = $Blank;
-        Abort("Invalid lifecycle type $type")
-            unless $RT::Lifecycle::LIFECYCLES_TYPES{$type};
     }
 
-    Abort("$type lifecycle $Name already exists")
-        if grep { $_ eq $Name } RT::Lifecycle->ListAll($type);
+    my ($ok, $msg) = RT::Extension::LifecycleUI->CreateLifecycle(
+        CurrentUser => $session{CurrentUser},
+        Name        => $Name,
+        Type        => $type,
+        Clone       => $clone_of,
+    );
 
-    # XXX create blank or clone
+    Abort($msg) if !$ok;
 
     my $type_uri = $type;
     my $Name_uri = $Name;

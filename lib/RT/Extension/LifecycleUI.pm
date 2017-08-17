@@ -9,6 +9,41 @@ RT->AddStyleSheets("lifecycleui.css");
 $RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
 $RT::Config::META{Lifecycles}{EditLinkLabel} = "lifecycles administration";
 
+sub CreateLifecycle {
+    my $class = shift;
+    my %args = (
+        CurrentUser => undef,
+        Name        => undef,
+        Type        => undef,
+        Clone       => undef,
+        @_,
+    );
+
+    my $CurrentUser = $args{CurrentUser};
+    my $Name = $args{Name};
+    my $Type = $args{Type};
+    my $Clone = $args{Clone};
+
+    return (0, $CurrentUser->loc("Lifecycle Name required"))
+        unless length $Name;
+
+    return (0, $CurrentUser->loc("Lifecycle Type required"))
+        unless length $Type;
+
+    return (0, $CurrentUser->loc("Invalid lifecycle type '[_1]'", $Type))
+            unless $RT::Lifecycle::LIFECYCLES_TYPES{$Type};
+
+    if (length $Clone) {
+        return (0, $CurrentUser->loc("Invalid '[_1]' lifecycle '[_2]'", $Type, $Clone))
+            unless grep { $_ eq $Clone } RT::Lifecycle->ListAll($Type);
+    }
+
+    return (0, $CurrentUser->loc("'[_1]' lifecycle '[_2]' already exists", $Type, $Name))
+        if grep { $_ eq $Name } RT::Lifecycle->ListAll($Type);
+
+    return (1, $CurrentUser->loc("Lifecycle created"));
+}
+
 =head1 NAME
 
 RT-Extension-LifecycleUI - manage lifecycles via admin UI
