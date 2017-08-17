@@ -1,9 +1,19 @@
-<div class="lifecycle-ui">
+<div class="lifecycle-ui" data-name="<% $Lifecycle %>">
+    <script type="text/javascript">
+        RT.LifecycleConfig = RT.LifecycleConfig || {};
+        RT.LifecycleConfig['<% $Lifecycle %>'] = <% JSON($config) |n %>;
+    </script>
     <svg<% $Editing ? ' class="editing"' : '' |n %>></svg>
 </div>
 <%ARGS>
 $Editing => 0
+$Lifecycle => undef
 $Ticket => undef
 </%ARGS>
 <%INIT>
+$Lifecycle ||= $Ticket->Lifecycle
+    if $Ticket;
+
+my $config = RT->Config->Get('Lifecycles')->{$Lifecycle};
+Abort("Invalid Lifecycle") if !$Lifecycle || !$config;
 </%INIT>
