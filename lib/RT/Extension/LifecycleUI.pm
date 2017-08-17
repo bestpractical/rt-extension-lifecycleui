@@ -7,6 +7,7 @@ our $VERSION = '0.01';
 
 RT->AddJavaScript("d3.min.js");
 RT->AddStyleSheets("lifecycleui.css");
+RT->AddStyleSheets("lifecycleui-editor.css");
 
 $RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
 $RT::Config::META{Lifecycles}{EditLinkLabel} = "lifecycles administration";

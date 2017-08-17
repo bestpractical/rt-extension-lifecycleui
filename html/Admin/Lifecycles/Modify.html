@@ -7,12 +7,11 @@
 <input type="hidden" class="hidden" name="Name" value="<% $LifecycleObj->Name %>" />
 <input type="hidden" class="hidden" name="Type" value="<% $LifecycleObj->Type %>" />
 
+<& /Elements/LifecycleGraph, Lifecycle => $LifecycleObj->Name, Editing => 1 &>
+
 <& /Elements/Submit, Label => loc('Save Changes') &>
 
 </form>
-
-
-
 <%INIT>
 my ($title, @results);
 my $LifecycleObj = RT::Lifecycle->new();

@@ -1,0 +1,8 @@
+<div class="lifecycle-ui">
+    <svg<% $Editing ? ' class="editing"' : '' |n %>></svg>
+</div>
+<%ARGS>
+$Editing => 0
+</%ARGS>
+<%INIT>
+</%INIT>
