@@ -10,3 +10,8 @@
     </svg>');
     background-size: 25px 25px;
 }
+
+.lifecycle-ui .state {
+    display: none;
+    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
+}

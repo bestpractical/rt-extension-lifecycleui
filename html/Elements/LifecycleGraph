@@ -4,6 +4,7 @@
         RT.LifecycleConfig['<% $Lifecycle %>'] = <% JSON($config) |n %>;
     </script>
     <svg<% $Editing ? ' class="editing"' : '' |n %>></svg>
+    <textarea rows=24 cols=80 class="state"></textarea>
 </div>
 <%ARGS>
 $Editing => 0
