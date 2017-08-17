@@ -3,6 +3,7 @@
 </div>
 <%ARGS>
 $Editing => 0
+$Ticket => undef
 </%ARGS>
 <%INIT>
 </%INIT>
