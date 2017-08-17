@@ -1,6 +1,7 @@
 package RT::Extension::LifecycleUI;
 use strict;
 use warnings;
+use Storable;
 
 our $VERSION = '0.01';
 
@@ -8,6 +9,42 @@ RT->AddStyleSheets("lifecycleui.css");
 
 $RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
 $RT::Config::META{Lifecycles}{EditLinkLabel} = "lifecycles administration";
+
+sub _CreateLifecycle {
+    my $class = shift;
+    my %args  = @_;
+    my $CurrentUser = $args{CurrentUser};
+
+    my $lifecycles = RT->Config->Get('Lifecycles');
+    my $lifecycle;
+
+    if ($args{Clone}) {
+        $lifecycle = Storable::dclone($lifecycles->{ $args{Clone} });
+    }
+    else {
+        $lifecycle = { type => $args{Type} };
+    }
+
+    $lifecycles->{$args{Name}} = $lifecycle;
+
+    my $setting = RT::DatabaseSetting->new($CurrentUser);
+    $setting->Load('Lifecycles');
+    if ($setting->Id) {
+        my ($ok, $msg) = $setting->SetContent($lifecycles);
+        return ($ok, $msg) if !$ok;
+    }
+    else {
+        my ($ok, $msg) = $setting->Create(
+            Name    => 'Lifecycles',
+            Content => $lifecycles,
+        );
+        return ($ok, $msg) if !$ok;
+    }
+
+    RT::Lifecycle->FillCache;
+
+    return (1, $CurrentUser->loc("Lifecycle created"));
+}
 
 sub CreateLifecycle {
     my $class = shift;
@@ -41,7 +78,7 @@ sub CreateLifecycle {
     return (0, $CurrentUser->loc("'[_1]' lifecycle '[_2]' already exists", $Type, $Name))
         if grep { $_ eq $Name } RT::Lifecycle->ListAll($Type);
 
-    return (1, $CurrentUser->loc("Lifecycle created"));
+    return $class->_CreateLifecycle(%args);
 }
 
 =head1 NAME
