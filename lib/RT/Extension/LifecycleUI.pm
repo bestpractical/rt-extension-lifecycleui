@@ -6,6 +6,8 @@ use Storable;
 our $VERSION = '0.01';
 
 RT->AddJavaScript("d3.min.js");
+RT->AddJavaScript("lifecycleui-editor.js");
+
 RT->AddStyleSheets("lifecycleui.css");
 RT->AddStyleSheets("lifecycleui-editor.css");
 
