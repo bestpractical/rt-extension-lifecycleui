@@ -10,6 +10,29 @@ RT->AddStyleSheets("lifecycleui.css");
 $RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
 $RT::Config::META{Lifecycles}{EditLinkLabel} = "lifecycles administration";
 
+sub _CloneLifecycleMaps {
+    my $class = shift;
+    my $maps  = shift;
+    my $name  = shift;
+    my $clone = shift;
+
+    for my $key (keys %$maps) {
+         my $map = $maps->{$key};
+
+         next unless $key =~ s/^ \Q$clone\E \s+ -> \s+/$name -> /x
+                  || $key =~ s/\s+ -> \s+ \Q$clone\E $/ -> $name/x;
+
+         $maps->{$key} = Storable::dclone($map);
+    }
+
+    my $CloneObj = RT::Lifecycle->new;
+    $CloneObj->Load($clone);
+
+    my %map = map { $_ => $_ } $CloneObj->Valid;
+    $maps->{"$name -> $clone"} = { %map };
+    $maps->{"$clone -> $name"} = { %map };
+}
+
 sub _CreateLifecycle {
     my $class = shift;
     my %args  = @_;
@@ -20,6 +43,11 @@ sub _CreateLifecycle {
 
     if ($args{Clone}) {
         $lifecycle = Storable::dclone($lifecycles->{ $args{Clone} });
+        $class->_CloneLifecycleMaps(
+            $lifecycles->{__maps__},
+            $args{Name},
+            $args{Clone},
+        );
     }
     else {
         $lifecycle = { type => $args{Type} };
