@@ -5,6 +5,7 @@ use Storable;
 
 our $VERSION = '0.01';
 
+RT->AddJavaScript("d3.min.js");
 RT->AddStyleSheets("lifecycleui.css");
 
 $RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
