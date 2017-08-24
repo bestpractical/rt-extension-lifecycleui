@@ -45,6 +45,17 @@ jQuery(function () {
             }
         });
 
+        var statusCount = state.statuses.length;
+
+        jQuery.each(state.statuses, function (i, statusName) {
+            var meta = state.statusMeta[statusName];
+            // arrange statuses evenly-spaced around a circle
+            if (!meta.x) {
+                meta.x = (Math.sin(2 * Math.PI * (i/statusCount)) + 1) / 2;
+                meta.y = (Math.cos(2 * Math.PI * (i/statusCount)) + 1) / 2;
+            };
+        });
+
         if (config.defaults) {
             state.defaults = config.defaults;
         }
