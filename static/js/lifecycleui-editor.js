@@ -1,6 +1,8 @@
 jQuery(function () {
     var STATUS_KEY_SEQ = 0;
 
+    var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
@@ -53,6 +55,10 @@ jQuery(function () {
             if (!meta.x) {
                 meta.x = (Math.sin(2 * Math.PI * (i/statusCount)) + 1) / 2;
                 meta.y = (Math.cos(2 * Math.PI * (i/statusCount)) + 1) / 2;
+            };
+
+            if (!meta.color) {
+                meta.color = defaultColors(meta._key);
             };
         });
 
