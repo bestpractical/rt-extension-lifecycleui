@@ -15,17 +15,19 @@ jQuery(function () {
               .attr('fill', 'black');
     };
 
-    jQuery(".lifecycle-ui").each(function () {
-        var container = jQuery(this);
+    var initializeEditor = function (node) {
+        var container = jQuery(node);
         var name = container.data('name');
         var config = RT.LifecycleConfig[name];
-        var stateOutput = container.find('.state');
-        stateOutput.text(JSON.stringify(config));
 
-        var svg = d3.select(this)
+        var svg = d3.select(node)
                     .select('svg');
 
+        console.log(config);
+
         createArrowHead(svg);
-    });
+    };
+
+    jQuery(".lifecycle-ui").each(function () { initializeEditor(this) });
 });
 
