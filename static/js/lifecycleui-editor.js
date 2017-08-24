@@ -100,6 +100,12 @@ jQuery(function () {
         return config;
     };
 
+    var createScale = function (size, padding) {
+        return d3.scaleLinear()
+                 .domain([0, 1])
+                 .range([padding, size - padding]);
+    };
+
     var initializeEditor = function (node) {
         var container = jQuery(node);
         var name = container.data('name');
@@ -108,7 +114,14 @@ jQuery(function () {
         var svg = d3.select(node)
                     .select('svg');
 
+        var width = svg.node().getBoundingClientRect().width;
+        var height = svg.node().getBoundingClientRect().height;
+        var radius = 15;
+
         var state = initializeStateFromConfig(config);
+
+        var xScale = createScale(width, radius * 2);
+        var yScale = createScale(height, radius * 4);
 
         createArrowHead(svg);
     };
