@@ -1,5 +1,7 @@
 jQuery(function () {
-    var STATUS_KEY_SEQ = 0;
+    var STATUS_CIRCLE_RADIUS = 15;
+
+    var _STATUS_KEY_SEQ = 0;
 
     var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -39,7 +41,7 @@ jQuery(function () {
                 state.statuses = state.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
                     state.statusMeta[statusName] = {
-                        _key: STATUS_KEY_SEQ++,
+                        _key: _STATUS_KEY_SEQ++,
                         name: statusName,
                         type: type
                     };
@@ -116,12 +118,11 @@ jQuery(function () {
 
         var width = svg.node().getBoundingClientRect().width;
         var height = svg.node().getBoundingClientRect().height;
-        var radius = 15;
 
         var state = initializeStateFromConfig(config);
 
-        var xScale = createScale(width, radius * 2);
-        var yScale = createScale(height, radius * 4);
+        var xScale = createScale(width, STATUS_CIRCLE_RADIUS * 2);
+        var yScale = createScale(height, STATUS_CIRCLE_RADIUS * 4);
 
         createArrowHead(svg);
     };
