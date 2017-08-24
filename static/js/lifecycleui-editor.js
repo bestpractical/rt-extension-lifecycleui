@@ -1,4 +1,6 @@
 jQuery(function () {
+    var STATUS_KEY_SEQ = 0;
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
@@ -35,6 +37,8 @@ jQuery(function () {
                 state.statuses = state.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
                     state.statusMeta[statusName] = {
+                        _key: STATUS_KEY_SEQ++,
+                        name: statusName,
                         type: type
                     };
                 });
