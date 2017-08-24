@@ -3,6 +3,8 @@
 }
 
 .lifecycle-ui svg.editing {
+    width: 809px;
+    height: 500px;
     background: #F9F9F9 url('data:image/svg+xml,\
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"         fill-opacity=".05" >\
             <rect x="200" width="200" height="200" />\
