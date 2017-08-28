@@ -28,3 +28,8 @@
     stroke-width: 4px;
 }
 
+.lifecycle-ui .inspector .status .color {
+    font-weight: bold;
+}
+
+

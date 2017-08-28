@@ -23,35 +23,43 @@
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
-    Name: <input type="text" name="name" value="{{status.name}}"><br>
-    Type: <select name="type">
-              {{#select status.type}}
-              <option value="initial">initial</option>
-              <option value="active">active</option>
-              <option value="inactive">inactive</option>
-              {{/select}}
-          </select><br>
-    Color: {{status.color}}<br>
+    <div class="status">
+        Name: <input type="text" name="name" value="{{status.name}}"><br>
+        Type: <select name="type">
+                  {{#select status.type}}
+                  <option value="initial">initial</option>
+                  <option value="active">active</option>
+                  <option value="inactive">inactive</option>
+                  {{/select}}
+              </select><br>
+        Color: <span class="color" style="color: {{status.color}}">{{status.color}}</span><br>
 
-    Add Transiition:<br>
-    Select Transition:<br>
-    Delete Status<br>
+        Add Transiition:<br>
+        Select Transition:<br>
+        Delete Status<br>
+    </div>
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="transition">
-    From: x<br>
-    To: y<br>
-    Style: solid/dashed/dotted<br>
-<br>
-    Delete Transition<br>
+    <div class="transition">
+       From: x<br>
+       To: y<br>
+       Style: solid/dashed/dotted<br>
+    <br>
+        Delete Transition<br>
+    </div>
 </script>
 
-<script type="text/x-template" class="lifecycle-inspector-template" data-type="rext">
-    Body: text<br>
-    Delete Text<br>
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="text">
+    <div class="text">
+        Body: text<br>
+        Delete Text<br>
+    </div>
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="shape">
-    Delete Shape<br>
+    <div class="shape">
+        Delete Shape<br>
+    </div>
 </script>
 

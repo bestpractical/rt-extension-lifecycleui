@@ -147,7 +147,6 @@ jQuery(function () {
             params[type] = node;
 
             inspector.html(templates[type](params));
-            inspector.attr('data-type', type);
             inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
         };
 
