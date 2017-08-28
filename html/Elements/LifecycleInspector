@@ -2,16 +2,24 @@
 </div>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
-    Add Status<br>
-    Add Shape<br>
-<br>
-    Select Status:<br>
-    {{#each state.statusMeta}}
-    ... <button class="select-status" data-name="{{this.name}}">{{this.name}}</button><br>
-    {{/each}}
-    Select Transition<br>
-    Select Text<br>
-    Select Shape<br>
+    <div class="canvas">
+        <button class="add-status"><&|/l&>Add Status</&></button><br>
+        <button class="add-text"><&|/l&>Add Text</&></button><br>
+        <button class="add-shape"><&|/l&>Add Shape</&></button><br>
+    <br>
+        <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
+          <li class="has-children">Select Status
+              <ul>
+              {{#each state.statusMeta}}
+              <li><a href="#" class="select-status menu-item" data-name="{{this.name}}">{{this.name}}</a></li>
+              {{/each}}
+              </ul>
+           </li>
+           <li class="has-children">Select Transition</li>
+           <li class="has-children">Select Text</li>
+           <li class="has-children">Select Shape</li>
+        </ul>
+    </div>
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="status">

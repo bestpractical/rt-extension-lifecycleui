@@ -6,3 +6,20 @@
     stroke: black;
     stroke-width: 2px;
 }
+
+.inspector li.has-children {
+    background: transparent;
+}
+
+.inspector a {
+    border: none;
+    color: #000;
+}
+
+.inspector a.sf-with-ul {
+    padding-top: .3em;
+}
+
+.inspector .sf-sub-indicator {
+    top: .2em;
+}

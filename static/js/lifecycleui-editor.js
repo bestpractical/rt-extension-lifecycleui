@@ -148,6 +148,7 @@ jQuery(function () {
 
             inspector.html(templates[type](params));
             inspector.attr('data-type', type);
+            inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
         };
 
         var selectStatus = function (name) {
@@ -175,7 +176,7 @@ jQuery(function () {
                             .attr("data-name", function (d) { return d.name })
         };
 
-        jQuery('.inspector').on('click', 'button.select-status', function (e) {
+        jQuery('.inspector').on('click', 'a.select-status', function (e) {
             e.preventDefault();
             var statusName = jQuery(this).data('name');
             selectStatus(statusName);
