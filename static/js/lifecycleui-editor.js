@@ -1,5 +1,5 @@
 jQuery(function () {
-    var STATUS_CIRCLE_RADIUS = 15;
+    var STATUS_CIRCLE_RADIUS = 35;
 
     var _STATUS_KEY_SEQ = 0;
 
@@ -138,7 +138,7 @@ jQuery(function () {
         var state = initializeStateFromConfig(config);
 
         var xScale = createScale(width, STATUS_CIRCLE_RADIUS * 2);
-        var yScale = createScale(height, STATUS_CIRCLE_RADIUS * 4);
+        var yScale = createScale(height, STATUS_CIRCLE_RADIUS * 2);
 
         createArrowHead(svg);
 

@@ -2,3 +2,7 @@
     border: 1px solid black;
 }
 
+.lifecycle-ui circle {
+    stroke: black;
+    stroke-width: 2px;
+}
