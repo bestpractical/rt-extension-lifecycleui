@@ -1,4 +1,6 @@
 .lifecycle-ui svg.editing {
+    display: inline-block;
+    float: left;
     width: 809px;
     height: 500px;
     background: #F9F9F9 url('data:image/svg+xml,\
@@ -7,6 +9,14 @@
             <rect y="200" width="200" height="200" />\
     </svg>');
     background-size: 25px 25px;
+}
+
+.lifecycle-ui .inspector {
+    display: inline-block;
+    min-width: 100px;
+    padding: 10px;
+    height: 480px;
+    border: 1px solid black;
 }
 
 .lifecycle-ui .state {
