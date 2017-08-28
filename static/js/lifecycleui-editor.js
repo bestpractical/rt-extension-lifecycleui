@@ -196,6 +196,13 @@ jQuery(function () {
 
         svg.on('click', function () { deselectAll() });
 
+        jQuery('form[name=ModifyLifecycle]').submit(function (e) {
+            var config = exportConfigFromState(state);
+            console.log(config);
+            e.preventDefault();
+            return false;
+        });
+
         addStatusNodes();
     };
 
