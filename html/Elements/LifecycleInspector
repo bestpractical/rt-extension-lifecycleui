@@ -5,7 +5,10 @@
     Add Status<br>
     Add Shape<br>
 <br>
-    Select Status<br>
+    Select Status:<br>
+    {{#each state.statusMeta}}
+    ... <button class="select-status" data-name="{{this.name}}">{{this.name}}</button><br>
+    {{/each}}
     Select Transition<br>
     Select Text<br>
     Select Shape<br>

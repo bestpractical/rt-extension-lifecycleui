@@ -150,6 +150,13 @@ jQuery(function () {
             inspector.attr('data-type', type);
         };
 
+        var selectStatus = function (name) {
+            var d = state.statusMeta[name];
+            setInspectorContent('status', d);
+            svg.selectAll('.selected').classed('selected', false);
+            svg.select('circle[data-name='+name+']').classed('selected', true);
+        };
+
         var addStatusNodes = function () {
             var statuses = svg.selectAll("circle")
                               .data(Object.values(state.statusMeta), function (d) { return d._key });
@@ -159,14 +166,20 @@ jQuery(function () {
             statuses.enter().append("circle")
                             .attr("r", STATUS_CIRCLE_RADIUS)
                             .on("click", function (d) {
-                                setInspectorContent('status', d);
+                                selectStatus(d.name);
                             })
                     .merge(statuses)
                             .attr("cx", function (d) { return xScale(d.x) })
                             .attr("cy", function (d) { return yScale(d.y) })
                             .attr("fill", function (d) { return d.color })
-
+                            .attr("data-name", function (d) { return d.name })
         };
+
+        jQuery('.inspector').on('click', 'button.select-status', function (e) {
+            e.preventDefault();
+            var statusName = jQuery(this).data('name');
+            selectStatus(statusName);
+        });
 
         setInspectorContent('canvas');
 
