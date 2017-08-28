@@ -143,7 +143,10 @@ jQuery(function () {
         createArrowHead(svg);
 
         var setInspectorContent = function (type, node) {
-            inspector.html(templates[type](node));
+            var params = { state: state };
+            params[type] = node;
+
+            inspector.html(templates[type](params));
             inspector.attr('data-type', type);
         };
 
