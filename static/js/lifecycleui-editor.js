@@ -147,7 +147,27 @@ jQuery(function () {
             inspector.attr('data-type', type);
         };
 
+        var addStatusNodes = function () {
+            var statuses = svg.selectAll("circle")
+                              .data(Object.values(state.statusMeta), function (d) { return d._key });
+
+            statuses.exit().remove();
+
+            statuses.enter().append("circle")
+                            .attr("r", STATUS_CIRCLE_RADIUS)
+                            .on("click", function (d) {
+                                setInspectorContent('status', d);
+                            })
+                    .merge(statuses)
+                            .attr("cx", function (d) { return xScale(d.x) })
+                            .attr("cy", function (d) { return yScale(d.y) })
+                            .attr("fill", function (d) { return d.color })
+
+        };
+
         setInspectorContent('canvas');
+
+        addStatusNodes();
     };
 
     jQuery(".lifecycle-ui").each(function () { initializeEditor(this) });
