@@ -2,14 +2,45 @@
 </div>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
+    Add Status<br>
+    Add Shape<br>
+<br>
+    Select Status<br>
+    Select Transition<br>
+    Select Text<br>
+    Select Shape<br>
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
+    Name: <input type="text" name="name" value="{{status.name}}"><br>
+    Type: <select name="type">
+              {{#select status.type}}
+              <option value="initial">initial</option>
+              <option value="active">active</option>
+              <option value="inactive">inactive</option>
+              {{/select}}
+          </select><br>
+    Color: {{status.color}}<br>
+
+    Add Transiition:<br>
+    Select Transition:<br>
+    Delete Status<br>
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="transition">
+    From: x<br>
+    To: y<br>
+    Style: solid/dashed/dotted<br>
+<br>
+    Delete Transition<br>
+</script>
+
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="rext">
+    Body: text<br>
+    Delete Text<br>
 </script>
 
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="shape">
+    Delete Shape<br>
 </script>
 
