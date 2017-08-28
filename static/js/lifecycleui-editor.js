@@ -148,6 +148,11 @@ jQuery(function () {
 
             inspector.html(templates[type](params));
             inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
+
+            inspector.find(':input').change(function () {
+                var key = this.name;
+                var value = jQuery(this).val();
+            });
         };
 
         var deselectAll = function () {
