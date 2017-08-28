@@ -1,0 +1,15 @@
+<div class="inspector">
+</div>
+
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
+</script>
+
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
+</script>
+
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="transition">
+</script>
+
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="shape">
+</script>
+

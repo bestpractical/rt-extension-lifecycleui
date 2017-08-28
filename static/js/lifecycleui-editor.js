@@ -5,6 +5,15 @@ jQuery(function () {
 
     var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
 
+    var templates = {};
+
+    jQuery('script.lifecycle-inspector-template').each(function () {
+        var type = jQuery(this).data('type');
+        var template = jQuery(this).html();
+        var fn = Handlebars.compile(template);
+        templates[type] = fn;
+    });
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')

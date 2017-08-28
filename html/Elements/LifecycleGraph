@@ -4,6 +4,9 @@
         RT.LifecycleConfig['<% $Lifecycle %>'] = <% JSON($config) |n %>;
     </script>
     <svg<% $Editing ? ' class="editing"' : '' |n %>></svg>
+% if ($Editing) {
+    <& /Elements/LifecycleInspector &>
+% }
     <textarea rows=24 cols=80 class="state"></textarea>
 </div>
 <%ARGS>
