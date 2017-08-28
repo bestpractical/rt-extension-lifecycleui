@@ -121,6 +121,7 @@ jQuery(function () {
         var container = jQuery(node);
         var name = container.data('name');
         var config = RT.LifecycleConfig[name];
+        var inspector = container.find('.inspector');
 
         var svg = d3.select(node)
                     .select('svg');
@@ -134,6 +135,13 @@ jQuery(function () {
         var yScale = createScale(height, STATUS_CIRCLE_RADIUS * 4);
 
         createArrowHead(svg);
+
+        var setInspectorContent = function (type, node) {
+            inspector.html(templates[type](node));
+            inspector.attr('data-type', type);
+        };
+
+        setInspectorContent('canvas');
     };
 
     jQuery(".lifecycle-ui").each(function () { initializeEditor(this) });
