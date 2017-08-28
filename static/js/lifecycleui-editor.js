@@ -150,6 +150,11 @@ jQuery(function () {
             inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
         };
 
+        var deselectAll = function () {
+            setInspectorContent('canvas');
+            svg.selectAll('.selected').classed('selected', false);
+        };
+
         var selectStatus = function (name) {
             var d = state.statusMeta[name];
             setInspectorContent('status', d);
@@ -166,6 +171,7 @@ jQuery(function () {
             statuses.enter().append("circle")
                             .attr("r", STATUS_CIRCLE_RADIUS)
                             .on("click", function (d) {
+                                d3.event.stopPropagation();
                                 selectStatus(d.name);
                             })
                     .merge(statuses)
@@ -182,6 +188,8 @@ jQuery(function () {
         });
 
         setInspectorContent('canvas');
+
+        svg.on('click', function () { deselectAll() });
 
         addStatusNodes();
     };
