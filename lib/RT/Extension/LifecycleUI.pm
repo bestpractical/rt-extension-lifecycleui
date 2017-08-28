@@ -9,6 +9,7 @@ RT->AddJavaScript("d3.min.js");
 RT->AddJavaScript("lifecycleui-editor.js");
 
 RT->AddStyleSheets("lifecycleui.css");
+RT->AddStyleSheets("lifecycleui-display.css");
 RT->AddStyleSheets("lifecycleui-editor.css");
 
 $RT::Config::META{Lifecycles}{EditLink} = RT->Config->Get('WebURL') . 'Admin/Lifecycles/';
