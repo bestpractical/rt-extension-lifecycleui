@@ -14,6 +14,12 @@ jQuery(function () {
         templates[type] = fn;
     });
 
+    Handlebars.registerHelper('select', function(value, options) {
+        var node = jQuery('<select />').html( options.fn(this) );
+        node.find('[value="' + value + '"]').attr({'selected':'selected'});
+        return node.html();
+    });
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
