@@ -296,14 +296,27 @@ jQuery(function () {
 
         var deselectAll = function () {
             setInspectorContent('canvas');
+            svg.classed('selection', false);
             svg.selectAll('.selected').classed('selected', false);
+            svg.selectAll('.reachable').classed('reachable', false);
         };
 
         var selectStatus = function (name) {
             var d = state.statusMeta[name];
             setInspectorContent('status', d);
+
             svg.selectAll('.selected').classed('selected', false);
-            svg.select('circle[data-name="'+name+'"]').classed('selected', true);
+            svg.selectAll('.reachable').classed('reachable', false);
+
+            svg.classed('selection', true);
+            svg.selectAll('circle[data-name="'+name+'"], text[data-name="'+name+'"]').classed('selected', true);
+            transitionContainer.selectAll('path[data-from="'+name+'"]').classed('selected', true);
+
+            jQuery.each(state.transitions, function (i, transition) {
+                if (transition.from == name) {
+                    svg.selectAll('circle[data-name="'+transition.to+'"], text[data-name="'+transition.to+'"]').classed('reachable', true);
+                }
+            });
         };
 
         var refreshStatusNodes = function () {
@@ -358,6 +371,7 @@ jQuery(function () {
                           .attr("x", function (d) { return xScale(d.x) })
                           .attr("y", function (d) { return yScale(d.y) })
                           .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
+                          .attr("data-name", function (d) { return d.name })
                           .text(function (d) { return d.name }).each(truncateLabel)
         };
 
@@ -381,7 +395,9 @@ jQuery(function () {
 
             paths.enter().append("path")
                   .merge(paths)
-                          .attr("d", linkArc);
+                          .attr("d", linkArc)
+                          .attr("data-from", function (d) { return d.from })
+                          .attr("data-to", function (d) { return d.to })
         };
 
 console.log(state.transitions);

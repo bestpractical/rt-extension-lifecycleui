@@ -5,6 +5,24 @@
 .lifecycle-ui circle {
     stroke: black;
     stroke-width: 2px;
+    transition: stroke-width .2s;
+    transition: opacity .2s;
+}
+
+.lifecycle-ui text {
+    transition: opacity .2s;
+}
+
+.lifecycle-ui .selection circle,
+.lifecycle-ui .selection text {
+    opacity: 0.25;
+}
+
+.lifecycle-ui .selection circle.reachable,
+.lifecycle-ui .selection circle.selected,
+.lifecycle-ui .selection text.reachable,
+.lifecycle-ui .selection text.selected {
+    opacity: 1;
 }
 
 .lifecycle-ui .transitions path {
@@ -13,6 +31,16 @@
     fill: none;
     opacity: .15;
     marker-end: url(#marker_arrowhead);
+
+    transition: opacity .2s;
+}
+
+.lifecycle-ui .selection .transitions path {
+    opacity: 0;
+}
+
+.lifecycle-ui .selection .transitions path.selected {
+    opacity: 1;
 }
 
 .lifecycle-ui text {
