@@ -10,8 +10,8 @@
         <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
           <li class="has-children">Select Status
               <ul>
-              {{#each state.statusMeta}}
-              <li><a href="#" class="select-status menu-item" data-name="{{this.name}}">{{this.name}}</a></li>
+              {{#each state.statuses}}
+              <li><a href="#" class="select-status menu-item" data-name="{{this}}">{{this}}</a></li>
               {{/each}}
               </ul>
            </li>
