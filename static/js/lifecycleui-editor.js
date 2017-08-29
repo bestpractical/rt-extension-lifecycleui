@@ -29,6 +29,19 @@ jQuery(function () {
         // statuses array value
         var index = state.statuses.indexOf(oldValue);
         state.statuses[index] = newValue;
+
+        // defaults
+        jQuery.each(state.defaults, function (key, statusName) {
+            if (statusName == oldValue) {
+                state.defaults[key] = newValue;
+            }
+        });
+
+        // actions
+
+        // transitions
+
+        // rights
     };
 
     var createArrowHead = function (svg) {
