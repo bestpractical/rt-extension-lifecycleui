@@ -1,7 +1,7 @@
 jQuery(function () {
     var STATUS_CIRCLE_RADIUS = 35;
 
-    var _STATUS_KEY_SEQ = 0;
+    var _ELEMENT_KEY_SEQ = 0;
 
     var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
 
@@ -116,7 +116,7 @@ jQuery(function () {
                 state.statuses = state.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
                     state.statusMeta[statusName] = {
-                        _key: _STATUS_KEY_SEQ++,
+                        _key: _ELEMENT_KEY_SEQ++,
                         name: statusName,
                         type: type
                     };
@@ -150,7 +150,7 @@ jQuery(function () {
                 else {
                     jQuery.each(toList, function (i, toStatus) {
                         var transition = {
-                            _key : _STATUS_KEY_SEQ++,
+                            _key : _ELEMENT_KEY_SEQ++,
                             from : fromStatus,
                             to   : toStatus
                         };
