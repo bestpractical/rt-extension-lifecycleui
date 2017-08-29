@@ -1,0 +1,9 @@
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="transition">
+    <div class="transition">
+       From: x<br>
+       To: y<br>
+       Style: solid/dashed/dotted<br>
+    <br>
+        Delete Transition<br>
+    </div>
+</script>

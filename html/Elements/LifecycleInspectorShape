@@ -1,0 +1,5 @@
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="shape">
+    <div class="shape">
+        Delete Shape<br>
+    </div>
+</script>

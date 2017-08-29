@@ -1,0 +1,6 @@
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="text">
+    <div class="text">
+        Body: text<br>
+        Delete Text<br>
+    </div>
+</script>

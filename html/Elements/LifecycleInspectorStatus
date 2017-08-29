@@ -1,0 +1,17 @@
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
+    <div class="status">
+        Name: <input type="text" name="name" value="{{status.name}}"><br>
+        Type: <select name="type">
+                  {{#select status.type}}
+                  <option value="initial"><&|/l&>initial</&></option>
+                  <option value="active"><&|/l&>active</&></option>
+                  <option value="inactive"><&|/l&>inactive</&></option>
+                  {{/select}}
+              </select><br>
+        Color: <span class="status-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button><br>
+
+        Add Transiition:<br>
+        Select Transition:<br>
+        Delete Status<br>
+    </div>
+</script>

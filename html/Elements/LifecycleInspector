@@ -1,65 +1,8 @@
 <div class="inspector">
 </div>
 
-<script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
-    <div class="canvas">
-        <button class="add-status"><&|/l&>Add Status</&></button><br>
-        <button class="add-text"><&|/l&>Add Text</&></button><br>
-        <button class="add-shape"><&|/l&>Add Shape</&></button><br>
-    <br>
-        <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
-          <li class="has-children">Select Status
-              <ul>
-              {{#each state.statuses}}
-              <li><a href="#" class="select-status menu-item" data-name="{{this}}">{{this}}</a></li>
-              {{/each}}
-              </ul>
-           </li>
-           <li class="has-children">Select Transition</li>
-           <li class="has-children">Select Text</li>
-           <li class="has-children">Select Shape</li>
-        </ul>
-    </div>
-</script>
-
-<script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
-    <div class="status">
-        Name: <input type="text" name="name" value="{{status.name}}"><br>
-        Type: <select name="type">
-                  {{#select status.type}}
-                  <option value="initial"><&|/l&>initial</&></option>
-                  <option value="active"><&|/l&>active</&></option>
-                  <option value="inactive"><&|/l&>inactive</&></option>
-                  {{/select}}
-              </select><br>
-        Color: <span class="status-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button><br>
-
-        Add Transiition:<br>
-        Select Transition:<br>
-        Delete Status<br>
-    </div>
-</script>
-
-<script type="text/x-template" class="lifecycle-inspector-template" data-type="transition">
-    <div class="transition">
-       From: x<br>
-       To: y<br>
-       Style: solid/dashed/dotted<br>
-    <br>
-        Delete Transition<br>
-    </div>
-</script>
-
-<script type="text/x-template" class="lifecycle-inspector-template" data-type="text">
-    <div class="text">
-        Body: text<br>
-        Delete Text<br>
-    </div>
-</script>
-
-<script type="text/x-template" class="lifecycle-inspector-template" data-type="shape">
-    <div class="shape">
-        Delete Shape<br>
-    </div>
-</script>
-
+<& LifecycleInspectorCanvas, %ARGS &>
+<& LifecycleInspectorStatus, %ARGS &>
+<& LifecycleInspectorTransition, %ARGS &>
+<& LifecycleInspectorText, %ARGS &>
+<& LifecycleInspectorShape, %ARGS &>
