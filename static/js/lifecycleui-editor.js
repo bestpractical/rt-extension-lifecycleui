@@ -153,7 +153,20 @@ jQuery(function () {
                 var key = this.name;
                 var value = jQuery(this).val();
 
+                var oldValue = node[key];
+
                 node[key] = value;
+
+                if (type == 'status' && key == 'name') {
+                    var oldMeta = state.statusMeta[oldValue];
+                    delete state.statusMeta[oldValue];
+
+                    state.statusMeta[value] = oldMeta;
+
+                    var index = state.statuses.indexOf(oldValue);
+                    state.statuses[index] = value;
+                }
+
                 addStatusNodes();
             });
         };
