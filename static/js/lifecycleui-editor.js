@@ -193,24 +193,25 @@ jQuery(function () {
                 var picker = jQuery('<div class="color-picker"></div>');
                 jQuery(this).replaceWith(picker);
 
-                var skipSetInput = 0;
+                var skipUpdateCallback = 0;
                 var farb = jQuery.farbtastic(picker, function (newColor) {
-                    if (!skipSetInput) {
-                        inspector.find('.status-color').val(newColor);
+                    if (skipUpdateCallback) {
+                        return;
                     }
+                    inspector.find('.status-color').val(newColor);
                     node.color = newColor;
                     refreshDisplay();
                 });
                 farb.setColor(node.color);
 
-                var input = jQuery('<input class="status-color">');
+                var input = jQuery('<input class="status-color" size=8 maxlength=7>');
                 inspector.find('.status-color').replaceWith(input);
                 input.on('input', function () {
                     var newColor = input.val();
                     if (newColor.match(/^#[a-fA-F0-9]{6}$/)) {
-                        skipSetInput = 1;
+                        skipUpdateCallback = 1;
                         farb.setColor(newColor);
-                        skipSetInput = 0;
+                        skipUpdateCallback = 0;
 
                         node.color = newColor;
                         refreshDisplay();
