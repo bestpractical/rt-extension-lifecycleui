@@ -20,6 +20,17 @@ jQuery(function () {
         return node.html();
     });
 
+    var updateStatusName = function (state, oldValue, newValue) {
+        // statusMeta key
+        var oldMeta = state.statusMeta[oldValue];
+        delete state.statusMeta[oldValue];
+        state.statusMeta[newValue] = oldMeta;
+
+        // statuses array value
+        var index = state.statuses.indexOf(oldValue);
+        state.statuses[index] = newValue;
+    };
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
@@ -158,13 +169,7 @@ jQuery(function () {
                 node[key] = value;
 
                 if (type == 'status' && key == 'name') {
-                    var oldMeta = state.statusMeta[oldValue];
-                    delete state.statusMeta[oldValue];
-
-                    state.statusMeta[value] = oldMeta;
-
-                    var index = state.statuses.indexOf(oldValue);
-                    state.statuses[index] = value;
+                    updateStatusName(state, oldValue, value);
                 }
 
                 addStatusNodes();
