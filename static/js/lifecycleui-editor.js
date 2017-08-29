@@ -319,6 +319,7 @@ jQuery(function () {
                   .merge(labels)
                           .attr("x", function (d) { return xScale(d.x) })
                           .attr("y", function (d) { return yScale(d.y) })
+                          .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
                           .text(function (d) { return d.name }).each(truncateLabel)
         };
 
