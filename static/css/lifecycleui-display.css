@@ -7,6 +7,17 @@
     stroke-width: 2px;
 }
 
+.lifecycle-ui text {
+    cursor: default;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+.lifecycle-ui text::selection {
+    background: none;
+}
+
 .inspector li.has-children {
     background: transparent;
 }

@@ -252,8 +252,39 @@ jQuery(function () {
                             .attr("data-name", function (d) { return d.name })
         };
 
+        function truncateLabel () {
+            var self = d3.select(this),
+                textLength = self.node().getComputedTextLength(),
+                text = self.text();
+            while (textLength > STATUS_CIRCLE_RADIUS*1.9 && text.length > 0) {
+                text = text.slice(0, -1);
+                self.text(text + '…');
+                textLength = self.node().getComputedTextLength();
+            }
+        };
+
+        var refreshStatusLabels = function () {
+            var labels = svg.selectAll("text")
+                            .data(Object.values(state.statusMeta), function (d) { return d._key });
+
+            labels.exit().remove();
+
+            labels.enter().append("text")
+                          .attr("text-anchor", "middle")
+                          .attr("alignment-baseline", "middle")
+                          .on("click", function (d) {
+                              d3.event.stopPropagation();
+                              selectStatus(d.name);
+                          })
+                  .merge(labels)
+                          .attr("x", function (d) { return xScale(d.x) })
+                          .attr("y", function (d) { return yScale(d.y) })
+                          .text(function (d) { return d.name }).each(truncateLabel)
+        };
+
         var refreshDisplay = function () {
             refreshStatusNodes();
+            refreshStatusLabels();
         };
 
         jQuery('.inspector').on('click', 'a.select-status', function (e) {
