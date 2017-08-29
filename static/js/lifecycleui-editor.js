@@ -152,6 +152,9 @@ jQuery(function () {
             inspector.find(':input').change(function () {
                 var key = this.name;
                 var value = jQuery(this).val();
+
+                node[key] = value;
+                addStatusNodes();
             });
         };
 
