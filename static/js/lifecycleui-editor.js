@@ -174,6 +174,18 @@ jQuery(function () {
 
                 addStatusNodes();
             });
+
+            inspector.find('button.change-color').click(function (e) {
+                e.preventDefault();
+                var picker = jQuery('<div class="color-picker"></div>');
+                jQuery(this).replaceWith(picker);
+                var farb = jQuery.farbtastic(picker, function (newColor) {
+                    inspector.find('.status-color').text(newColor).css('color', newColor);
+                    node.color = newColor;
+                    addStatusNodes();
+                });
+                farb.setColor(node.color);
+            });
         };
 
         var deselectAll = function () {
