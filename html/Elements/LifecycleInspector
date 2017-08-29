@@ -27,9 +27,9 @@
         Name: <input type="text" name="name" value="{{status.name}}"><br>
         Type: <select name="type">
                   {{#select status.type}}
-                  <option value="initial">initial</option>
-                  <option value="active">active</option>
-                  <option value="inactive">inactive</option>
+                  <option value="initial"><&|/l&>initial</&></option>
+                  <option value="active"><&|/l&>active</&></option>
+                  <option value="inactive"><&|/l&>inactive</&></option>
                   {{/select}}
               </select><br>
         Color: <span class="status-color" style="color: {{status.color}}">{{status.color}}</span> <button class="change-color"><&|/l&>Change</&></button><br>
