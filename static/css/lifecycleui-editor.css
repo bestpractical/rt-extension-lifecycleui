@@ -29,7 +29,8 @@
 }
 
 .lifecycle-ui .inspector .status span.status-color {
-    font-weight: bold;
+    display: inline;
+    padding-left: 1em;
+    border: 1px solid black;
 }
-
 

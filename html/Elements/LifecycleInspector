@@ -32,7 +32,7 @@
                   <option value="inactive"><&|/l&>inactive</&></option>
                   {{/select}}
               </select><br>
-        Color: <span class="status-color" style="color: {{status.color}}">{{status.color}}</span> <button class="change-color"><&|/l&>Change</&></button><br>
+        Color: <span class="status-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button><br>
 
         Add Transiition:<br>
         Select Transition:<br>
