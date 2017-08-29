@@ -185,7 +185,7 @@ jQuery(function () {
                     updateStatusName(state, oldValue, value);
                 }
 
-                addStatusNodes();
+                refreshDisplay();
             });
 
             inspector.find('button.change-color').click(function (e) {
@@ -199,7 +199,7 @@ jQuery(function () {
                         inspector.find('.status-color').val(newColor);
                     }
                     node.color = newColor;
-                    addStatusNodes();
+                    refreshDisplay();
                 });
                 farb.setColor(node.color);
 
@@ -213,7 +213,7 @@ jQuery(function () {
                         skipSetInput = 0;
 
                         node.color = newColor;
-                        addStatusNodes();
+                        refreshDisplay();
                     }
                 });
                 input.val(node.color);
@@ -232,7 +232,7 @@ jQuery(function () {
             svg.select('circle[data-name="'+name+'"]').classed('selected', true);
         };
 
-        var addStatusNodes = function () {
+        var refreshStatusNodes = function () {
             var statuses = svg.selectAll("circle")
                               .data(Object.values(state.statusMeta), function (d) { return d._key });
 
@@ -249,6 +249,10 @@ jQuery(function () {
                             .attr("cy", function (d) { return yScale(d.y) })
                             .attr("fill", function (d) { return d.color })
                             .attr("data-name", function (d) { return d.name })
+        };
+
+        var refreshDisplay = function () {
+            refreshStatusNodes();
         };
 
         jQuery('.inspector').on('click', 'a.select-status', function (e) {
@@ -268,7 +272,7 @@ jQuery(function () {
             return false;
         });
 
-        addStatusNodes();
+        refreshDisplay();
     };
 
     jQuery(".lifecycle-ui").each(function () { initializeEditor(this) });
