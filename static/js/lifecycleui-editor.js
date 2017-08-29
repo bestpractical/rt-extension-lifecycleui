@@ -167,7 +167,7 @@ jQuery(function () {
             var d = state.statusMeta[name];
             setInspectorContent('status', d);
             svg.selectAll('.selected').classed('selected', false);
-            svg.select('circle[data-name='+name+']').classed('selected', true);
+            svg.select('circle[data-name="'+name+'"]').classed('selected', true);
         };
 
         var addStatusNodes = function () {
