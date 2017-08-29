@@ -216,6 +216,8 @@ jQuery(function () {
         var svg = d3.select(node)
                     .select('svg');
 
+        var transitionContainer = svg.append('g').classed('transitions', true);
+
         var width = svg.node().getBoundingClientRect().width;
         var height = svg.node().getBoundingClientRect().height;
 
@@ -359,21 +361,27 @@ jQuery(function () {
                           .text(function (d) { return d.name }).each(truncateLabel)
         };
 
+        var linkArc = function (d) {
+          var from = state.statusMeta[d.from];
+          var to = state.statusMeta[d.to];
+          var dx = xScale(to.x - from.x),
+              dy = yScale(to.y - from.y),
+              dr = Math.abs(dx*6) + Math.abs(dy*6);
+          return "M" + xScale(from.x) + "," + yScale(from.y) + "A" + dr + "," + dr + " 0 0,1 " + xScale(to.x) + "," + yScale(to.y);
+        };
+
         var refreshTransitions = function () {
-            var lines = svg.selectAll("line")
+            var paths = transitionContainer.selectAll("path")
                             .data(state.transitions, function (d) { return d._key });
 
-            lines.exit()
+            paths.exit()
                 .transition()
                   .style("opacity", 1e-6)
                   .remove();
 
-            lines.enter().append("line")
-                  .merge(lines)
-                          .attr("x1", function (d) { return xScale(state.statusMeta[d.from].x) })
-                          .attr("y1", function (d) { return yScale(state.statusMeta[d.from].y) })
-                          .attr("x2", function (d) { return xScale(state.statusMeta[d.to].x) })
-                          .attr("y2", function (d) { return yScale(state.statusMeta[d.to].y) })
+            paths.enter().append("path")
+                  .merge(paths)
+                          .attr("d", linkArc);
         };
 
 console.log(state.transitions);

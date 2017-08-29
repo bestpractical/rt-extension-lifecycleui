@@ -7,9 +7,10 @@
     stroke-width: 2px;
 }
 
-.lifecycle-ui line {
+.lifecycle-ui .transitions path {
     stroke: black;
     stroke-width: 2px;
+    fill: none;
     opacity: .15;
     marker-end: url(#marker_arrowhead);
 }
