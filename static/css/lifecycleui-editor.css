@@ -28,7 +28,7 @@
     stroke-width: 6px;
 }
 
-.lifecycle-ui .inspector .status .status-color {
+.lifecycle-ui .inspector .status span.status-color {
     font-weight: bold;
 }
 

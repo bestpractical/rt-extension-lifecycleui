@@ -179,12 +179,31 @@ jQuery(function () {
                 e.preventDefault();
                 var picker = jQuery('<div class="color-picker"></div>');
                 jQuery(this).replaceWith(picker);
+
+                var skipSetInput = 0;
                 var farb = jQuery.farbtastic(picker, function (newColor) {
-                    inspector.find('.status-color').text(newColor).css('color', newColor);
+                    if (!skipSetInput) {
+                        inspector.find('.status-color').val(newColor);
+                    }
                     node.color = newColor;
                     addStatusNodes();
                 });
                 farb.setColor(node.color);
+
+                var input = jQuery('<input class="status-color">');
+                inspector.find('.status-color').replaceWith(input);
+                input.on('input', function () {
+                    var newColor = input.val();
+                    if (newColor.match(/^#[a-fA-F0-9]{6}$/)) {
+                        skipSetInput = 1;
+                        farb.setColor(newColor);
+                        skipSetInput = 0;
+
+                        node.color = newColor;
+                        addStatusNodes();
+                    }
+                });
+                input.val(node.color);
             });
         };
 
