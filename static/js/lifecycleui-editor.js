@@ -44,6 +44,28 @@ jQuery(function () {
         // rights
     };
 
+    var deleteStatus = function (state, statusName) {
+        // statusMeta key
+        delete state.statusMeta[statusName];
+
+        // statuses array value
+        var index = state.statuses.indexOf(statusName);
+        state.statuses.splice(index, 1);
+
+        // defaults
+        jQuery.each(state.defaults, function (key, value) {
+            if (value == statusName) {
+                delete state.defaults[key];
+            }
+        });
+
+        // actions
+
+        // transitions
+
+        // rights
+    };
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
@@ -219,6 +241,17 @@ jQuery(function () {
                 });
                 input.val(node.color);
             });
+
+            inspector.find('button.delete').click(function (e) {
+                e.preventDefault();
+
+                if (type == 'status') {
+                    deleteStatus(state, node.name);
+                }
+
+                deselectAll();
+                refreshDisplay();
+            });
         };
 
         var deselectAll = function () {
@@ -237,7 +270,11 @@ jQuery(function () {
             var statuses = svg.selectAll("circle")
                               .data(Object.values(state.statusMeta), function (d) { return d._key });
 
-            statuses.exit().remove();
+            statuses.exit()
+                  .transition()
+                    .style("opacity", 1e-6)
+                    .attr("r", STATUS_CIRCLE_RADIUS * .8)
+                    .remove();
 
             statuses.enter().append("circle")
                             .attr("r", STATUS_CIRCLE_RADIUS)
@@ -267,7 +304,10 @@ jQuery(function () {
             var labels = svg.selectAll("text")
                             .data(Object.values(state.statusMeta), function (d) { return d._key });
 
-            labels.exit().remove();
+            labels.exit()
+                .transition()
+                  .style("opacity", 1e-6)
+                  .remove();
 
             labels.enter().append("text")
                           .attr("text-anchor", "middle")

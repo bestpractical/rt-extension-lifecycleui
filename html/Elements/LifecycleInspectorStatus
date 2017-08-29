@@ -12,6 +12,6 @@
 
         Add Transiition:<br>
         Select Transition:<br>
-        Delete Status<br>
+        <button class="delete"><&|/l&>Delete Status</&></button>
     </div>
 </script>
