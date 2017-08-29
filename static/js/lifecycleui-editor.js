@@ -88,7 +88,7 @@ jQuery(function () {
             .attr('markerWidth', 5)
             .attr('markerUnits', 'strokeWidth')
             .attr('orient', 'auto')
-            .attr('refX', 0)
+            .attr('refX', STATUS_CIRCLE_RADIUS + 5)
             .attr('refY', 0)
             .attr('viewBox', '-5 -5 10 10')
             .append('path')

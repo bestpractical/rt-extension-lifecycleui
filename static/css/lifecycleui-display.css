@@ -9,7 +9,9 @@
 
 .lifecycle-ui line {
     stroke: black;
-    stroke-width: 1px;
+    stroke-width: 2px;
+    opacity: .15;
+    marker-end: url(#marker_arrowhead);
 }
 
 .lifecycle-ui text {
