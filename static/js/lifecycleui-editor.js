@@ -40,6 +40,14 @@ jQuery(function () {
         // actions
 
         // transitions
+        jQuery.each(state.transitions, function (i, transition) {
+            if (transition.from == oldValue) {
+                transition.from = newValue;
+            }
+            if (transition.to == oldValue) {
+                transition.to = newValue;
+            }
+        });
 
         // rights
     };
@@ -62,6 +70,12 @@ jQuery(function () {
         // actions
 
         // transitions
+        state.transitions = jQuery.grep(state.transitions, function (transition) {
+            if (transition.from == statusName || transition.to == statusName) {
+                return false;
+            }
+            return true;
+        });
 
         // rights
     };
@@ -86,7 +100,7 @@ jQuery(function () {
         return {
             statuses: [],
             defaults: {},
-            transitions: {},
+            transitions: [],
             rights: {},
             actions: [],
 
@@ -130,7 +144,20 @@ jQuery(function () {
         }
 
         if (config.transitions) {
-            state.transitions = config.transitions;
+            jQuery.each(config.transitions, function (fromStatus, toList) {
+                if (fromStatus == "") {
+                }
+                else {
+                    jQuery.each(toList, function (i, toStatus) {
+                        var transition = {
+                            _key : _STATUS_KEY_SEQ++,
+                            from : fromStatus,
+                            to   : toStatus
+                        };
+                        state.transitions.push(transition);
+                    });
+                }
+            });
         }
 
         if (config.rights) {
@@ -158,6 +185,17 @@ jQuery(function () {
         jQuery.each(state.statuses, function (i, statusName) {
             var statusType = state.statusMeta[statusName].type;
             config[statusType].push(statusName);
+        });
+
+        var transitions = {};
+        jQuery.each(state.transitions, function (i, transition) {
+            var from = transition.from;
+            var to = transition.to;
+            if (!transitions[from]) {
+                transitions[from] = [];
+            }
+            transitions[from].push(to);
+            config.transitions = transitions;
         });
 
         return config;
@@ -323,7 +361,27 @@ jQuery(function () {
                           .text(function (d) { return d.name }).each(truncateLabel)
         };
 
+        var refreshTransitions = function () {
+            var lines = svg.selectAll("line")
+                            .data(state.transitions, function (d) { return d._key });
+
+            lines.exit()
+                .transition()
+                  .style("opacity", 1e-6)
+                  .remove();
+
+            lines.enter().append("line")
+                  .merge(lines)
+                          .attr("x1", function (d) { return xScale(state.statusMeta[d.from].x) })
+                          .attr("y1", function (d) { return yScale(state.statusMeta[d.from].y) })
+                          .attr("x2", function (d) { return xScale(state.statusMeta[d.to].x) })
+                          .attr("y2", function (d) { return yScale(state.statusMeta[d.to].y) })
+        };
+
+console.log(state.transitions);
+
         var refreshDisplay = function () {
+            refreshTransitions();
             refreshStatusNodes();
             refreshStatusLabels();
         };
