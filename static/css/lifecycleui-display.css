@@ -13,6 +13,9 @@
 }
 
 .lifecycle-ui text {
+    text-anchor: middle;
+    alignment-baseline: middle;
+
     cursor: default;
     -webkit-user-select: none;
        -moz-user-select: none;

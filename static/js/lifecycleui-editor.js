@@ -348,8 +348,6 @@ jQuery(function () {
                   .remove();
 
             labels.enter().append("text")
-                          .attr("text-anchor", "middle")
-                          .attr("alignment-baseline", "middle")
                           .on("click", function (d) {
                               d3.event.stopPropagation();
                               selectStatus(d.name);
