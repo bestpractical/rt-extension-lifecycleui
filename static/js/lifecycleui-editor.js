@@ -343,6 +343,15 @@ jQuery(function () {
                 refreshDisplay();
                 selectStatus(node.name);
             });
+
+            inspector.find('a.select-transition').click(function (e) {
+                e.preventDefault();
+                var button = jQuery(this);
+                var fromStatus = button.data('from');
+                var toStatus   = button.data('to');
+
+                selectTransition(fromStatus, toStatus);
+            });
         };
 
         var deselectAll = function (inspectCanvas) {
@@ -352,6 +361,8 @@ jQuery(function () {
 
             svg.classed('selection', false);
             svg.selectAll('.selected').classed('selected', false);
+            svg.selectAll('.selected-source').classed('selected-source', false);
+            svg.selectAll('.selected-sink').classed('selected-sink', false);
             svg.selectAll('.reachable').classed('reachable', false);
         };
 
@@ -370,6 +381,23 @@ jQuery(function () {
                     svg.selectAll('circle[data-name="'+transition.to+'"], text[data-name="'+transition.to+'"]').classed('reachable', true);
                 }
             });
+        };
+
+        var selectTransition = function (fromStatus, toStatus) {
+            var d;
+            jQuery.each(state.transitions, function (i, transition) {
+                if (transition.from == fromStatus && transition.to == toStatus) {
+                    d = transition;
+                }
+            });
+            setInspectorContent('transition', d);
+
+            deselectAll(false);
+
+            svg.classed('selection', true);
+            svg.selectAll('circle[data-name="'+fromStatus+'"], text[data-name="'+fromStatus+'"]').classed('selected-source', true);
+            svg.selectAll('circle[data-name="'+toStatus+'"], text[data-name="'+toStatus+'"]').classed('selected-sink', true);
+            transitionContainer.select('path[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').classed('selected', true);
         };
 
         var refreshStatusNodes = function () {
@@ -447,6 +475,10 @@ jQuery(function () {
                   .remove();
 
             paths.enter().append("path")
+                         .on("click", function (d) {
+                             d3.event.stopPropagation();
+                             selectTransition(d.from, d.to);
+                         })
                   .merge(paths)
                           .attr("d", linkArc)
                           .attr("data-from", function (d) { return d.from })

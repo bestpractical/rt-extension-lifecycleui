@@ -20,8 +20,12 @@
 
 .lifecycle-ui .selection circle.reachable,
 .lifecycle-ui .selection circle.selected,
+.lifecycle-ui .selection circle.selected-source,
+.lifecycle-ui .selection circle.selected-sink,
 .lifecycle-ui .selection text.reachable,
-.lifecycle-ui .selection text.selected {
+.lifecycle-ui .selection text.selected,
+.lifecycle-ui .selection text.selected-source,
+.lifecycle-ui .selection text.selected-sink {
     opacity: 1;
 }
 
