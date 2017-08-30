@@ -47,6 +47,14 @@
     opacity: 1;
 }
 
+.lifecycle-ui .transitions path.dotted {
+    stroke-dasharray: 2;
+}
+
+.lifecycle-ui .transitions path.dashed {
+    stroke-dasharray: 5;
+}
+
 .lifecycle-ui text {
     text-anchor: middle;
     alignment-baseline: middle;

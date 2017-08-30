@@ -180,9 +180,10 @@ jQuery(function () {
                 else {
                     jQuery.each(toList, function (i, toStatus) {
                         var transition = {
-                            _key : _ELEMENT_KEY_SEQ++,
-                            from : fromStatus,
-                            to   : toStatus
+                            _key  : _ELEMENT_KEY_SEQ++,
+                            from  : fromStatus,
+                            to    : toStatus,
+                            style : 'solid'
                         };
                         state.transitions.push(transition);
                     });
@@ -330,9 +331,10 @@ jQuery(function () {
                 var toStatus   = button.data('to');
 
                 var transition = {
-                    _key : _ELEMENT_KEY_SEQ++,
-                    from : fromStatus,
-                    to   : toStatus
+                    _key  : _ELEMENT_KEY_SEQ++,
+                    from  : fromStatus,
+                    to    : toStatus,
+                    style : 'solid'
                 };
                 state.transitions.push(transition);
 
@@ -483,6 +485,8 @@ jQuery(function () {
                           .attr("d", linkArc)
                           .attr("data-from", function (d) { return d.from })
                           .attr("data-to", function (d) { return d.to })
+                          .classed("dashed", function (d) { return d.style == 'dashed' })
+                          .classed("dotted", function (d) { return d.style == 'dotted' })
         };
 
 console.log(state.transitions);

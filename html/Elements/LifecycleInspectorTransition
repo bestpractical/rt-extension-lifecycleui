@@ -2,7 +2,13 @@
     <div class="transition">
        From: {{transition.from}}<br>
        To: {{transition.to}}<br>
-       Style: solid/dashed/dotted<br>
+       Style: <select name="style">
+                 {{#select transition.style}}
+                 <option value="solid"><&|/l&>solid</&></option>
+                 <option value="dashed"><&|/l&>dashed</&></option>
+                 <option value="dotted"><&|/l&>dotted</&></option>
+                 {{/select}}
+             </select><br>
     <br>
         <button class="delete"><&|/l&>Delete Transition</&></button>
     </div>
