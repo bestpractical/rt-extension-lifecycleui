@@ -133,6 +133,7 @@ jQuery(function () {
             transitions: [],
             rights: {},
             actions: [],
+            decorations: {},
 
             statusMeta: {}
         };
@@ -199,6 +200,12 @@ jQuery(function () {
             state.actions = config.actions;
         }
 
+        if (config.decorations) {
+            state.decorations = config.decorations;
+        }
+
+        state.decorations.text = state.decorations.text || [];
+
         return state;
     };
 
@@ -249,6 +256,7 @@ jQuery(function () {
 
         var transitionContainer = svg.append('g').classed('transitions', true);
         var statusContainer = svg.append('g').classed('statuses', true);
+        var decorationContainer = svg.append('g').classed('decorations', true);
 
         var width = svg.node().getBoundingClientRect().width;
         var height = svg.node().getBoundingClientRect().height;
@@ -408,6 +416,27 @@ jQuery(function () {
             transitionContainer.select('path[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').classed('selected', true);
         };
 
+        var selectDecoration = function (type, key) {
+            var d;
+            jQuery.each(state.decorations[type], function (i, node) {
+                if (node._key == key) {
+                    d = node;
+                }
+            });
+
+            if (type == 'text') {
+                setInspectorContent('text', d);
+            }
+            else {
+                setInspectorContent('shape', d);
+            }
+
+            deselectAll(false);
+
+            svg.classed('selection', true);
+            decorationContainer.selectAll('*[data-key="'+key+'"]').classed('selected', true);
+        };
+
         var refreshStatusNodes = function () {
             var statuses = statusContainer.selectAll("circle")
                                           .data(Object.values(state.statusMeta), function (d) { return d._key });
@@ -495,10 +524,36 @@ jQuery(function () {
                           .classed("dotted", function (d) { return d.style == 'dotted' })
         };
 
+        var refreshTextDecorations = function () {
+            var labels = decorationContainer.selectAll("text")
+                            .data(state.decorations.text, function (d) { return d._key });
+
+            labels.exit()
+                .classed("removing", true)
+                .transition().duration(200)
+                  .remove();
+
+            labels.enter().append("text")
+                         .attr("data-key", function (d) { return d._key })
+                         .on("click", function (d) {
+                             d3.event.stopPropagation();
+                             selectDecoration('text', d._key);
+                         })
+                  .merge(labels)
+                          .attr("x", function (d) { return xScale(d.x) })
+                          .attr("y", function (d) { return yScale(d.y) })
+                          .text(function (d) { return d.text });
+        };
+
+        var refreshDecorations = function () {
+            refreshTextDecorations();
+        };
+
         var refreshDisplay = function () {
             refreshTransitions();
             refreshStatusNodes();
             refreshStatusLabels();
+            refreshDecorations();
         };
 
         jQuery('.inspector').on('click', 'a.select-status', function (e) {

@@ -46,6 +46,15 @@
     opacity: 1;
 }
 
+.lifecycle-ui .selection .decorations > * {
+    opacity: .2;
+    transition: opacity .2s;
+}
+
+.lifecycle-ui .selection .decorations > .selected {
+    opacity: 1;
+}
+
 .lifecycle-ui .transitions path.dotted {
     stroke-dasharray: 2;
 }
