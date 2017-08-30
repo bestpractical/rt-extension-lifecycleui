@@ -324,8 +324,8 @@ jQuery(function () {
                               .data(Object.values(state.statusMeta), function (d) { return d._key });
 
             statuses.exit()
-                  .transition()
-                    .style("opacity", 1e-6)
+                  .classed("removing", true)
+                  .transition().duration(200)
                     .attr("r", STATUS_CIRCLE_RADIUS * .8)
                     .remove();
 
@@ -358,8 +358,8 @@ jQuery(function () {
                             .data(Object.values(state.statusMeta), function (d) { return d._key });
 
             labels.exit()
-                .transition()
-                  .style("opacity", 1e-6)
+                .classed("removing", true)
+                .transition().duration(200)
                   .remove();
 
             labels.enter().append("text")
@@ -389,8 +389,8 @@ jQuery(function () {
                             .data(state.transitions, function (d) { return d._key });
 
             paths.exit()
-                .transition()
-                  .style("opacity", 1e-6)
+                .classed("removing", true)
+                .transition().duration(200)
                   .remove();
 
             paths.enter().append("path")

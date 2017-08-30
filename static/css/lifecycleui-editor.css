@@ -34,3 +34,8 @@
     border: 1px solid black;
 }
 
+.lifecycle-ui .removing {
+    opacity: 0 !important;
+    transition: opacity .2s;
+}
+
