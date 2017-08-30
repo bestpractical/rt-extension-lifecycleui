@@ -322,6 +322,27 @@ jQuery(function () {
                 deselectAll();
                 refreshDisplay();
             });
+
+            inspector.find('a.add-transition').click(function (e) {
+                e.preventDefault();
+                var button = jQuery(this);
+                var fromStatus = button.data('from');
+                var toStatus   = button.data('to');
+
+                var transition = {
+                    _key : _ELEMENT_KEY_SEQ++,
+                    from : fromStatus,
+                    to   : toStatus
+                };
+                state.transitions.push(transition);
+
+                button.closest('li').addClass('hidden');
+
+                inspector.find('a.select-transition[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').closest('li').removeClass('hidden');
+
+                refreshDisplay();
+                selectStatus(node.name);
+            });
         };
 
         var deselectAll = function () {
