@@ -346,6 +346,11 @@ jQuery(function () {
                 selectStatus(node.name);
             });
 
+            inspector.find('a.select-status').click(function (e) {
+                e.preventDefault();
+                selectStatus(jQuery(this).data('name'));
+            });
+
             inspector.find('a.select-transition').click(function (e) {
                 e.preventDefault();
                 var button = jQuery(this);
