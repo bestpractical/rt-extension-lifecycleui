@@ -24,7 +24,7 @@
     font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
 }
 
-.lifecycle-ui circle.selected {
+.lifecycle-ui .statuses circle.selected {
     stroke-width: 6px;
 }
 

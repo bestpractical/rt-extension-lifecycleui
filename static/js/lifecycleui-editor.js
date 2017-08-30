@@ -248,6 +248,7 @@ jQuery(function () {
                     .select('svg');
 
         var transitionContainer = svg.append('g').classed('transitions', true);
+        var statusContainer = svg.append('g').classed('statuses', true);
 
         var width = svg.node().getBoundingClientRect().width;
         var height = svg.node().getBoundingClientRect().height;
@@ -380,12 +381,12 @@ jQuery(function () {
             deselectAll(false);
 
             svg.classed('selection', true);
-            svg.selectAll('circle[data-name="'+name+'"], text[data-name="'+name+'"]').classed('selected', true);
+            statusContainer.selectAll('circle[data-name="'+name+'"], text[data-name="'+name+'"]').classed('selected', true);
             transitionContainer.selectAll('path[data-from="'+name+'"]').classed('selected', true);
 
             jQuery.each(state.transitions, function (i, transition) {
                 if (transition.from == name) {
-                    svg.selectAll('circle[data-name="'+transition.to+'"], text[data-name="'+transition.to+'"]').classed('reachable', true);
+                    statusContainer.selectAll('circle[data-name="'+transition.to+'"], text[data-name="'+transition.to+'"]').classed('reachable', true);
                 }
             });
         };
@@ -402,14 +403,14 @@ jQuery(function () {
             deselectAll(false);
 
             svg.classed('selection', true);
-            svg.selectAll('circle[data-name="'+fromStatus+'"], text[data-name="'+fromStatus+'"]').classed('selected-source', true);
-            svg.selectAll('circle[data-name="'+toStatus+'"], text[data-name="'+toStatus+'"]').classed('selected-sink', true);
+            statusContainer.selectAll('circle[data-name="'+fromStatus+'"], text[data-name="'+fromStatus+'"]').classed('selected-source', true);
+            statusContainer.selectAll('circle[data-name="'+toStatus+'"], text[data-name="'+toStatus+'"]').classed('selected-sink', true);
             transitionContainer.select('path[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').classed('selected', true);
         };
 
         var refreshStatusNodes = function () {
-            var statuses = svg.selectAll("circle")
-                              .data(Object.values(state.statusMeta), function (d) { return d._key });
+            var statuses = statusContainer.selectAll("circle")
+                                          .data(Object.values(state.statusMeta), function (d) { return d._key });
 
             statuses.exit()
                   .classed("removing", true)
@@ -442,8 +443,8 @@ jQuery(function () {
         };
 
         var refreshStatusLabels = function () {
-            var labels = svg.selectAll("text")
-                            .data(Object.values(state.statusMeta), function (d) { return d._key });
+            var labels = statusContainer.selectAll("text")
+                                        .data(Object.values(state.statusMeta), function (d) { return d._key });
 
             labels.exit()
                 .classed("removing", true)
