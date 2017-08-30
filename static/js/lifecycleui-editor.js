@@ -20,6 +20,36 @@ jQuery(function () {
         return node.html();
     });
 
+    Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, state) {
+        if (fromStatus == toStatus) {
+            return false;
+        }
+
+        var hasTransition = false;
+        jQuery.each(state.transitions, function (i, transition) {
+            if (transition.from == fromStatus && transition.to == toStatus) {
+                hasTransition = true;
+            }
+        });
+
+        return !hasTransition;
+    });
+
+    Handlebars.registerHelper('canSelectTransition', function(fromStatus, toStatus, state) {
+        if (fromStatus == toStatus) {
+            return false;
+        }
+
+        var hasTransition = false;
+        jQuery.each(state.transitions, function (i, transition) {
+            if (transition.from == fromStatus && transition.to == toStatus) {
+                hasTransition = true;
+            }
+        });
+
+        return hasTransition;
+    });
+
     var updateStatusName = function (state, oldValue, newValue) {
         // statusMeta key
         var oldMeta = state.statusMeta[oldValue];

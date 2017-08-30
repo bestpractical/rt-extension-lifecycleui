@@ -10,8 +10,18 @@
               </select><br>
         Color: <span class="status-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button><br>
 
-        Add Transiition:<br>
-        Select Transition:<br>
+        Add Transition:
+        <ul>
+          {{#each state.statuses}}
+            <li class="{{#if (canAddTransition ../status.name this ../state)}}{{else}}hidden{{/if}}">{{this}}</li>
+          {{/each}}
+        </ul>
+        Select Transition:
+        <ul>
+          {{#each state.statuses}}
+            <li class="{{#if (canSelectTransition ../status.name this ../state)}}{{else}}hidden{{/if}}">{{this}}</li>
+          {{/each}}
+        </ul>
         <button class="delete"><&|/l&>Delete Status</&></button>
     </div>
 </script>
