@@ -449,6 +449,7 @@ jQuery(function () {
 
             statuses.enter().append("circle")
                             .attr("r", STATUS_CIRCLE_RADIUS)
+                            .attr("data-key", function (d) { return d._key })
                             .on("click", function (d) {
                                 d3.event.stopPropagation();
                                 selectStatus(d.name);
@@ -481,6 +482,7 @@ jQuery(function () {
                   .remove();
 
             labels.enter().append("text")
+                          .attr("data-key", function (d) { return d._key })
                           .on("click", function (d) {
                               d3.event.stopPropagation();
                               selectStatus(d.name);
@@ -512,6 +514,7 @@ jQuery(function () {
                   .remove();
 
             paths.enter().append("path")
+                         .attr("data-key", function (d) { return d._key })
                          .on("click", function (d) {
                              d3.event.stopPropagation();
                              selectTransition(d.from, d.to);
