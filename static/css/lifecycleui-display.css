@@ -5,7 +5,6 @@
 .lifecycle-ui circle {
     stroke: black;
     stroke-width: 2px;
-    transition: stroke-width .2s;
     transition: opacity .2s;
 }
 

@@ -489,8 +489,6 @@ jQuery(function () {
                           .classed("dotted", function (d) { return d.style == 'dotted' })
         };
 
-console.log(state.transitions);
-
         var refreshDisplay = function () {
             refreshTransitions();
             refreshStatusNodes();
