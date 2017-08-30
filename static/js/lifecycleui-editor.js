@@ -319,7 +319,7 @@ jQuery(function () {
                     deleteStatus(state, node.name);
                 }
 
-                deselectAll();
+                deselectAll(true);
                 refreshDisplay();
             });
 
@@ -345,8 +345,11 @@ jQuery(function () {
             });
         };
 
-        var deselectAll = function () {
-            setInspectorContent('canvas');
+        var deselectAll = function (inspectCanvas) {
+            if (inspectCanvas) {
+                setInspectorContent('canvas');
+            }
+
             svg.classed('selection', false);
             svg.selectAll('.selected').classed('selected', false);
             svg.selectAll('.reachable').classed('reachable', false);
@@ -356,8 +359,7 @@ jQuery(function () {
             var d = state.statusMeta[name];
             setInspectorContent('status', d);
 
-            svg.selectAll('.selected').classed('selected', false);
-            svg.selectAll('.reachable').classed('reachable', false);
+            deselectAll(false);
 
             svg.classed('selection', true);
             svg.selectAll('circle[data-name="'+name+'"], text[data-name="'+name+'"]').classed('selected', true);
@@ -467,7 +469,7 @@ console.log(state.transitions);
 
         setInspectorContent('canvas');
 
-        svg.on('click', function () { deselectAll() });
+        svg.on('click', function () { deselectAll(true) });
 
         jQuery('form[name=ModifyLifecycle]').submit(function (e) {
             var config = exportConfigFromState(state);
