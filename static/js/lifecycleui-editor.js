@@ -70,7 +70,9 @@ jQuery(function () {
 
         createArrowHead(svg);
 
-        var setInspectorContent = function (type, node) {
+        var setInspectorContent = function (node) {
+            var type = node ? node._type : 'canvas';
+
             var params = { lifecycle: lifecycle };
             params[type] = node;
 
@@ -143,7 +145,7 @@ jQuery(function () {
 
         var deselectAll = function (inspectCanvas) {
             if (inspectCanvas) {
-                setInspectorContent('canvas');
+                setInspectorContent(null);
             }
 
             svg.classed('selection', false);
@@ -155,7 +157,7 @@ jQuery(function () {
 
         var selectStatus = function (name) {
             var d = lifecycle.statusObjectForName(name);
-            setInspectorContent('status', d);
+            setInspectorContent(d);
 
             deselectAll(false);
 
@@ -171,7 +173,7 @@ jQuery(function () {
 
         var selectTransition = function (fromStatus, toStatus) {
             var d = lifecycle.hasTransition(fromStatus, toStatus);
-            setInspectorContent('transition', d);
+            setInspectorContent(d);
 
             deselectAll(false);
 
@@ -184,15 +186,9 @@ jQuery(function () {
             transitionContainer.select('path[data-key="'+d._key+'"]').classed('selected', true);
         };
 
-        var selectDecoration = function (type, key) {
+        var selectDecoration = function (key) {
             var d = lifecycle.itemForKey(key);
-
-            if (type == 'text') {
-                setInspectorContent('text', d);
-            }
-            else {
-                setInspectorContent('shape', d);
-            }
+            setInspectorContent(d);
 
             deselectAll(false);
 
@@ -299,7 +295,7 @@ jQuery(function () {
                          .attr("data-key", function (d) { return d._key })
                          .on("click", function (d) {
                              d3.event.stopPropagation();
-                             selectDecoration('text', d._key);
+                             selectDecoration(d._key);
                          })
                   .merge(labels)
                           .attr("x", function (d) { return xScale(d.x) })
@@ -333,7 +329,7 @@ jQuery(function () {
             selectTransition(fromStatus, toStatus);
         });
 
-        setInspectorContent('canvas');
+        setInspectorContent(null);
 
         svg.on('click', function () { deselectAll(true) });
 
