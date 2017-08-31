@@ -7,7 +7,7 @@
         <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
           <li class="has-children">Select Status
               <ul>
-              {{#each state.statuses}}
+              {{#each lifecycle.statuses}}
               <li><a href="#" class="select-status menu-item" data-name="{{this}}">{{this}}</a></li>
               {{/each}}
               </ul>

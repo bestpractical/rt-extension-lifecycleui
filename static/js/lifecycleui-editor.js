@@ -1,10 +1,6 @@
 jQuery(function () {
     var STATUS_CIRCLE_RADIUS = 35;
 
-    var _ELEMENT_KEY_SEQ = 0;
-
-    var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
-
     var templates = {};
 
     jQuery('script.lifecycle-inspector-template').each(function () {
@@ -20,13 +16,13 @@ jQuery(function () {
         return node.html();
     });
 
-    Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, state) {
+    Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, lifecycle) {
         if (fromStatus == toStatus) {
             return false;
         }
 
         var hasTransition = false;
-        jQuery.each(state.transitions, function (i, transition) {
+        jQuery.each(lifecycle.transitions, function (i, transition) {
             if (transition.from == fromStatus && transition.to == toStatus) {
                 hasTransition = true;
             }
@@ -35,13 +31,13 @@ jQuery(function () {
         return !hasTransition;
     });
 
-    Handlebars.registerHelper('canSelectTransition', function(fromStatus, toStatus, state) {
+    Handlebars.registerHelper('canSelectTransition', function(fromStatus, toStatus, lifecycle) {
         if (fromStatus == toStatus) {
             return false;
         }
 
         var hasTransition = false;
-        jQuery.each(state.transitions, function (i, transition) {
+        jQuery.each(lifecycle.transitions, function (i, transition) {
             if (transition.from == fromStatus && transition.to == toStatus) {
                 hasTransition = true;
             }
@@ -50,27 +46,27 @@ jQuery(function () {
         return hasTransition;
     });
 
-    var updateStatusName = function (state, oldValue, newValue) {
+    var updateStatusName = function (lifecycle, oldValue, newValue) {
         // statusMeta key
-        var oldMeta = state.statusMeta[oldValue];
-        delete state.statusMeta[oldValue];
-        state.statusMeta[newValue] = oldMeta;
+        var oldMeta = lifecycle.statusMeta[oldValue];
+        delete lifecycle.statusMeta[oldValue];
+        lifecycle.statusMeta[newValue] = oldMeta;
 
         // statuses array value
-        var index = state.statuses.indexOf(oldValue);
-        state.statuses[index] = newValue;
+        var index = lifecycle.statuses.indexOf(oldValue);
+        lifecycle.statuses[index] = newValue;
 
         // defaults
-        jQuery.each(state.defaults, function (key, statusName) {
+        jQuery.each(lifecycle.defaults, function (key, statusName) {
             if (statusName == oldValue) {
-                state.defaults[key] = newValue;
+                lifecycle.defaults[key] = newValue;
             }
         });
 
         // actions
 
         // transitions
-        jQuery.each(state.transitions, function (i, transition) {
+        jQuery.each(lifecycle.transitions, function (i, transition) {
             if (transition.from == oldValue) {
                 transition.from = newValue;
             }
@@ -82,25 +78,25 @@ jQuery(function () {
         // rights
     };
 
-    var deleteStatus = function (state, statusName) {
+    var deleteStatus = function (lifecycle, statusName) {
         // statusMeta key
-        delete state.statusMeta[statusName];
+        delete lifecycle.statusMeta[statusName];
 
         // statuses array value
-        var index = state.statuses.indexOf(statusName);
-        state.statuses.splice(index, 1);
+        var index = lifecycle.statuses.indexOf(statusName);
+        lifecycle.statuses.splice(index, 1);
 
         // defaults
-        jQuery.each(state.defaults, function (key, value) {
+        jQuery.each(lifecycle.defaults, function (key, value) {
             if (value == statusName) {
-                delete state.defaults[key];
+                delete lifecycle.defaults[key];
             }
         });
 
         // actions
 
         // transitions
-        state.transitions = jQuery.grep(state.transitions, function (transition) {
+        lifecycle.transitions = jQuery.grep(lifecycle.transitions, function (transition) {
             if (transition.from == statusName || transition.to == statusName) {
                 return false;
             }
@@ -110,8 +106,8 @@ jQuery(function () {
         // rights
     };
 
-    var deleteTransition = function (state, key) {
-        state.transitions = jQuery.grep(state.transitions, function (transition) {
+    var deleteTransition = function (lifecycle, key) {
+        lifecycle.transitions = jQuery.grep(lifecycle.transitions, function (transition) {
             if (transition._key == key) {
                 return false;
             }
@@ -119,8 +115,8 @@ jQuery(function () {
         });
     };
 
-    var deleteText = function (state, key) {
-        state.decorations.text = jQuery.grep(state.decorations.text, function (decoration) {
+    var deleteText = function (lifecycle, key) {
+        lifecycle.decorations.text = jQuery.grep(lifecycle.decorations.text, function (decoration) {
             if (decoration._key == key) {
                 return false;
             }
@@ -142,119 +138,6 @@ jQuery(function () {
             .append('path')
               .attr('d', 'M 0,0 m -5,-5 L 5,0 L -5,5 Z')
               .attr('fill', 'black');
-    };
-
-    var newState = function (clone) {
-        return {
-            statuses: [],
-            defaults: {},
-            transitions: [],
-            rights: {},
-            actions: [],
-            decorations: {},
-
-            statusMeta: {}
-        };
-    };
-
-    var initializeStateFromConfig = function (config) {
-        var state = newState();
-
-        jQuery.each(['initial', 'active', 'inactive'], function (i, type) {
-            if (config[type]) {
-                state.statuses = state.statuses.concat(config[type]);
-                jQuery.each(config[type], function (j, statusName) {
-                    state.statusMeta[statusName] = {
-                        _key: _ELEMENT_KEY_SEQ++,
-                        name: statusName,
-                        type: type
-                    };
-                });
-            }
-        });
-
-        var statusCount = state.statuses.length;
-
-        jQuery.each(state.statuses, function (i, statusName) {
-            var meta = state.statusMeta[statusName];
-            // arrange statuses evenly-spaced around a circle
-            if (!meta.x) {
-                meta.x = (Math.sin(2 * Math.PI * (i/statusCount)) + 1) / 2;
-                meta.y = (Math.cos(2 * Math.PI * (i/statusCount)) + 1) / 2;
-            };
-
-            if (!meta.color) {
-                meta.color = defaultColors(meta._key);
-            };
-        });
-
-        if (config.defaults) {
-            state.defaults = config.defaults;
-        }
-
-        if (config.transitions) {
-            jQuery.each(config.transitions, function (fromStatus, toList) {
-                if (fromStatus == "") {
-                }
-                else {
-                    jQuery.each(toList, function (i, toStatus) {
-                        var transition = {
-                            _key  : _ELEMENT_KEY_SEQ++,
-                            from  : fromStatus,
-                            to    : toStatus,
-                            style : 'solid'
-                        };
-                        state.transitions.push(transition);
-                    });
-                }
-            });
-        }
-
-        if (config.rights) {
-            state.rights = config.rights;
-        }
-
-        if (config.actions) {
-            state.actions = config.actions;
-        }
-
-        if (config.decorations) {
-            state.decorations = config.decorations;
-        }
-
-        state.decorations.text = state.decorations.text || [];
-
-        return state;
-    };
-
-    var exportConfigFromState = function (state) {
-        var config = {
-            initial: [],
-            active: [],
-            inactive: [],
-            defaults: state.defaults,
-            actions: state.actions,
-            rights: state.rights,
-            transitions: state.transitions
-        };
-
-        jQuery.each(state.statuses, function (i, statusName) {
-            var statusType = state.statusMeta[statusName].type;
-            config[statusType].push(statusName);
-        });
-
-        var transitions = {};
-        jQuery.each(state.transitions, function (i, transition) {
-            var from = transition.from;
-            var to = transition.to;
-            if (!transitions[from]) {
-                transitions[from] = [];
-            }
-            transitions[from].push(to);
-            config.transitions = transitions;
-        });
-
-        return config;
     };
 
     var createScale = function (size, padding) {
@@ -279,7 +162,8 @@ jQuery(function () {
         var width = svg.node().getBoundingClientRect().width;
         var height = svg.node().getBoundingClientRect().height;
 
-        var state = initializeStateFromConfig(config);
+        var lifecycle = new RT.Lifecycle();
+        lifecycle.initializeFromConfig(config);
 
         var xScale = createScale(width, STATUS_CIRCLE_RADIUS * 2);
         var yScale = createScale(height, STATUS_CIRCLE_RADIUS * 2);
@@ -287,7 +171,7 @@ jQuery(function () {
         createArrowHead(svg);
 
         var setInspectorContent = function (type, node) {
-            var params = { state: state };
+            var params = { lifecycle: lifecycle };
             params[type] = node;
 
             inspector.html(templates[type](params));
@@ -302,7 +186,7 @@ jQuery(function () {
                 node[key] = value;
 
                 if (type == 'status' && key == 'name') {
-                    updateStatusName(state, oldValue, value);
+                    updateStatusName(lifecycle, oldValue, value);
                 }
 
                 refreshDisplay();
@@ -344,13 +228,13 @@ jQuery(function () {
                 e.preventDefault();
 
                 if (type == 'status') {
-                    deleteStatus(state, node.name);
+                    deleteStatus(lifecycle, node.name);
                 }
                 else if (type == 'transition') {
-                    deleteTransition(state, node._key);
+                    deleteTransition(lifecycle, node._key);
                 }
                 else if (type == 'text') {
-                    deleteText(state, node._key);
+                    deleteText(lifecycle, node._key);
                 }
 
                 deselectAll(true);
@@ -363,13 +247,7 @@ jQuery(function () {
                 var fromStatus = button.data('from');
                 var toStatus   = button.data('to');
 
-                var transition = {
-                    _key  : _ELEMENT_KEY_SEQ++,
-                    from  : fromStatus,
-                    to    : toStatus,
-                    style : 'solid'
-                };
-                state.transitions.push(transition);
+                lifecycle.addTransition(fromStatus, toStatus);
 
                 button.closest('li').addClass('hidden');
 
@@ -393,7 +271,7 @@ jQuery(function () {
         };
 
         var selectStatus = function (name) {
-            var d = state.statusMeta[name];
+            var d = lifecycle.statusMeta[name];
             setInspectorContent('status', d);
 
             deselectAll(false);
@@ -401,9 +279,9 @@ jQuery(function () {
             svg.classed('selection', true);
             statusContainer.selectAll('*[data-key="'+d._key+'"]').classed('selected', true);
 
-            jQuery.each(state.transitions, function (i, transition) {
+            jQuery.each(lifecycle.transitions, function (i, transition) {
                 if (transition.from == name) {
-                    var key = state.statusMeta[transition.to]._key;
+                    var key = lifecycle.statusMeta[transition.to]._key;
                     statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
                     transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
                 }
@@ -412,7 +290,7 @@ jQuery(function () {
 
         var selectTransition = function (fromStatus, toStatus) {
             var d;
-            jQuery.each(state.transitions, function (i, transition) {
+            jQuery.each(lifecycle.transitions, function (i, transition) {
                 if (transition.from == fromStatus && transition.to == toStatus) {
                     d = transition;
                 }
@@ -423,8 +301,8 @@ jQuery(function () {
 
             svg.classed('selection', true);
 
-            var fromKey = state.statusMeta[fromStatus]._key;
-            var toKey = state.statusMeta[toStatus]._key;
+            var fromKey = lifecycle.statusMeta[fromStatus]._key;
+            var toKey = lifecycle.statusMeta[toStatus]._key;
             statusContainer.selectAll('*[data-key="'+fromKey+'"]').classed('selected-source', true);
             statusContainer.selectAll('*[data-key="'+toKey+'"]').classed('selected-sink', true);
             transitionContainer.select('path[data-key="'+d._key+'"]').classed('selected', true);
@@ -432,7 +310,7 @@ jQuery(function () {
 
         var selectDecoration = function (type, key) {
             var d;
-            jQuery.each(state.decorations[type], function (i, node) {
+            jQuery.each(lifecycle.decorations[type], function (i, node) {
                 if (node._key == key) {
                     d = node;
                 }
@@ -453,7 +331,7 @@ jQuery(function () {
 
         var refreshStatusNodes = function () {
             var statuses = statusContainer.selectAll("circle")
-                                          .data(Object.values(state.statusMeta), function (d) { return d._key });
+                                          .data(Object.values(lifecycle.statusMeta), function (d) { return d._key });
 
             statuses.exit()
                   .classed("removing", true)
@@ -487,7 +365,7 @@ jQuery(function () {
 
         var refreshStatusLabels = function () {
             var labels = statusContainer.selectAll("text")
-                                        .data(Object.values(state.statusMeta), function (d) { return d._key });
+                                        .data(Object.values(lifecycle.statusMeta), function (d) { return d._key });
 
             labels.exit()
                 .classed("removing", true)
@@ -508,8 +386,8 @@ jQuery(function () {
         };
 
         var linkArc = function (d) {
-          var from = state.statusMeta[d.from];
-          var to = state.statusMeta[d.to];
+          var from = lifecycle.statusMeta[d.from];
+          var to = lifecycle.statusMeta[d.to];
           var dx = xScale(to.x - from.x),
               dy = yScale(to.y - from.y),
               dr = Math.abs(dx*6) + Math.abs(dy*6);
@@ -518,7 +396,7 @@ jQuery(function () {
 
         var refreshTransitions = function () {
             var paths = transitionContainer.selectAll("path")
-                            .data(state.transitions, function (d) { return d._key });
+                            .data(lifecycle.transitions, function (d) { return d._key });
 
             paths.exit()
                 .classed("removing", true)
@@ -539,7 +417,7 @@ jQuery(function () {
 
         var refreshTextDecorations = function () {
             var labels = decorationContainer.selectAll("text")
-                            .data(state.decorations.text, function (d) { return d._key });
+                            .data(lifecycle.decorations.text, function (d) { return d._key });
 
             labels.exit()
                 .classed("removing", true)
@@ -589,7 +467,7 @@ jQuery(function () {
         svg.on('click', function () { deselectAll(true) });
 
         jQuery('form[name=ModifyLifecycle]').submit(function (e) {
-            var config = exportConfigFromState(state);
+            var config = lifecycle.exportAsConfiguration();
             console.log(config);
             e.preventDefault();
             return false;

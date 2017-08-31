@@ -7,6 +7,7 @@ our $VERSION = '0.01';
 
 RT->AddJavaScript("d3.min.js");
 RT->AddJavaScript("handlebars-4.0.6.min.js");
+RT->AddJavaScript("lifecycleui-model.js");
 RT->AddJavaScript("lifecycleui-editor.js");
 
 RT->AddStyleSheets("lifecycleui.css");
