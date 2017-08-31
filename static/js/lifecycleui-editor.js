@@ -413,12 +413,13 @@ jQuery(function () {
             deselectAll(false);
 
             svg.classed('selection', true);
-            statusContainer.selectAll('circle[data-name="'+name+'"], text[data-name="'+name+'"]').classed('selected', true);
-            transitionContainer.selectAll('path[data-from="'+name+'"]').classed('selected', true);
+            statusContainer.selectAll('*[data-key="'+d._key+'"]').classed('selected', true);
 
             jQuery.each(state.transitions, function (i, transition) {
                 if (transition.from == name) {
-                    statusContainer.selectAll('circle[data-name="'+transition.to+'"], text[data-name="'+transition.to+'"]').classed('reachable', true);
+                    var key = state.statusMeta[transition.to]._key;
+                    statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
+                    transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
                 }
             });
         };
@@ -435,9 +436,12 @@ jQuery(function () {
             deselectAll(false);
 
             svg.classed('selection', true);
-            statusContainer.selectAll('circle[data-name="'+fromStatus+'"], text[data-name="'+fromStatus+'"]').classed('selected-source', true);
-            statusContainer.selectAll('circle[data-name="'+toStatus+'"], text[data-name="'+toStatus+'"]').classed('selected-sink', true);
-            transitionContainer.select('path[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').classed('selected', true);
+
+            var fromKey = state.statusMeta[fromStatus]._key;
+            var toKey = state.statusMeta[toStatus]._key;
+            statusContainer.selectAll('*[data-key="'+fromKey+'"]').classed('selected-source', true);
+            statusContainer.selectAll('*[data-key="'+toKey+'"]').classed('selected-sink', true);
+            transitionContainer.select('path[data-key="'+d._key+'"]').classed('selected', true);
         };
 
         var selectDecoration = function (type, key) {
@@ -481,8 +485,7 @@ jQuery(function () {
                     .merge(statuses)
                             .attr("cx", function (d) { return xScale(d.x) })
                             .attr("cy", function (d) { return yScale(d.y) })
-                            .attr("fill", function (d) { return d.color })
-                            .attr("data-name", function (d) { return d.name })
+                            .attr("fill", function (d) { return d.color });
         };
 
         function truncateLabel () {
@@ -515,7 +518,6 @@ jQuery(function () {
                           .attr("x", function (d) { return xScale(d.x) })
                           .attr("y", function (d) { return yScale(d.y) })
                           .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
-                          .attr("data-name", function (d) { return d.name })
                           .text(function (d) { return d.name }).each(truncateLabel)
         };
 
@@ -545,8 +547,6 @@ jQuery(function () {
                          })
                   .merge(paths)
                           .attr("d", linkArc)
-                          .attr("data-from", function (d) { return d.from })
-                          .attr("data-to", function (d) { return d.to })
                           .classed("dashed", function (d) { return d.style == 'dashed' })
                           .classed("dotted", function (d) { return d.style == 'dotted' })
         };
