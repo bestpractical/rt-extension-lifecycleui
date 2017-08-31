@@ -286,6 +286,22 @@ jQuery(function () {
         return false;
     };
 
+
+    Lifecycle.prototype.deleteItemForKey = function (type, key) {
+        if (type == 'status') {
+            this.deleteStatus(key);
+        }
+        else if (type == 'transition') {
+            this.deleteTransition(key);
+        }
+        else if (type == 'text') {
+            this.deleteDecoration(type, key);
+        }
+        else {
+            console.error("unhandled type '" + type + "'");
+        }
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 

@@ -126,16 +126,7 @@ jQuery(function () {
 
             inspector.find('button.delete').click(function (e) {
                 e.preventDefault();
-
-                if (type == 'status') {
-                    lifecycle.deleteStatus(node._key);
-                }
-                else if (type == 'transition') {
-                    lifecycle.deleteTransition(node._key);
-                }
-                else if (type == 'text') {
-                    lifecycle.deleteDecoration(type, node._key);
-                }
+                lifecycle.deleteItemForKey(type, node._key);
 
                 deselectAll(true);
                 refreshDisplay();
