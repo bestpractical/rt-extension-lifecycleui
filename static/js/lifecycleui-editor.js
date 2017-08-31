@@ -84,15 +84,6 @@ jQuery(function () {
         // rights
     };
 
-    var deleteTransition = function (lifecycle, key) {
-        lifecycle.transitions = jQuery.grep(lifecycle.transitions, function (transition) {
-            if (transition._key == key) {
-                return false;
-            }
-            return true;
-        });
-    };
-
     var deleteText = function (lifecycle, key) {
         lifecycle.decorations.text = jQuery.grep(lifecycle.decorations.text, function (decoration) {
             if (decoration._key == key) {
@@ -209,7 +200,7 @@ jQuery(function () {
                     deleteStatus(lifecycle, node.name);
                 }
                 else if (type == 'transition') {
-                    deleteTransition(lifecycle, node._key);
+                    lifecycle.deleteTransition(node._key);
                 }
                 else if (type == 'text') {
                     deleteText(lifecycle, node._key);

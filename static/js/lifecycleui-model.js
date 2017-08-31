@@ -160,6 +160,15 @@ jQuery(function () {
         return transitions;
     };
 
+    Lifecycle.prototype.deleteTransition = function (key) {
+        this.transitions = jQuery.grep(this.transitions, function (transition) {
+            if (transition._key == key) {
+                return false;
+            }
+            return true;
+        });
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 
