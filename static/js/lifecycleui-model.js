@@ -278,7 +278,10 @@ jQuery(function () {
         return this._keyMap[key];
     };
 
-    Lifecycle.prototype.deleteItemForKey = function (type, key) {
+    Lifecycle.prototype.deleteItemForKey = function (key) {
+        var item = this.itemForKey(key);
+        var type = item._type;
+
         if (type == 'status') {
             this.deleteStatus(key);
         }

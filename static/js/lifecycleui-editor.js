@@ -126,7 +126,7 @@ jQuery(function () {
 
             inspector.find('button.delete').click(function (e) {
                 e.preventDefault();
-                lifecycle.deleteItemForKey(type, node._key);
+                lifecycle.deleteItemForKey(node._key);
 
                 deselectAll(true);
                 refreshDisplay();
