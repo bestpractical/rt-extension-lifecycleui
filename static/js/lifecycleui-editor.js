@@ -193,7 +193,7 @@ jQuery(function () {
         };
 
         var selectDecoration = function (type, key) {
-            var d = lifecycle.decorationForKey(type, key);
+            var d = lifecycle.itemForKey(key);
 
             if (type == 'text') {
                 setInspectorContent('text', d);

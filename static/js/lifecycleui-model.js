@@ -168,11 +168,6 @@ jQuery(function () {
         return this._statusMeta[statusName];
     };
 
-    Lifecycle.prototype.statusObjectForKey = function (key) {
-        var statusName = this.statusNameForKey(key);
-        return this._statusMeta[statusName];
-    };
-
     Lifecycle.prototype.deleteStatus = function (key) {
         var self = this;
 
@@ -279,18 +274,9 @@ jQuery(function () {
         delete this._keyMap[key];
     };
 
-    Lifecycle.prototype.decorationForKey = function (type, key) {
-        var decorations = this.decorations[type];
-        for (var i = 0; i < decorations.length; ++i) {
-            var decoration = decorations[i];
-            if (decoration._key == key) {
-                return decoration;
-            }
-        };
-
-        return false;
+    Lifecycle.prototype.itemForKey = function (key) {
+        return this._keyMap[key];
     };
-
 
     Lifecycle.prototype.deleteItemForKey = function (type, key) {
         if (type == 'status') {
