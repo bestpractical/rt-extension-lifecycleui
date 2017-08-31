@@ -112,6 +112,40 @@ jQuery(function () {
         return config;
     };
 
+    Lifecycle.prototype.updateStatusName = function (oldValue, newValue) {
+        var self = this;
+
+        // statusMeta key
+        var oldMeta = self.statusMeta[oldValue];
+        delete self.statusMeta[oldValue];
+        self.statusMeta[newValue] = oldMeta;
+
+        // statuses array value
+        var index = self.statuses.indexOf(oldValue);
+        self.statuses[index] = newValue;
+
+        // defaults
+        jQuery.each(self.defaults, function (key, statusName) {
+            if (statusName == oldValue) {
+                self.defaults[key] = newValue;
+            }
+        });
+
+        // actions
+
+        // transitions
+        jQuery.each(self.transitions, function (i, transition) {
+            if (transition.from == oldValue) {
+                transition.from = newValue;
+            }
+            if (transition.to == oldValue) {
+                transition.to = newValue;
+            }
+        });
+
+        // rights
+    };
+
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
         var transition = {
             _key  : _ELEMENT_KEY_SEQ++,

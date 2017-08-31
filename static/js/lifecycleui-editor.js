@@ -24,38 +24,6 @@ jQuery(function () {
         return lifecycle.hasTransition(fromStatus, toStatus);
     });
 
-    var updateStatusName = function (lifecycle, oldValue, newValue) {
-        // statusMeta key
-        var oldMeta = lifecycle.statusMeta[oldValue];
-        delete lifecycle.statusMeta[oldValue];
-        lifecycle.statusMeta[newValue] = oldMeta;
-
-        // statuses array value
-        var index = lifecycle.statuses.indexOf(oldValue);
-        lifecycle.statuses[index] = newValue;
-
-        // defaults
-        jQuery.each(lifecycle.defaults, function (key, statusName) {
-            if (statusName == oldValue) {
-                lifecycle.defaults[key] = newValue;
-            }
-        });
-
-        // actions
-
-        // transitions
-        jQuery.each(lifecycle.transitions, function (i, transition) {
-            if (transition.from == oldValue) {
-                transition.from = newValue;
-            }
-            if (transition.to == oldValue) {
-                transition.to = newValue;
-            }
-        });
-
-        // rights
-    };
-
     var deleteStatus = function (lifecycle, statusName) {
         // statusMeta key
         delete lifecycle.statusMeta[statusName];
@@ -155,7 +123,7 @@ jQuery(function () {
                 node[key] = value;
 
                 if (type == 'status' && key == 'name') {
-                    updateStatusName(lifecycle, oldValue, value);
+                    lifecycle.updateStatusName(oldValue, value);
                 }
 
                 refreshDisplay();
