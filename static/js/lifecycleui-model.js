@@ -269,6 +269,18 @@ jQuery(function () {
         });
     };
 
+    Lifecycle.prototype.decorationForKey = function (type, key) {
+        var decorations = this.decorations[type];
+        for (var i = 0; i < decorations.length; ++i) {
+            var decoration = decorations[i];
+            if (decoration._key == key) {
+                return decoration;
+            }
+        };
+
+        return false;
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 

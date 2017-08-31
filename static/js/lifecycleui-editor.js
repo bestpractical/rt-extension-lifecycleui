@@ -202,12 +202,7 @@ jQuery(function () {
         };
 
         var selectDecoration = function (type, key) {
-            var d;
-            jQuery.each(lifecycle.decorations[type], function (i, node) {
-                if (node._key == key) {
-                    d = node;
-                }
-            });
+            var d = lifecycle.decorationForKey(type, key);
 
             if (type == 'text') {
                 setInspectorContent('text', d);
