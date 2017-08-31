@@ -296,6 +296,17 @@ jQuery(function () {
         }
     };
 
+    Lifecycle.prototype.updateItem = function (item, field, newValue) {
+        var oldValue = item[field];
+
+        item[field] = newValue;
+
+        if (item._type == 'status' && field == 'name') {
+            this.updateStatusName(oldValue, newValue);
+        }
+    };
+
+
     RT.Lifecycle = Lifecycle;
 });
 

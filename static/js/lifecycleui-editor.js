@@ -78,17 +78,9 @@ jQuery(function () {
             inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
 
             inspector.find(':input').change(function () {
-                var key = this.name;
+                var field = this.name;
                 var value = jQuery(this).val();
-
-                var oldValue = node[key];
-
-                node[key] = value;
-
-                if (type == 'status' && key == 'name') {
-                    lifecycle.updateStatusName(oldValue, value);
-                }
-
+                lifecycle.updateItem(node, field, value);
                 refreshDisplay();
             });
 
