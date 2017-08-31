@@ -378,20 +378,6 @@ jQuery(function () {
                 refreshDisplay();
                 selectStatus(node.name);
             });
-
-            inspector.find('a.select-status').click(function (e) {
-                e.preventDefault();
-                selectStatus(jQuery(this).data('name'));
-            });
-
-            inspector.find('a.select-transition').click(function (e) {
-                e.preventDefault();
-                var button = jQuery(this);
-                var fromStatus = button.data('from');
-                var toStatus   = button.data('to');
-
-                selectTransition(fromStatus, toStatus);
-            });
         };
 
         var deselectAll = function (inspectCanvas) {
@@ -583,10 +569,19 @@ jQuery(function () {
             refreshDecorations();
         };
 
-        jQuery('.inspector').on('click', 'a.select-status', function (e) {
+        inspector.on('click', 'a.select-status', function (e) {
             e.preventDefault();
             var statusName = jQuery(this).data('name');
             selectStatus(statusName);
+        });
+
+        inspector.on('click', 'a.select-transition', function (e) {
+            e.preventDefault();
+            var button = jQuery(this);
+            var fromStatus = button.data('from');
+            var toStatus   = button.data('to');
+
+            selectTransition(fromStatus, toStatus);
         });
 
         setInspectorContent('canvas');
