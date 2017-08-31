@@ -17,33 +17,11 @@ jQuery(function () {
     });
 
     Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, lifecycle) {
-        if (fromStatus == toStatus) {
-            return false;
-        }
-
-        var hasTransition = false;
-        jQuery.each(lifecycle.transitions, function (i, transition) {
-            if (transition.from == fromStatus && transition.to == toStatus) {
-                hasTransition = true;
-            }
-        });
-
-        return !hasTransition;
+        return !lifecycle.hasTransition(fromStatus, toStatus);
     });
 
     Handlebars.registerHelper('canSelectTransition', function(fromStatus, toStatus, lifecycle) {
-        if (fromStatus == toStatus) {
-            return false;
-        }
-
-        var hasTransition = false;
-        jQuery.each(lifecycle.transitions, function (i, transition) {
-            if (transition.from == fromStatus && transition.to == toStatus) {
-                hasTransition = true;
-            }
-        });
-
-        return hasTransition;
+        return lifecycle.hasTransition(fromStatus, toStatus);
     });
 
     var updateStatusName = function (lifecycle, oldValue, newValue) {
@@ -279,22 +257,15 @@ jQuery(function () {
             svg.classed('selection', true);
             statusContainer.selectAll('*[data-key="'+d._key+'"]').classed('selected', true);
 
-            jQuery.each(lifecycle.transitions, function (i, transition) {
-                if (transition.from == name) {
-                    var key = lifecycle.statusMeta[transition.to]._key;
-                    statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
-                    transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
-                }
+            jQuery.each(lifecycle.transitionsFrom(name), function (i, transition) {
+                var key = lifecycle.statusMeta[transition.to]._key;
+                statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
+                transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
             });
         };
 
         var selectTransition = function (fromStatus, toStatus) {
-            var d;
-            jQuery.each(lifecycle.transitions, function (i, transition) {
-                if (transition.from == fromStatus && transition.to == toStatus) {
-                    d = transition;
-                }
-            });
+            var d = lifecycle.hasTransition(fromStatus, toStatus);
             setInspectorContent('transition', d);
 
             deselectAll(false);

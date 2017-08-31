@@ -123,6 +123,43 @@ jQuery(function () {
         return transition;
     };
 
+    Lifecycle.prototype.hasTransition = function (fromStatus, toStatus) {
+        if (fromStatus == toStatus) {
+            return false;
+        }
+
+        for (var i = 0; i < this.transitions.length; ++i) {
+            var transition = this.transitions[i];
+            if (transition.from == fromStatus && transition.to == toStatus) {
+                return transition;
+            }
+        };
+
+        return false;
+    };
+
+    Lifecycle.prototype.transitionsFrom = function (fromStatus) {
+        var transitions = [];
+        for (var i = 0; i < this.transitions.length; ++i) {
+            var transition = this.transitions[i];
+            if (transition.from == fromStatus) {
+                transitions.push(transition);
+            }
+        };
+        return transitions;
+    };
+
+    Lifecycle.prototype.transitionsTo = function (toStatus) {
+        var transitions = [];
+        for (var i = 0; i < this.transitions.length; ++i) {
+            var transition = this.transitions[i];
+            if (transition.to == toStatus) {
+                transitions.push(transition);
+            }
+        };
+        return transitions;
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 
