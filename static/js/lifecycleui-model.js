@@ -21,9 +21,10 @@ jQuery(function () {
                 self.statuses = self.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
                     self.statusMeta[statusName] = {
-                        _key: _ELEMENT_KEY_SEQ++,
-                        name: statusName,
-                        type: type
+                        _key:  _ELEMENT_KEY_SEQ++,
+                        _type: 'status',
+                        name:  statusName,
+                        type:  type
                     };
                 });
             }
@@ -56,6 +57,7 @@ jQuery(function () {
                     jQuery.each(toList, function (i, toStatus) {
                         var transition = {
                             _key  : _ELEMENT_KEY_SEQ++,
+                            _type : 'transition',
                             from  : fromStatus,
                             to    : toStatus,
                             style : 'solid'
@@ -211,6 +213,7 @@ jQuery(function () {
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
         var transition = {
             _key  : _ELEMENT_KEY_SEQ++,
+            _type : 'transition',
             from  : fromStatus,
             to    : toStatus,
             style : 'solid'
