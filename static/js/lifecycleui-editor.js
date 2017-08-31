@@ -189,7 +189,7 @@ jQuery(function () {
             statusContainer.selectAll('*[data-key="'+d._key+'"]').classed('selected', true);
 
             jQuery.each(lifecycle.transitionsFrom(name), function (i, transition) {
-                var key = lifecycle.statusMeta[transition.to]._key;
+                var key = lifecycle.keyForStatusName(transition.to);
                 statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
                 transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
             });
@@ -203,8 +203,8 @@ jQuery(function () {
 
             svg.classed('selection', true);
 
-            var fromKey = lifecycle.statusMeta[fromStatus]._key;
-            var toKey = lifecycle.statusMeta[toStatus]._key;
+            var fromKey = lifecycle.keyForStatusName(fromStatus);
+            var toKey = lifecycle.keyForStatusName(toStatus);
             statusContainer.selectAll('*[data-key="'+fromKey+'"]').classed('selected-source', true);
             statusContainer.selectAll('*[data-key="'+toKey+'"]').classed('selected-sink', true);
             transitionContainer.select('path[data-key="'+d._key+'"]').classed('selected', true);

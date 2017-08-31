@@ -160,6 +160,10 @@ jQuery(function () {
         return Object.values(this.statusMeta);
     };
 
+    Lifecycle.prototype.keyForStatusName = function (statusName) {
+        return this.statusMeta[statusName]._key;
+    };
+
     Lifecycle.prototype.statusObjectForName = function (statusName) {
         return this.statusMeta[statusName];
     };
