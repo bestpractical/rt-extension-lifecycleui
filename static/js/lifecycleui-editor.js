@@ -24,15 +24,6 @@ jQuery(function () {
         return lifecycle.hasTransition(fromStatus, toStatus);
     });
 
-    var deleteText = function (lifecycle, key) {
-        lifecycle.decorations.text = jQuery.grep(lifecycle.decorations.text, function (decoration) {
-            if (decoration._key == key) {
-                return false;
-            }
-            return true;
-        });
-    };
-
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
@@ -143,7 +134,7 @@ jQuery(function () {
                     lifecycle.deleteTransition(node._key);
                 }
                 else if (type == 'text') {
-                    deleteText(lifecycle, node._key);
+                    lifecycle.deleteDecoration(type, node._key);
                 }
 
                 deselectAll(true);

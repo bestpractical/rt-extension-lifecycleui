@@ -260,6 +260,15 @@ jQuery(function () {
         });
     };
 
+    Lifecycle.prototype.deleteDecoration = function (type, key) {
+        this.decorations[type] = jQuery.grep(this.decorations[type], function (decoration) {
+            if (decoration._key == key) {
+                return false;
+            }
+            return true;
+        });
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 
