@@ -110,6 +110,15 @@ jQuery(function () {
         // rights
     };
 
+    var deleteTransition = function (state, key) {
+        state.transitions = jQuery.grep(state.transitions, function (transition) {
+            if (transition._key == key) {
+                return false;
+            }
+            return true;
+        });
+    };
+
     var createArrowHead = function (svg) {
         var defs = svg.append('defs');
         defs.append('marker')
@@ -327,6 +336,9 @@ jQuery(function () {
 
                 if (type == 'status') {
                     deleteStatus(state, node.name);
+                }
+                else if (type == 'transition') {
+                    deleteTransition(state, node._key);
                 }
 
                 deselectAll(true);
