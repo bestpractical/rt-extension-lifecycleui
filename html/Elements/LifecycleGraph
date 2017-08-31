@@ -1,13 +1,20 @@
-<div class="lifecycle-ui" data-name="<% $Lifecycle %>">
-    <script type="text/javascript">
-        RT.LifecycleConfig = RT.LifecycleConfig || {};
-        RT.LifecycleConfig['<% $Lifecycle %>'] = <% JSON($config) |n %>;
-    </script>
+<div class="lifecycle-ui" id="lifecycle-<% $id %>">
     <svg<% $Editing ? ' class="editing"' : '' |n %>></svg>
 % if ($Editing) {
     <& /Elements/LifecycleInspector &>
 % }
     <textarea rows=24 cols=80 class="state"></textarea>
+
+    <script type="text/javascript">
+        jQuery(function () {
+            jQuery(".lifecycle-ui#lifecycle-<% $id %>").each(function () {
+                var viewer = new RT.LifecycleViewer();
+                var container = this;
+                var config = <% JSON($config) |n %>;
+                viewer.initializeEditor(container, config);
+            });
+        });
+    </script>
 </div>
 <%ARGS>
 $Editing => 0
@@ -20,4 +27,6 @@ $Lifecycle ||= $Ticket->Lifecycle
 
 my $config = RT->Config->Get('Lifecycles')->{$Lifecycle};
 Abort("Invalid Lifecycle") if !$Lifecycle || !$config;
+
+my $id = $Lifecycle . '-' . int(rand(2**31));
 </%INIT>

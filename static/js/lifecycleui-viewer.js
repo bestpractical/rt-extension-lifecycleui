@@ -1,31 +1,38 @@
 jQuery(function () {
     var STATUS_CIRCLE_RADIUS = 35;
 
-    var templates = {};
+    function Viewer (container) {
+    };
 
-    jQuery('script.lifecycle-inspector-template').each(function () {
-        var type = jQuery(this).data('type');
-        var template = jQuery(this).html();
-        var fn = Handlebars.compile(template);
-        templates[type] = fn;
-    });
+    Viewer.prototype._initializeTemplates = function (container) {
+        var self = this;
 
-    Handlebars.registerHelper('select', function(value, options) {
-        var node = jQuery('<select />').html( options.fn(this) );
-        node.find('[value="' + value + '"]').attr({'selected':'selected'});
-        return node.html();
-    });
+        Handlebars.registerHelper('select', function(value, options) {
+            var node = jQuery('<select />').html( options.fn(this) );
+            node.find('[value="' + value + '"]').attr({'selected':'selected'});
+            return node.html();
+        });
 
-    Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, lifecycle) {
-        return !lifecycle.hasTransition(fromStatus, toStatus);
-    });
+        Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, lifecycle) {
+            return !lifecycle.hasTransition(fromStatus, toStatus);
+        });
 
-    Handlebars.registerHelper('canSelectTransition', function(fromStatus, toStatus, lifecycle) {
-        return lifecycle.hasTransition(fromStatus, toStatus);
-    });
+        Handlebars.registerHelper('canSelectTransition', function(fromStatus, toStatus, lifecycle) {
+            return lifecycle.hasTransition(fromStatus, toStatus);
+        });
 
-    var createArrowHead = function (svg) {
-        var defs = svg.append('defs');
+        var templates = {};
+        self.container.find('script.lifecycle-inspector-template').each(function () {
+            var type = jQuery(this).data('type');
+            var template = jQuery(this).html();
+            var fn = Handlebars.compile(template);
+            templates[type] = fn;
+        });
+        return templates;
+    };
+
+    Viewer.prototype.createArrowHead = function () {
+        var defs = this.svg.append('defs');
         defs.append('marker')
             .attr('id', 'marker_arrowhead')
             .attr('markerHeight', 5)
@@ -40,20 +47,20 @@ jQuery(function () {
               .attr('fill', 'black');
     };
 
-    var createScale = function (size, padding) {
+    Viewer.prototype.createScale = function (size, padding) {
         return d3.scaleLinear()
                  .domain([0, 1])
                  .range([padding, size - padding]);
     };
 
-    var initializeEditor = function (node) {
-        var container = jQuery(node);
-        var name = container.data('name');
-        var config = RT.LifecycleConfig[name];
-        var inspector = container.find('.inspector');
+    Viewer.prototype.initializeEditor = function (node, config) {
+        var self = this;
 
-        var svg = d3.select(node)
-                    .select('svg');
+        var container  = self.container = jQuery(node);
+        var svg        = self.svg = d3.select(node).select('svg');
+        self.templates = self._initializeTemplates(container);
+
+        var inspector = self.container.find('.inspector');
 
         var transitionContainer = svg.append('g').classed('transitions', true);
         var statusContainer = svg.append('g').classed('statuses', true);
@@ -65,10 +72,10 @@ jQuery(function () {
         var lifecycle = new RT.Lifecycle();
         lifecycle.initializeFromConfig(config);
 
-        var xScale = createScale(width, STATUS_CIRCLE_RADIUS * 2);
-        var yScale = createScale(height, STATUS_CIRCLE_RADIUS * 2);
+        var xScale = self.createScale(width, STATUS_CIRCLE_RADIUS * 2);
+        var yScale = self.createScale(height, STATUS_CIRCLE_RADIUS * 2);
 
-        createArrowHead(svg);
+        self.createArrowHead();
 
         var setInspectorContent = function (node) {
             var type = node ? node._type : 'canvas';
@@ -76,7 +83,7 @@ jQuery(function () {
             var params = { lifecycle: lifecycle };
             params[type] = node;
 
-            inspector.html(templates[type](params));
+            inspector.html(self.templates[type](params));
             inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
 
             inspector.find(':input').change(function () {
@@ -343,6 +350,6 @@ jQuery(function () {
         refreshDisplay();
     };
 
-    jQuery(".lifecycle-ui").each(function () { initializeEditor(this) });
+    RT.LifecycleViewer = Viewer;
 });
 
