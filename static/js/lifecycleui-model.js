@@ -10,6 +10,7 @@ jQuery(function () {
         this.actions = [];
         this.decorations = {};
 
+        this._keyMap = {};
         this._statusMeta = {};
     };
 
@@ -20,12 +21,14 @@ jQuery(function () {
             if (config[type]) {
                 self.statuses = self.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
-                    self._statusMeta[statusName] = {
+                    var item = {
                         _key:  _ELEMENT_KEY_SEQ++,
                         _type: 'status',
                         name:  statusName,
                         type:  type
                     };
+                    self._statusMeta[statusName] = item;
+                    self._keyMap[item._key] = item;
                 });
             }
         });
@@ -63,6 +66,7 @@ jQuery(function () {
                             style : 'solid'
                         };
                         self.transitions.push(transition);
+                        self._keyMap[transition._key] = transition;
                     });
                 }
             });
@@ -149,13 +153,7 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.statusNameForKey = function (key) {
-        for (var name in this._statusMeta) {
-            var meta = this._statusMeta[name];
-            if (meta._key == key) {
-                return name;
-            }
-        }
-        return null;
+        return this._keyMap[key].name;
     };
 
     Lifecycle.prototype.statusObjects = function () {
@@ -183,8 +181,9 @@ jQuery(function () {
             console.error("no status for key '" + key + "'; did you accidentally pass status name?");
         }
 
-        // statusMeta key
+        // internal book-keeping
         delete self._statusMeta[statusName];
+        delete self._keyMap[key];
 
         // statuses array value
         var index = self.statuses.indexOf(statusName);
@@ -219,6 +218,7 @@ jQuery(function () {
             style : 'solid'
         };
         this.transitions.push(transition);
+        this._keyMap[transition._key] = transition;
         return transition;
     };
 
@@ -266,6 +266,7 @@ jQuery(function () {
             }
             return true;
         });
+        delete this._keyMap[key];
     };
 
     Lifecycle.prototype.deleteDecoration = function (type, key) {
@@ -275,6 +276,7 @@ jQuery(function () {
             }
             return true;
         });
+        delete this._keyMap[key];
     };
 
     Lifecycle.prototype.decorationForKey = function (type, key) {
