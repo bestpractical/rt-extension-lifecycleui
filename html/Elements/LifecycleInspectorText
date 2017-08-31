@@ -1,6 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="text">
     <div class="text">
-        Body: <input type="text" name="text" value="{{text.text}}" />
-        Delete Text<br>
+        Body: <input type="text" name="text" value="{{text.text}}" /><br>
+        <button class="delete"><&|/l&>Delete Text</&></button>
     </div>
 </script>
