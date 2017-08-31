@@ -180,7 +180,7 @@ jQuery(function () {
         };
 
         var selectStatus = function (name) {
-            var d = lifecycle.statusMeta[name];
+            var d = lifecycle.statusObjectForName(name);
             setInspectorContent('status', d);
 
             deselectAll(false);
@@ -288,8 +288,8 @@ jQuery(function () {
         };
 
         var linkArc = function (d) {
-          var from = lifecycle.statusMeta[d.from];
-          var to = lifecycle.statusMeta[d.to];
+          var from = lifecycle.statusObjectForName(d.from);
+          var to = lifecycle.statusObjectForName(d.to);
           var dx = xScale(to.x - from.x),
               dy = yScale(to.y - from.y),
               dr = Math.abs(dx*6) + Math.abs(dy*6);

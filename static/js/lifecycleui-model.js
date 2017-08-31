@@ -160,6 +160,10 @@ jQuery(function () {
         return Object.values(this.statusMeta);
     };
 
+    Lifecycle.prototype.statusObjectForName = function (statusName) {
+        return this.statusMeta[statusName];
+    };
+
     Lifecycle.prototype.deleteStatus = function (key) {
         var self = this;
 
