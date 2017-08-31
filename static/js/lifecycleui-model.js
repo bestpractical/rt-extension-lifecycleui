@@ -10,7 +10,7 @@ jQuery(function () {
         this.actions = [];
         this.decorations = {};
 
-        this.statusMeta = {};
+        this._statusMeta = {};
     };
 
     Lifecycle.prototype.initializeFromConfig = function (config) {
@@ -20,7 +20,7 @@ jQuery(function () {
             if (config[type]) {
                 self.statuses = self.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
-                    self.statusMeta[statusName] = {
+                    self._statusMeta[statusName] = {
                         _key:  _ELEMENT_KEY_SEQ++,
                         _type: 'status',
                         name:  statusName,
@@ -33,7 +33,7 @@ jQuery(function () {
         var statusCount = self.statuses.length;
 
         jQuery.each(self.statuses, function (i, statusName) {
-            var meta = self.statusMeta[statusName];
+            var meta = self._statusMeta[statusName];
             // arrange statuses evenly-spaced around a circle
             if (!meta.x) {
                 meta.x = (Math.sin(2 * Math.PI * (i/statusCount)) + 1) / 2;
@@ -96,7 +96,7 @@ jQuery(function () {
         };
 
         jQuery.each(self.statuses, function (i, statusName) {
-            var statusType = self.statusMeta[statusName].type;
+            var statusType = self._statusMeta[statusName].type;
             config[statusType].push(statusName);
         });
 
@@ -118,9 +118,9 @@ jQuery(function () {
         var self = this;
 
         // statusMeta key
-        var oldMeta = self.statusMeta[oldValue];
-        delete self.statusMeta[oldValue];
-        self.statusMeta[newValue] = oldMeta;
+        var oldMeta = self._statusMeta[oldValue];
+        delete self._statusMeta[oldValue];
+        self._statusMeta[newValue] = oldMeta;
 
         // statuses array value
         var index = self.statuses.indexOf(oldValue);
@@ -149,8 +149,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.statusNameForKey = function (key) {
-        for (var name in this.statusMeta) {
-            var meta = this.statusMeta[name];
+        for (var name in this._statusMeta) {
+            var meta = this._statusMeta[name];
             if (meta._key == key) {
                 return name;
             }
@@ -159,20 +159,20 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.statusObjects = function () {
-        return Object.values(this.statusMeta);
+        return Object.values(this._statusMeta);
     };
 
     Lifecycle.prototype.keyForStatusName = function (statusName) {
-        return this.statusMeta[statusName]._key;
+        return this._statusMeta[statusName]._key;
     };
 
     Lifecycle.prototype.statusObjectForName = function (statusName) {
-        return this.statusMeta[statusName];
+        return this._statusMeta[statusName];
     };
 
     Lifecycle.prototype.statusObjectForKey = function (key) {
         var statusName = this.statusNameForKey(key);
-        return this.statusMeta[statusName];
+        return this._statusMeta[statusName];
     };
 
     Lifecycle.prototype.deleteStatus = function (key) {
@@ -184,7 +184,7 @@ jQuery(function () {
         }
 
         // statusMeta key
-        delete self.statusMeta[statusName];
+        delete self._statusMeta[statusName];
 
         // statuses array value
         var index = self.statuses.indexOf(statusName);
