@@ -146,6 +146,51 @@ jQuery(function () {
         // rights
     };
 
+    Lifecycle.prototype.statusNameForKey = function (key) {
+        for (var name in this.statusMeta) {
+            var meta = this.statusMeta[name];
+            if (meta._key == key) {
+                return name;
+            }
+        }
+        return null;
+    };
+
+    Lifecycle.prototype.deleteStatus = function (key) {
+        var self = this;
+
+        var statusName = self.statusNameForKey(key);
+        if (!statusName) {
+            console.error("no status for key '" + key + "'; did you accidentally pass status name?");
+        }
+
+        // statusMeta key
+        delete self.statusMeta[statusName];
+
+        // statuses array value
+        var index = self.statuses.indexOf(statusName);
+        self.statuses.splice(index, 1);
+
+        // defaults
+        jQuery.each(self.defaults, function (key, value) {
+            if (value == statusName) {
+                delete self.defaults[key];
+            }
+        });
+
+        // actions
+
+        // transitions
+        self.transitions = jQuery.grep(self.transitions, function (transition) {
+            if (transition.from == statusName || transition.to == statusName) {
+                return false;
+            }
+            return true;
+        });
+
+        // rights
+    };
+
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
         var transition = {
             _key  : _ELEMENT_KEY_SEQ++,

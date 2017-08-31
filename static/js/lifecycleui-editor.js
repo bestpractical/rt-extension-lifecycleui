@@ -24,34 +24,6 @@ jQuery(function () {
         return lifecycle.hasTransition(fromStatus, toStatus);
     });
 
-    var deleteStatus = function (lifecycle, statusName) {
-        // statusMeta key
-        delete lifecycle.statusMeta[statusName];
-
-        // statuses array value
-        var index = lifecycle.statuses.indexOf(statusName);
-        lifecycle.statuses.splice(index, 1);
-
-        // defaults
-        jQuery.each(lifecycle.defaults, function (key, value) {
-            if (value == statusName) {
-                delete lifecycle.defaults[key];
-            }
-        });
-
-        // actions
-
-        // transitions
-        lifecycle.transitions = jQuery.grep(lifecycle.transitions, function (transition) {
-            if (transition.from == statusName || transition.to == statusName) {
-                return false;
-            }
-            return true;
-        });
-
-        // rights
-    };
-
     var deleteText = function (lifecycle, key) {
         lifecycle.decorations.text = jQuery.grep(lifecycle.decorations.text, function (decoration) {
             if (decoration._key == key) {
@@ -165,7 +137,7 @@ jQuery(function () {
                 e.preventDefault();
 
                 if (type == 'status') {
-                    deleteStatus(lifecycle, node.name);
+                    lifecycle.deleteStatus(node._key);
                 }
                 else if (type == 'transition') {
                     lifecycle.deleteTransition(node._key);
