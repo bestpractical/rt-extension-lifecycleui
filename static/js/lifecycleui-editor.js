@@ -97,7 +97,7 @@ jQuery(function () {
                         return;
                     }
                     inspector.find('.status-color').val(newColor);
-                    node.color = newColor;
+                    lifecycle.updateItem(node, 'color', newColor);
                     refreshDisplay();
                 });
                 farb.setColor(node.color);
@@ -111,7 +111,7 @@ jQuery(function () {
                         farb.setColor(newColor);
                         skipUpdateCallback = 0;
 
-                        node.color = newColor;
+                        lifecycle.updateItem(node, 'color', newColor);
                         refreshDisplay();
                     }
                 });
