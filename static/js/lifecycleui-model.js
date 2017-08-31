@@ -156,6 +156,10 @@ jQuery(function () {
         return null;
     };
 
+    Lifecycle.prototype.statusObjects = function () {
+        return Object.values(this.statusMeta);
+    };
+
     Lifecycle.prototype.deleteStatus = function (key) {
         var self = this;
 

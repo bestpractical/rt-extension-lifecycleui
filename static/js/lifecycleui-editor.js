@@ -233,7 +233,7 @@ jQuery(function () {
 
         var refreshStatusNodes = function () {
             var statuses = statusContainer.selectAll("circle")
-                                          .data(Object.values(lifecycle.statusMeta), function (d) { return d._key });
+                                          .data(lifecycle.statusObjects(), function (d) { return d._key });
 
             statuses.exit()
                   .classed("removing", true)
@@ -267,7 +267,7 @@ jQuery(function () {
 
         var refreshStatusLabels = function () {
             var labels = statusContainer.selectAll("text")
-                                        .data(Object.values(lifecycle.statusMeta), function (d) { return d._key });
+                                        .data(lifecycle.statusObjects(), function (d) { return d._key });
 
             labels.exit()
                 .classed("removing", true)
