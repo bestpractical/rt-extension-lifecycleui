@@ -192,11 +192,13 @@ jQuery(function () {
             }
 
             jQuery.each(transition.actions, function (i, action) {
-                var serialized = { label : action.label };
-                if (action.update) {
-                    serialized.update = action.update;
+                if (action.label) {
+                    var serialized = { label : action.label };
+                    if (action.update) {
+                        serialized.update = action.update;
+                    }
+                    config.actions.push(description, serialized);
                 }
-                config.actions.push(description, serialized);
             });
         });
 
