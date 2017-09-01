@@ -109,16 +109,16 @@ jQuery(function () {
 
             for (var i = 0; i < actions.length; ++i) {
                 var description;
-                var action;
+                var spec;
 
                 if (jQuery.type(actions[i]) == "string") {
                     description = actions[i];
-                    action = actions[++i];
+                    spec = actions[++i];
                 }
                 else {
-                    action = actions[i];
-                    var from = (delete action.from) || '*';
-                    var to = (delete action.to) || '*';
+                    spec = actions[i];
+                    var from = (delete spec.from) || '*';
+                    var to = (delete spec.to) || '*';
                     description = from + ' -> ' + to;
                 }
 
@@ -130,6 +130,7 @@ jQuery(function () {
                      || description == ('* -> ' + to)
                      || description == (from + ' -> *')
                      || description == ('* -> *')) {
+                        var action = jQuery.extend({}, spec);
                         action._key = _ELEMENT_KEY_SEQ++;
                         action._type = 'action';
                         transition.actions.push(action);

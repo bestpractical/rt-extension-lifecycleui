@@ -63,7 +63,7 @@ jQuery(function () {
 
             var action = jQuery(this).closest('li.action');
             if (action.length) {
-                var action = node.actions[action.data('index')];
+                var action = lifecycle.itemForKey(action.data('key'));
                 lifecycle.updateItem(action, field, value);
             }
             else {
