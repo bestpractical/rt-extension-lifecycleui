@@ -48,6 +48,8 @@ jQuery(function () {
                         .attr("cx", function (d) { return self.xScale(d.x) })
                         .attr("cy", function (d) { return self.yScale(d.y) })
                         .attr("fill", function (d) { return d.color });
+
+        return statuses;
     };
 
     Viewer.prototype.clickedStatus = function (d) { };
@@ -86,6 +88,8 @@ jQuery(function () {
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
                       .text(function (d) { return d.name }).each(function () { self.truncateLabel(this) })
+
+        return labels;
     };
 
     Viewer.prototype.transitionArc = function (d) {
@@ -117,6 +121,8 @@ jQuery(function () {
                       .attr("d", function (d) { return self.transitionArc(d) })
                       .classed("dashed", function (d) { return d.style == 'dashed' })
                       .classed("dotted", function (d) { return d.style == 'dotted' })
+
+        return paths;
     };
 
     Viewer.prototype.renderTextDecorations = function () {
@@ -139,6 +145,8 @@ jQuery(function () {
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .text(function (d) { return d.text });
+
+        return labels;
     };
 
     Viewer.prototype.renderDecorations = function () {
