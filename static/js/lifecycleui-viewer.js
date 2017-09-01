@@ -79,7 +79,7 @@ jQuery(function () {
         var node = d3.select(element),
             textLength = node.node().getComputedTextLength(),
             text = node.text();
-        while (textLength > this.statusCircleRadiuds*1.8 && text.length > 0) {
+        while (textLength > this.statusCircleRadius*1.8 && text.length > 0) {
             text = text.slice(0, -1);
             node.text(text + '…');
             textLength = node.node().getComputedTextLength();
