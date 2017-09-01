@@ -1,5 +1,9 @@
 <div class="lifecycle-ui" id="lifecycle-<% $id %>">
-    <svg<% $Editing ? ' class="editing"' : '' |n %>></svg>
+    <svg<% $Editing ? ' class="editing"' : '' |n %>>
+        <g class="transitions"></g>
+        <g class="statuses"></g>
+        <g class="decorations"></g>
+    </svg>
 % if ($Editing) {
     <& /Elements/LifecycleInspector &>
 % }
