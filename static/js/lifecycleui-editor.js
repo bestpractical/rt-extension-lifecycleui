@@ -259,6 +259,10 @@ jQuery(function () {
         statuses.call(this._createDrag());
     };
 
+    Editor.prototype.didEnterTextDecorations = function (labels) {
+        labels.call(this._createDrag());
+    };
+
     Editor.prototype.initializeEditor = function (node, config) {
         var self = this;
         self.initializeViewer(node, config);
