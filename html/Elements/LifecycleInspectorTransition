@@ -16,6 +16,7 @@
             {{> lifecycleui_action action=this lifecycle=../lifecycle}}
         {{/each}}
         </ul>
+        <button class="add-action"><&|/l&>Add Action</&></button><br>
         <button class="delete"><&|/l&>Delete Transition</&></button>
     </div>
 </script>

@@ -126,6 +126,17 @@ jQuery(function () {
             }
         });
 
+        inspector.on('click', 'button.add-action', function (e) {
+            e.preventDefault();
+            var action = lifecycle.createActionForTransition(self.inspectorNode);
+
+            var params = {action:action, lifecycle:lifecycle};
+            var html = self.templates.action(params);
+            jQuery(html).appendTo(inspector.find('ul.actions'))
+                        .hide()
+                        .slideDown(200);
+        });
+
         inspector.on('click', 'a.add-transition', function (e) {
             e.preventDefault();
             var button = jQuery(this);

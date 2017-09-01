@@ -395,6 +395,15 @@ jQuery(function () {
         }
     };
 
+    Lifecycle.prototype.createActionForTransition = function (transition) {
+        var action = {
+            _type : 'action',
+            _key  : _ELEMENT_KEY_SEQ++,
+        };
+        transition.actions.push(action);
+        this._keyMap[action._key] = action;
+        return action;
+    };
 
     RT.Lifecycle = Lifecycle;
 });
