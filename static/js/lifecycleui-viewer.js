@@ -26,7 +26,7 @@ jQuery(function () {
                  .range([padding, size - padding]);
     };
 
-    Viewer.prototype.refreshStatusNodes = function () {
+    Viewer.prototype.renderStatusNodes = function () {
         var self = this;
         var statuses = self.statusContainer.selectAll("circle")
                                            .data(self.lifecycle.statusObjects(), function (d) { return d._key });
@@ -65,7 +65,7 @@ jQuery(function () {
         }
     };
 
-    Viewer.prototype.refreshStatusLabels = function () {
+    Viewer.prototype.renderStatusLabels = function () {
         var self = this;
         var labels = self.statusContainer.selectAll("text")
                                          .data(self.lifecycle.statusObjects(), function (d) { return d._key });
@@ -97,7 +97,7 @@ jQuery(function () {
       return "M" + this.xScale(from.x) + "," + this.yScale(from.y) + "A" + dr + "," + dr + " 0 0,1 " + this.xScale(to.x) + "," + this.yScale(to.y);
     };
 
-    Viewer.prototype.refreshTransitions = function () {
+    Viewer.prototype.renderTransitions = function () {
         var self = this;
         var paths = self.transitionContainer.selectAll("path")
                         .data(self.lifecycle.transitions, function (d) { return d._key });
@@ -119,7 +119,7 @@ jQuery(function () {
                       .classed("dotted", function (d) { return d.style == 'dotted' })
     };
 
-    Viewer.prototype.refreshTextDecorations = function () {
+    Viewer.prototype.renderTextDecorations = function () {
         var self = this;
         var labels = self.decorationContainer.selectAll("text")
                          .data(self.lifecycle.decorations.text, function (d) { return d._key });
@@ -141,15 +141,15 @@ jQuery(function () {
                       .text(function (d) { return d.text });
     };
 
-    Viewer.prototype.refreshDecorations = function () {
-        this.refreshTextDecorations();
+    Viewer.prototype.renderDecorations = function () {
+        this.renderTextDecorations();
     };
 
-    Viewer.prototype.refreshDisplay = function () {
-        this.refreshTransitions();
-        this.refreshStatusNodes();
-        this.refreshStatusLabels();
-        this.refreshDecorations();
+    Viewer.prototype.renderDisplay = function () {
+        this.renderTransitions();
+        this.renderStatusNodes();
+        this.renderStatusLabels();
+        this.renderDecorations();
     };
 
     Viewer.prototype.initializeViewer = function (node, config) {
@@ -173,7 +173,7 @@ jQuery(function () {
 
         self.createArrowHead();
 
-        self.refreshDisplay();
+        self.renderDisplay();
     };
 
     RT.LifecycleViewer = Viewer;

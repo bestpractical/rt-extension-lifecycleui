@@ -54,7 +54,7 @@ jQuery(function () {
             var field = this.name;
             var value = jQuery(this).val();
             lifecycle.updateItem(node, field, value);
-            self.refreshDisplay();
+            self.renderDisplay();
         });
 
         inspector.find('button.change-color').click(function (e) {
@@ -69,7 +69,7 @@ jQuery(function () {
                 }
                 inspector.find('.current-color').val(newColor);
                 lifecycle.updateItem(node, 'color', newColor);
-                self.refreshDisplay();
+                self.renderDisplay();
             });
             farb.setColor(node.color);
 
@@ -83,7 +83,7 @@ jQuery(function () {
                     skipUpdateCallback = 0;
 
                     lifecycle.updateItem(node, 'color', newColor);
-                    self.refreshDisplay();
+                    self.renderDisplay();
                 }
             });
             input.val(node.color);
@@ -94,7 +94,7 @@ jQuery(function () {
             lifecycle.deleteItemForKey(node._key);
 
             self.deselectAll(true);
-            self.refreshDisplay();
+            self.renderDisplay();
         });
 
         inspector.find('a.add-transition').click(function (e) {
@@ -109,7 +109,7 @@ jQuery(function () {
 
             inspector.find('a.select-transition[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').closest('li').removeClass('hidden');
 
-            self.refreshDisplay();
+            self.renderDisplay();
             self.selectStatus(node.name);
         });
 
