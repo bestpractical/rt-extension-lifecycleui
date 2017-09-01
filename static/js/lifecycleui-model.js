@@ -55,6 +55,9 @@ jQuery(function () {
         if (config.transitions) {
             jQuery.each(config.transitions, function (fromStatus, toList) {
                 if (fromStatus == "") {
+                    jQuery.each(toList, function (i, toStatus) {
+                        self._statusMeta[toStatus].creation = true;
+                    });
                 }
                 else {
                     jQuery.each(toList, function (i, toStatus) {
@@ -99,12 +102,16 @@ jQuery(function () {
             transitions: self.transitions
         };
 
+        var transitions = { "": [] };
+
         jQuery.each(self.statuses, function (i, statusName) {
             var statusType = self._statusMeta[statusName].type;
             config[statusType].push(statusName);
+            if (self._statusMeta[statusName].creation) {
+                transitions[""].push(statusName);
+            }
         });
 
-        var transitions = {};
         jQuery.each(self.transitions, function (i, transition) {
             var from = transition.from;
             var to = transition.to;

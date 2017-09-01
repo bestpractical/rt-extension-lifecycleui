@@ -52,7 +52,13 @@ jQuery(function () {
 
         inspector.find(':input').change(function () {
             var field = this.name;
-            var value = jQuery(this).val();
+            var value;
+            if (jQuery(this).is(':checkbox')) {
+                value = this.checked;
+            }
+            else {
+                value = jQuery(this).val();
+            }
             lifecycle.updateItem(node, field, value);
             self.renderDisplay();
         });

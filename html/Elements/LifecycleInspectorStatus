@@ -8,6 +8,7 @@
                   <option value="inactive"><&|/l&>inactive</&></option>
                   {{/select}}
               </select><br>
+        Creation: <input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}><br>
         Color: <span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button><br>
 
         Add Transition:
