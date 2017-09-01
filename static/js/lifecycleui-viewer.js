@@ -26,6 +26,25 @@ jQuery(function () {
                  .range([padding, size - padding]);
     };
 
+    Viewer.prototype.addZoomBehavior = function () {
+        var self = this;
+        self._zoom = d3.zoom()
+                       .scaleExtent([.3, 2])
+                       .on("zoom", function () { self.didZoom() });
+        self.svg.call(self._zoom);
+    };
+
+    Viewer.prototype.didZoom = function () {
+        this.svg.selectAll("g").attr("transform", d3.event.transform);
+    };
+
+    Viewer.prototype.resetZoom = function () {
+        this.svg.selectAll("g")
+                .transition()
+                .duration(750)
+                .call(self._zoom.transform, d3.zoomIdentity);
+    };
+
     Viewer.prototype.renderStatusNodes = function () {
         var self = this;
         var statuses = self.statusContainer.selectAll("circle")
@@ -180,6 +199,7 @@ jQuery(function () {
         self.lifecycle.initializeFromConfig(config);
 
         self.createArrowHead();
+        self.addZoomBehavior();
 
         self.renderDisplay();
     };
