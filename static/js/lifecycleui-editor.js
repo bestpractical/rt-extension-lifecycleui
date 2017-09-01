@@ -42,6 +42,7 @@ jQuery(function () {
         var self = this;
         var lifecycle = self.lifecycle;
         var inspector = self.inspector;
+        self.inspectorNode = node;
 
         var type = node ? node._type : 'canvas';
 
@@ -50,8 +51,14 @@ jQuery(function () {
 
         inspector.html(self.templates[type](params));
         inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
+    };
 
-        inspector.find(':input').change(function () {
+    Editor.prototype.bindInspectorEvents = function () {
+        var self = this;
+        var lifecycle = self.lifecycle;
+        var inspector = self.inspector;
+
+        inspector.on('change', ':input', function () {
             var field = this.name;
             var value;
             if (jQuery(this).is(':checkbox')) {
@@ -67,12 +74,12 @@ jQuery(function () {
                 lifecycle.updateItem(action, field, value);
             }
             else {
-                lifecycle.updateItem(node, field, value);
+                lifecycle.updateItem(self.inspectorNode, field, value);
             }
             self.renderDisplay();
         });
 
-        inspector.find('button.change-color').click(function (e) {
+        inspector.on('click', 'button.change-color', function (e) {
             e.preventDefault();
             var picker = jQuery('<div class="color-picker"></div>');
             jQuery(this).replaceWith(picker);
@@ -83,10 +90,10 @@ jQuery(function () {
                     return;
                 }
                 inspector.find('.current-color').val(newColor);
-                lifecycle.updateItem(node, 'color', newColor);
+                lifecycle.updateItem(self.inspectorNode, 'color', newColor);
                 self.renderDisplay();
             });
-            farb.setColor(node.color);
+            farb.setColor(self.inspectorNode.color);
 
             var input = jQuery('<input class="current-color" size=8 maxlength=7>');
             inspector.find('.current-color').replaceWith(input);
@@ -97,29 +104,29 @@ jQuery(function () {
                     farb.setColor(newColor);
                     skipUpdateCallback = 0;
 
-                    lifecycle.updateItem(node, 'color', newColor);
+                    lifecycle.updateItem(self.inspectorNode, 'color', newColor);
                     self.renderDisplay();
                 }
             });
-            input.val(node.color);
+            input.val(self.inspectorNode.color);
         });
 
-        inspector.find('button.delete').click(function (e) {
+        inspector.on('click', 'button.delete', function (e) {
             e.preventDefault();
 
             var action = jQuery(this).closest('li.action');
             if (action.length) {
-                lifecycle.deleteActionForTransition(node, action.data('key'));
+                lifecycle.deleteActionForTransition(self.inspectorNode, action.data('key'));
                 action.slideUp(200, function () { jQuery(this).remove() });
             }
             else {
-                lifecycle.deleteItemForKey(node._key);
+                lifecycle.deleteItemForKey(self.inspectorNode._key);
                 self.deselectAll(true);
                 self.renderDisplay();
             }
         });
 
-        inspector.find('a.add-transition').click(function (e) {
+        inspector.on('click', 'a.add-transition', function (e) {
             e.preventDefault();
             var button = jQuery(this);
             var fromStatus = button.data('from');
@@ -132,16 +139,16 @@ jQuery(function () {
             inspector.find('a.select-transition[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').closest('li').removeClass('hidden');
 
             self.renderDisplay();
-            self.selectStatus(node.name);
+            self.selectStatus(self.inspectorNode.name);
         });
 
-        inspector.find('a.select-status').on('click', function (e) {
+        inspector.on('click', 'a.select-status', function (e) {
             e.preventDefault();
             var statusName = jQuery(this).data('name');
             self.selectStatus(statusName);
         });
 
-        inspector.find('a.select-transition').on('click', function (e) {
+        inspector.on('click', 'a.select-transition', function (e) {
             e.preventDefault();
             var button = jQuery(this);
             var fromStatus = button.data('from');
@@ -229,6 +236,7 @@ jQuery(function () {
         self.inspector = self.container.find('.inspector');
 
         self.setInspectorContent(null);
+        self.bindInspectorEvents();
 
         self.container.closest('form[name=ModifyLifecycle]').submit(function (e) {
             e.preventDefault();
