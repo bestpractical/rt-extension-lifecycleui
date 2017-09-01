@@ -375,6 +375,16 @@ jQuery(function () {
         }
     };
 
+    Lifecycle.prototype.deleteActionForTransition = function (transition, key) {
+        transition.actions = jQuery.grep(transition.actions, function (action) {
+            if (action._key == key) {
+                return false;
+            }
+            return true;
+        });
+        delete this._keyMap[key];
+    };
+
     Lifecycle.prototype.updateItem = function (item, field, newValue) {
         var oldValue = item[field];
 

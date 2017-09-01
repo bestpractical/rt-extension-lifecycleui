@@ -106,10 +106,17 @@ jQuery(function () {
 
         inspector.find('button.delete').click(function (e) {
             e.preventDefault();
-            lifecycle.deleteItemForKey(node._key);
 
-            self.deselectAll(true);
-            self.renderDisplay();
+            var action = jQuery(this).closest('li.action');
+            if (action.length) {
+                lifecycle.deleteActionForTransition(node, action.data('key'));
+                action.slideUp(200, function () { jQuery(this).remove() });
+            }
+            else {
+                lifecycle.deleteItemForKey(node._key);
+                self.deselectAll(true);
+                self.renderDisplay();
+            }
         });
 
         inspector.find('a.add-transition').click(function (e) {
