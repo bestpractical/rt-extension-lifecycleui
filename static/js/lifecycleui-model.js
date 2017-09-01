@@ -153,6 +153,10 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.defaultRightForTransition = function (transition) {
+        if (this.type == 'asset') {
+            return 'ModifyAsset';
+        }
+
         if (transition.to == 'deleted') {
             return 'DeleteTicket';
         }
