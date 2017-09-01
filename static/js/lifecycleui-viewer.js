@@ -322,7 +322,7 @@ jQuery(function () {
         this.refreshDecorations();
     };
 
-    Viewer.prototype.initializeEditor = function (node, config) {
+    Viewer.prototype.initializeViewer = function (node, config) {
         var self = this;
 
         self.container = jQuery(node);

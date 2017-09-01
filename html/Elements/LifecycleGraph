@@ -15,7 +15,7 @@
                 var viewer = new RT.LifecycleViewer();
                 var container = this;
                 var config = <% JSON($config) |n %>;
-                viewer.initializeEditor(container, config);
+                viewer.initializeViewer(container, config);
             });
         });
     </script>
