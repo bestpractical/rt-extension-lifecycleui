@@ -126,7 +126,7 @@ jQuery(function () {
             active: [],
             inactive: [],
             defaults: self.defaults,
-            actions: self.actions,
+            actions: [],
             rights: {},
             transitions: self.transitions
         };
@@ -144,15 +144,24 @@ jQuery(function () {
         jQuery.each(self.transitions, function (i, transition) {
             var from = transition.from;
             var to = transition.to;
+            var description = transition.from + ' -> ' + transition.to;
+
             if (!transitions[from]) {
                 transitions[from] = [];
             }
             transitions[from].push(to);
 
             if (transition.right) {
-                var description = transition.from + ' -> ' + transition.to;
                 config.rights[description] = transition.right;
             }
+
+            jQuery.each(transition.actions, function (i, action) {
+                var serialized = { label : action.label };
+                if (action.update) {
+                    serialized.update = action.update;
+                }
+                config.actions.push(description, serialized);
+            });
         });
 
         config.transitions = transitions;
@@ -178,8 +187,6 @@ jQuery(function () {
                 self.defaults[key] = newValue;
             }
         });
-
-        // actions
 
         // transitions
         jQuery.each(self.transitions, function (i, transition) {
@@ -230,8 +237,6 @@ jQuery(function () {
                 delete self.defaults[key];
             }
         });
-
-        // actions
 
         // transitions
         self.transitions = jQuery.grep(self.transitions, function (transition) {
