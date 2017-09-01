@@ -3,6 +3,8 @@
     float: left;
     width: 809px;
     height: 500px;
+
+    /* checkerboard pattern */
     background: #F9F9F9 url('data:image/svg+xml,\
         <svg xmlns="http://www.w3.org/2000/svg" width="400" height="400"         fill-opacity=".05" >\
             <rect x="200" width="200" height="200" />\
@@ -19,6 +21,14 @@
     border: 1px solid black;
 }
 
+.lifecycle-ui .statuses circle,
+.lifecycle-ui .statuses text,
+.lifecycle-ui .transitions path,
+.lifecycle-ui .selection .decorations > *,
+.lifecycle-ui .removing {
+    transition: opacity .2s;
+}
+
 .lifecycle-ui .statuses circle.selected {
     stroke-width: 6px;
 }
@@ -31,6 +41,53 @@
 
 .lifecycle-ui .removing {
     opacity: 0 !important;
-    transition: opacity .2s;
 }
 
+.lifecycle-ui .selection .statuses circle,
+.lifecycle-ui .selection .statuses text {
+    opacity: 0.25;
+}
+
+.lifecycle-ui .selection .statuses circle.reachable,
+.lifecycle-ui .selection .statuses circle.selected,
+.lifecycle-ui .selection .statuses circle.selected-source,
+.lifecycle-ui .selection .statuses circle.selected-sink,
+.lifecycle-ui .selection .statuses text.reachable,
+.lifecycle-ui .selection .statuses text.selected,
+.lifecycle-ui .selection .statuses text.selected-source,
+.lifecycle-ui .selection .statuses text.selected-sink {
+    opacity: 1;
+}
+
+.lifecycle-ui .selection .transitions path {
+    opacity: 0;
+}
+
+.lifecycle-ui .selection .transitions path.selected {
+    opacity: 1;
+}
+
+.lifecycle-ui .selection .decorations > * {
+    opacity: .2;
+}
+
+.lifecycle-ui .selection .decorations > .selected {
+    opacity: 1;
+}
+
+.lifecycle-ui .inspector li.has-children {
+    background: transparent;
+}
+
+.lifecycle-ui .inspector a {
+    border: none;
+    color: #000;
+}
+
+.lifecycle-ui .inspector a.sf-with-ul {
+    padding-top: .3em;
+}
+
+.lifecycle-ui .inspector .sf-sub-indicator {
+    top: .2em;
+}

@@ -7,27 +7,6 @@
 .lifecycle-ui .statuses circle {
     stroke: black;
     stroke-width: 2px;
-    transition: opacity .2s;
-}
-
-.lifecycle-ui .statuses text {
-    transition: opacity .2s;
-}
-
-.lifecycle-ui .selection .statuses circle,
-.lifecycle-ui .selection .statuses text {
-    opacity: 0.25;
-}
-
-.lifecycle-ui .selection .statuses circle.reachable,
-.lifecycle-ui .selection .statuses circle.selected,
-.lifecycle-ui .selection .statuses circle.selected-source,
-.lifecycle-ui .selection .statuses circle.selected-sink,
-.lifecycle-ui .selection .statuses text.reachable,
-.lifecycle-ui .selection .statuses text.selected,
-.lifecycle-ui .selection .statuses text.selected-source,
-.lifecycle-ui .selection .statuses text.selected-sink {
-    opacity: 1;
 }
 
 .lifecycle-ui .transitions path {
@@ -36,25 +15,6 @@
     fill: none;
     opacity: .15;
     marker-end: url(#marker_arrowhead);
-
-    transition: opacity .2s;
-}
-
-.lifecycle-ui .selection .transitions path {
-    opacity: 0;
-}
-
-.lifecycle-ui .selection .transitions path.selected {
-    opacity: 1;
-}
-
-.lifecycle-ui .selection .decorations > * {
-    opacity: .2;
-    transition: opacity .2s;
-}
-
-.lifecycle-ui .selection .decorations > .selected {
-    opacity: 1;
 }
 
 .lifecycle-ui .transitions path.dotted {
@@ -81,19 +41,3 @@
     background: none;
 }
 
-.inspector li.has-children {
-    background: transparent;
-}
-
-.inspector a {
-    border: none;
-    color: #000;
-}
-
-.inspector a.sf-with-ul {
-    padding-top: .3em;
-}
-
-.inspector .sf-sub-indicator {
-    top: .2em;
-}
