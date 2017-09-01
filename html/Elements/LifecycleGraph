@@ -12,10 +12,15 @@
     <script type="text/javascript">
         jQuery(function () {
             jQuery(".lifecycle-ui#lifecycle-<% $id %>").each(function () {
-                var viewer = new RT.LifecycleViewer();
                 var container = this;
                 var config = <% JSON($config) |n %>;
+% if ($Editing) {
+                var editor = new RT.LifecycleEditor();
+                editor.initializeEditor(container, config);
+% } else {
+                var viewer = new RT.LifecycleViewer();
                 viewer.initializeViewer(container, config);
+% }
             });
         });
     </script>
