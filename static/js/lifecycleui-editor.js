@@ -33,6 +33,7 @@ jQuery(function () {
             var template = jQuery(this).html();
             var fn = Handlebars.compile(template);
             templates[type] = fn;
+            Handlebars.registerPartial('lifecycleui_' + type, fn);
         });
         return templates;
     };
@@ -59,7 +60,15 @@ jQuery(function () {
             else {
                 value = jQuery(this).val();
             }
-            lifecycle.updateItem(node, field, value);
+
+            var action = jQuery(this).closest('li.action');
+            if (action.length) {
+                var action = node.actions[action.data('index')];
+                lifecycle.updateItem(action, field, value);
+            }
+            else {
+                lifecycle.updateItem(node, field, value);
+            }
             self.renderDisplay();
         });
 

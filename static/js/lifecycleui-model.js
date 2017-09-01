@@ -6,7 +6,6 @@ jQuery(function () {
         this.statuses = [];
         this.defaults = {};
         this.transitions = [];
-        this.actions = [];
         this.decorations = {};
 
         this._keyMap = {};
@@ -61,11 +60,12 @@ jQuery(function () {
                 else {
                     jQuery.each(toList, function (i, toStatus) {
                         var transition = {
-                            _key  : _ELEMENT_KEY_SEQ++,
-                            _type : 'transition',
-                            from  : fromStatus,
-                            to    : toStatus,
-                            style : 'solid'
+                            _key    : _ELEMENT_KEY_SEQ++,
+                            _type   : 'transition',
+                            from    : fromStatus,
+                            to      : toStatus,
+                            style   : 'solid',
+                            actions : []
                         };
                         self.transitions.push(transition);
                         self._keyMap[transition._key] = transition;
@@ -91,7 +91,25 @@ jQuery(function () {
         }
 
         if (config.actions) {
-            self.actions = config.actions;
+            for (var i = 0; i < config.actions.length; i += 2) {
+                var description = config.actions[i];
+                var action = config.actions[i+1];
+
+                jQuery.each(self.transitions, function (i, transition) {
+                    var from = transition.from;
+                    var to = transition.to;
+
+                    if (description == (from + ' -> ' + to)
+                     || description == ('* -> ' + to)
+                     || description == (from + ' -> *')
+                     || description == ('* -> *')) {
+                        action._key = _ELEMENT_KEY_SEQ++;
+                        action._type = 'action';
+                        transition.actions.push(action);
+                        self._keyMap[action._key] = action;
+                    }
+                });
+            }
         }
 
         if (config.decorations) {
