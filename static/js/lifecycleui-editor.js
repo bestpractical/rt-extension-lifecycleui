@@ -17,6 +17,9 @@ jQuery(function () {
         });
 
         Handlebars.registerHelper('canAddTransition', function(fromStatus, toStatus, lifecycle) {
+            if (fromStatus == toStatus) {
+                return false;
+            }
             return !lifecycle.hasTransition(fromStatus, toStatus);
         });
 
