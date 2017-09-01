@@ -208,9 +208,10 @@ jQuery(function () {
 
         self.setInspectorContent(null);
 
-        jQuery('form[name=ModifyLifecycle]').submit(function (e) {
-            var config = lifecycle.exportAsConfiguration();
+        self.container.closest('form[name=ModifyLifecycle]').submit(function (e) {
             e.preventDefault();
+            var config = self.lifecycle.exportAsConfiguration();
+            console.log(config);
             return false;
         });
 
