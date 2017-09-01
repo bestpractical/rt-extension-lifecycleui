@@ -64,14 +64,14 @@ jQuery(function () {
                 if (skipUpdateCallback) {
                     return;
                 }
-                inspector.find('.status-color').val(newColor);
+                inspector.find('.current-color').val(newColor);
                 lifecycle.updateItem(node, 'color', newColor);
                 self.refreshDisplay();
             });
             farb.setColor(node.color);
 
-            var input = jQuery('<input class="status-color" size=8 maxlength=7>');
-            inspector.find('.status-color').replaceWith(input);
+            var input = jQuery('<input class="current-color" size=8 maxlength=7>');
+            inspector.find('.current-color').replaceWith(input);
             input.on('input', function () {
                 var newColor = input.val();
                 if (newColor.match(/^#[a-fA-F0-9]{6}$/)) {
