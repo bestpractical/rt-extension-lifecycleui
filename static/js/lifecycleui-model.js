@@ -91,9 +91,19 @@ jQuery(function () {
         }
 
         if (config.actions) {
-            for (var i = 0; i < config.actions.length; i += 2) {
-                var description = config.actions[i];
-                var action = config.actions[i+1];
+            var actions = config.actions;
+
+            // convert hash-based actions to array of pairs
+            if (jQuery.type(config.actions) == "object") {
+                actions = [];
+                jQuery.each(config.actions, function(description, action) {
+                    actions.push(description, action);
+                });
+            }
+
+            for (var i = 0; i < actions.length; i += 2) {
+                var description = actions[i];
+                var action = actions[i+1];
 
                 jQuery.each(self.transitions, function (i, transition) {
                     var from = transition.from;
