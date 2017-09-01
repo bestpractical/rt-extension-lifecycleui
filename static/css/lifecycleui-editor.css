@@ -92,12 +92,12 @@
     top: .2em;
 }
 
-.lifecycle-ui .inspector ul.actions {
+.lifecycle-ui .inspector .actions {
     list-style-type: none;
     padding: 0;
 }
 
-.lifecycle-ui .inspector ul.actions li.action {
+.lifecycle-ui .inspector .actions .action {
     border: 1px solid black;
     margin-bottom: .5em;
     padding: .5em;

@@ -1,5 +1,5 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="action">
-    <div class="action">
+    <li class="action" data-key="{{action._key}}">
         Label: <input type="text" name="label" value="{{action.label}}"></input><br>
         Update: <select name="update">
                   {{#select action.update}}
@@ -9,6 +9,6 @@
                   {{/select}}
               </select><br>
         <button class="delete"><&|/l&>Delete Action</&></button>
-    </div>
+    </li>
 </script>
 

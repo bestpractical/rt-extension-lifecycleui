@@ -13,7 +13,7 @@
 
         <ul class="actions">
         {{#each transition.actions}}
-            <li class="action" data-key="{{this._key}}">{{> lifecycleui_action action=this}}</li>
+            {{> lifecycleui_action action=this lifecycle=../lifecycle}}
         {{/each}}
         </ul>
         <button class="delete"><&|/l&>Delete Transition</&></button>
