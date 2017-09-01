@@ -66,6 +66,11 @@ sub _CreateLifecycle {
     my $setting = RT::DatabaseSetting->new($CurrentUser);
     $setting->Load('Lifecycles');
     if ($setting->Id) {
+        if ($setting->Disabled) {
+            my ($ok, $msg) = $setting->SetDisabled(0);
+            return ($ok, $msg) if !$ok;
+        }
+
         my ($ok, $msg) = $setting->SetContent($lifecycles);
         return ($ok, $msg) if !$ok;
     }
