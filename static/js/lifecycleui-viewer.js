@@ -45,6 +45,11 @@ jQuery(function () {
                 .call(self._zoom.transform, d3.zoomIdentity);
     };
 
+    Viewer.prototype.didEnterStatusNodes = function (statuses) { };
+    Viewer.prototype.didEnterStatusLabels = function (labels) { };
+    Viewer.prototype.didEnterTransitions = function (paths) { };
+    Viewer.prototype.didEnterTextDecorations = function (labels) { };
+
     Viewer.prototype.renderStatusNodes = function () {
         var self = this;
         var statuses = self.statusContainer.selectAll("circle")
@@ -63,12 +68,11 @@ jQuery(function () {
                             d3.event.stopPropagation();
                             self.clickedStatus(d);
                         })
+                        .call(function (statuses) { self.didEnterStatusNodes(statuses) })
                 .merge(statuses)
                         .attr("cx", function (d) { return self.xScale(d.x) })
                         .attr("cy", function (d) { return self.yScale(d.y) })
                         .attr("fill", function (d) { return d.color });
-
-        return statuses;
     };
 
     Viewer.prototype.clickedStatus = function (d) { };
@@ -102,13 +106,12 @@ jQuery(function () {
                           d3.event.stopPropagation();
                           self.clickedStatus(d);
                       })
+                     .call(function (labels) { self.didEnterStatusLabels(labels) })
               .merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
                       .text(function (d) { return d.name }).each(function () { self.truncateLabel(this) })
-
-        return labels;
     };
 
     Viewer.prototype.transitionArc = function (d) {
@@ -136,12 +139,11 @@ jQuery(function () {
                          d3.event.stopPropagation();
                          self.clickedTransition(d);
                      })
+                     .call(function (paths) { self.didEnterTransitions(paths) })
               .merge(paths)
                       .attr("d", function (d) { return self.transitionArc(d) })
                       .classed("dashed", function (d) { return d.style == 'dashed' })
                       .classed("dotted", function (d) { return d.style == 'dotted' })
-
-        return paths;
     };
 
     Viewer.prototype.renderTextDecorations = function () {
@@ -160,12 +162,11 @@ jQuery(function () {
                          d3.event.stopPropagation();
                          self.clickedDecoration(d);
                      })
+                     .call(function (labels) { self.didEnterTextDecorations(labels) })
               .merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .text(function (d) { return d.text });
-
-        return labels;
     };
 
     Viewer.prototype.renderDecorations = function () {
