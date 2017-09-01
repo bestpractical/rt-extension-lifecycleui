@@ -6,7 +6,6 @@ jQuery(function () {
         this.statuses = [];
         this.defaults = {};
         this.transitions = [];
-        this.rights = {};
         this.actions = [];
         this.decorations = {};
 
@@ -76,7 +75,19 @@ jQuery(function () {
         }
 
         if (config.rights) {
-            self.rights = config.rights;
+            jQuery.each(config.rights, function (description, right) {
+                jQuery.each(self.transitions, function (i, transition) {
+                    var from = transition.from;
+                    var to = transition.to;
+
+                    if (description == (from + ' -> ' + to)
+                     || description == ('* -> ' + to)
+                     || description == (from + ' -> *')
+                     || description == ('* -> *')) {
+                        transition.right = right;
+                    }
+                });
+            });
         }
 
         if (config.actions) {
@@ -98,7 +109,7 @@ jQuery(function () {
             inactive: [],
             defaults: self.defaults,
             actions: self.actions,
-            rights: self.rights,
+            rights: {},
             transitions: self.transitions
         };
 
@@ -119,8 +130,14 @@ jQuery(function () {
                 transitions[from] = [];
             }
             transitions[from].push(to);
-            config.transitions = transitions;
+
+            if (transition.right) {
+                var description = transition.from + ' -> ' + transition.to;
+                config.rights[description] = transition.right;
+            }
         });
+
+        config.transitions = transitions;
 
         return config;
     };
@@ -155,8 +172,6 @@ jQuery(function () {
                 transition.to = newValue;
             }
         });
-
-        // rights
     };
 
     Lifecycle.prototype.statusNameForKey = function (key) {
@@ -207,8 +222,6 @@ jQuery(function () {
             }
             return true;
         });
-
-        // rights
     };
 
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
