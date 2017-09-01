@@ -90,6 +90,12 @@ jQuery(function () {
             });
         }
 
+        jQuery.each(self.transitions, function (i, transition) {
+            if (!transition.right) {
+                transition.right = self.defaultRightForTransition(transition);
+            }
+        });
+
         if (config.actions) {
             var actions = config.actions;
 
@@ -138,6 +144,14 @@ jQuery(function () {
         }
 
         self.decorations.text = self.decorations.text || [];
+    };
+
+    Lifecycle.prototype.defaultRightForTransition = function (transition) {
+        if (transition.to == 'deleted') {
+            return 'DeleteTicket';
+        }
+
+        return 'ModifyTicket';
     };
 
     Lifecycle.prototype.exportAsConfiguration = function () {
