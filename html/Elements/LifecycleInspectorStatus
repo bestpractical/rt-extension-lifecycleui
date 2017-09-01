@@ -14,13 +14,16 @@
         Add Transition:
         <ul>
           {{#each lifecycle.statuses}}
-            <li class="{{#if (canAddTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="add-transition" data-from="{{../status.name}}" data-to="{{this}}">{{this}}</a></li>
+            <li class="{{#if (canAddTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="add-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
           {{/each}}
         </ul>
         Select Transition:
         <ul>
           {{#each lifecycle.statuses}}
-            <li class="{{#if (canSelectTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="select-transition" data-from="{{../status.name}}" data-to="{{this}}">{{this}}</a></li>
+            <li class="{{#if (canSelectTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="select-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
+          {{/each}}
+          {{#each lifecycle.statuses}}
+            <li class="{{#if (canSelectTransition this ../status.name ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="select-transition" data-to="{{../status.name}}" data-from="{{this}}"><&|/l, "{{this}}"&>from [_1]</&></a></li>
           {{/each}}
         </ul>
         <button class="delete"><&|/l&>Delete Status</&></button>
