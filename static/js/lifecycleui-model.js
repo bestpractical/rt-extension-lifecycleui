@@ -3,6 +3,7 @@ jQuery(function () {
     var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
 
     function Lifecycle () {
+        this.type = 'ticket';
         this.statuses = [];
         this.defaults = {};
         this.transitions = [];
@@ -14,6 +15,10 @@ jQuery(function () {
 
     Lifecycle.prototype.initializeFromConfig = function (config) {
         var self = this;
+
+        if (config.type) {
+            self.type = config.type;
+        }
 
         jQuery.each(['initial', 'active', 'inactive'], function (i, type) {
             if (config[type]) {
@@ -166,6 +171,8 @@ jQuery(function () {
             rights: {},
             transitions: self.transitions
         };
+
+        config.type = self.type;
 
         var transitions = { "": [] };
 
