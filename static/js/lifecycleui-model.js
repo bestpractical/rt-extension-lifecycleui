@@ -101,9 +101,20 @@ jQuery(function () {
                 });
             }
 
-            for (var i = 0; i < actions.length; i += 2) {
-                var description = actions[i];
-                var action = actions[i+1];
+            for (var i = 0; i < actions.length; ++i) {
+                var description;
+                var action;
+
+                if (jQuery.type(actions[i]) == "string") {
+                    description = actions[i];
+                    action = actions[++i];
+                }
+                else {
+                    action = actions[i];
+                    var from = (delete action.from) || '*';
+                    var to = (delete action.to) || '*';
+                    description = from + ' -> ' + to;
+                }
 
                 jQuery.each(self.transitions, function (i, transition) {
                     var from = transition.from;
