@@ -302,6 +302,9 @@ jQuery(function () {
         };
         this.transitions.push(transition);
         this._keyMap[transition._key] = transition;
+
+        transition.right = this.defaultRightForTransition(transition);
+
         return transition;
     };
 
