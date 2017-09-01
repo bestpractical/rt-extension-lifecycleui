@@ -19,11 +19,6 @@
     border: 1px solid black;
 }
 
-.lifecycle-ui .state {
-    display: none;
-    font-family: Consolas, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-}
-
 .lifecycle-ui .statuses circle.selected {
     stroke-width: 6px;
 }

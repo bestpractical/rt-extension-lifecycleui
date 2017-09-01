@@ -7,8 +7,6 @@
 % if ($Editing) {
     <& /Elements/LifecycleInspector &>
 % }
-    <textarea rows=24 cols=80 class="state"></textarea>
-
     <script type="text/javascript">
         jQuery(function () {
             jQuery(".lifecycle-ui#lifecycle-<% $id %>").each(function () {
