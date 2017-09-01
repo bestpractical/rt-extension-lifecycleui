@@ -239,6 +239,26 @@ jQuery(function () {
         this.selectDecoration(d._key);
     };
 
+    Editor.prototype.didDragItem = function (d, node) {
+        this.lifecycle.moveItem(d, this.xScale.invert(d3.event.x), this.yScale.invert(d3.event.y));
+        this.renderDisplay();
+    };
+
+    Editor.prototype._createDrag = function () {
+        var self = this;
+        return d3.drag()
+                 .subject(function (d) { return { x: self.xScale(d.x), y : self.yScale(d.y) } })
+                 .on("drag", function (d) { self.didDragItem(d, this) });
+    };
+
+    Editor.prototype.didEnterStatusNodes = function (statuses) {
+        statuses.call(this._createDrag());
+    };
+
+    Editor.prototype.didEnterStatusLabels = function (statuses) {
+        statuses.call(this._createDrag());
+    };
+
     Editor.prototype.initializeEditor = function (node, config) {
         var self = this;
         self.initializeViewer(node, config);
