@@ -127,25 +127,73 @@ jQuery(function () {
     };
 
     Editor.prototype.deselectAll = function (clearSelection) {
-        Super.prototype.deselectAll.call(this);
+        var svg = this.svg;
+        svg.classed('selection', false);
+        svg.selectAll('.selected').classed('selected', false);
+        svg.selectAll('.selected-source').classed('selected-source', false);
+        svg.selectAll('.selected-sink').classed('selected-sink', false);
+        svg.selectAll('.reachable').classed('reachable', false);
+
         if (clearSelection) {
             this.setInspectorContent(null);
         }
     };
 
     Editor.prototype.selectStatus = function (name) {
-        var d = Super.prototype.selectStatus.call(this, name);
-        this.setInspectorContent(d);
+        var self = this;
+        var d = self.lifecycle.statusObjectForName(name);
+
+        self.deselectAll(false);
+
+        self.svg.classed('selection', true);
+        self.statusContainer.selectAll('*[data-key="'+d._key+'"]').classed('selected', true);
+
+        jQuery.each(self.lifecycle.transitionsFrom(name), function (i, transition) {
+            var key = self.lifecycle.keyForStatusName(transition.to);
+            self.statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
+            self.transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
+        });
+
+        self.setInspectorContent(d);
     };
 
     Editor.prototype.selectTransition = function (fromStatus, toStatus) {
-        var d = Super.prototype.selectTransition.call(this, fromStatus, toStatus);
-        this.setInspectorContent(d);
+        var self = this;
+        var d = self.lifecycle.hasTransition(fromStatus, toStatus);
+
+        self.deselectAll(false);
+
+        self.svg.classed('selection', true);
+
+        var fromKey = self.lifecycle.keyForStatusName(fromStatus);
+        var toKey = self.lifecycle.keyForStatusName(toStatus);
+        self.statusContainer.selectAll('*[data-key="'+fromKey+'"]').classed('selected-source', true);
+        self.statusContainer.selectAll('*[data-key="'+toKey+'"]').classed('selected-sink', true);
+        self.transitionContainer.select('path[data-key="'+d._key+'"]').classed('selected', true);
+
+        self.setInspectorContent(d);
     };
 
     Editor.prototype.selectDecoration = function (key) {
-        var d = Super.prototype.selectDecoration.call(this, key);
+        var d = this.lifecycle.itemForKey(key);
+
+        this.deselectAll(false);
+
+        this.svg.classed('selection', true);
+        this.decorationContainer.selectAll('*[data-key="'+key+'"]').classed('selected', true);
         this.setInspectorContent(d);
+    };
+
+    Editor.prototype.clickedStatus = function (d) {
+        this.selectStatus(d.name);
+    };
+
+    Editor.prototype.clickedTransition = function (d) {
+        this.selectTransition(d.from, d.to);
+    };
+
+    Editor.prototype.clickedDecoration = function (d) {
+        this.selectDecoration(d._key);
     };
 
     Editor.prototype.initializeEditor = function (node, config) {
@@ -162,6 +210,8 @@ jQuery(function () {
             e.preventDefault();
             return false;
         });
+
+        self.svg.on('click', function () { self.deselectAll(true) });
     };
 
     RT.LifecycleEditor = Editor;
