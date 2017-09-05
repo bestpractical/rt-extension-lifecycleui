@@ -292,6 +292,10 @@ jQuery(function () {
         var x = this.xScaleInvert(d3.event.x);
         var y = this.yScaleInvert(d3.event.y);
 
+        if (this.xScale(x) == this.xScale(d.x) && this.yScale(y) == this.yScale(d.y)) {
+            return;
+        }
+
         d.x = x;
         d.y = y;
 
@@ -335,7 +339,14 @@ jQuery(function () {
     };
 
     Editor.prototype.didDragItem = function (d, node) {
-        this.lifecycle.moveItem(d, this.xScaleInvert(d3.event.x), this.yScaleInvert(d3.event.y));
+        var x = this.xScaleInvert(d3.event.x);
+        var y = this.yScaleInvert(d3.event.y);
+
+        if (this.xScale(x) == this.xScale(d.x) && this.yScale(y) == this.yScale(d.y)) {
+            return;
+        }
+
+        this.lifecycle.moveItem(d, x, y);
         this.renderDisplay();
     };
 
