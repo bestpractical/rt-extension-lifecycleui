@@ -489,6 +489,19 @@ jQuery(function () {
         return item;
     };
 
+    Lifecycle.prototype.createTextDecoration = function () {
+        var item = {
+            _key: _ELEMENT_KEY_SEQ++,
+            _type: 'text',
+            text:  'New label',
+            x:     0.5,
+            y:     0.5,
+        };
+        this.decorations.text.push(item);
+        this._keyMap[item._key] = item;
+        return item;
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 

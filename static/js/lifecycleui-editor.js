@@ -189,6 +189,11 @@ jQuery(function () {
             e.preventDefault();
             self.addNewStatus();
         });
+
+        inspector.on('click', '.add-text', function (e) {
+            e.preventDefault();
+            self.addNewTextDecoration();
+        });
     };
 
     Editor.prototype.deselectAll = function (clearSelection) {
@@ -293,6 +298,12 @@ jQuery(function () {
         var status = this.lifecycle.createStatus();
         this.renderDisplay();
         this.selectStatus(status.name);
+    };
+
+    Editor.prototype.addNewTextDecoration = function () {
+        var text = this.lifecycle.createTextDecoration();
+        this.renderDisplay();
+        this.selectDecoration(text._key);
     };
 
     Editor.prototype.initializeEditor = function (node, config) {
