@@ -1,6 +1,7 @@
 jQuery(function () {
     function Viewer (container) {
         this.statusCircleRadius = 35;
+        this.gridSize = 25;
         this.padding = this.statusCircleRadius;
     };
 
@@ -25,6 +26,12 @@ jQuery(function () {
                  .domain([0, 1])
                  .range([padding, size - padding]);
     };
+
+    Viewer.prototype.gridScale = function (v) { return Math.round(v/this.gridSize) * this.gridSize };
+    Viewer.prototype.xScale = function (x) { return this.gridScale(this._xScale(x)) };
+    Viewer.prototype.yScale = function (y) { return this.gridScale(this._yScale(y)) };
+    Viewer.prototype.xScaleInvert = function (x) { return this._xScale.invert(x) };
+    Viewer.prototype.yScaleInvert = function (y) { return this._yScale.invert(y) };
 
     Viewer.prototype.addZoomBehavior = function () {
         var self = this;
@@ -223,8 +230,8 @@ jQuery(function () {
         self.width  = self.svg.node().getBoundingClientRect().width;
         self.height = self.svg.node().getBoundingClientRect().height;
 
-        self.xScale = self.createScale(self.width, self.padding);
-        self.yScale = self.createScale(self.height, self.padding);
+        self._xScale = self.createScale(self.width, self.padding);
+        self._yScale = self.createScale(self.height, self.padding);
 
         self.lifecycle = new RT.Lifecycle();
         self.lifecycle.initializeFromConfig(config);

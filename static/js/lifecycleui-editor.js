@@ -257,7 +257,7 @@ jQuery(function () {
     };
 
     Editor.prototype.didDragItem = function (d, node) {
-        this.lifecycle.moveItem(d, this.xScale.invert(d3.event.x), this.yScale.invert(d3.event.y));
+        this.lifecycle.moveItem(d, this.xScaleInvert(d3.event.x), this.yScaleInvert(d3.event.y));
         this.renderDisplay();
     };
 
