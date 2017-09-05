@@ -2,7 +2,7 @@
     <div class="canvas">
         <button class="add-status"><&|/l&>Add Status</&></button><br>
         <button class="add-text"><&|/l&>Add Text</&></button><br>
-        <button class="add-shape"><&|/l&>Add Shape</&></button><br>
+        <button class="add-polygon"><&|/l&>Add Polygon</&></button><br>
     <br>
         <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
           <li class="has-children">Select Status
@@ -14,7 +14,7 @@
            </li>
            <li class="has-children">Select Transition</li>
            <li class="has-children">Select Text</li>
-           <li class="has-children">Select Shape</li>
+           <li class="has-children">Select Polygon</li>
         </ul>
     </div>
 </script>

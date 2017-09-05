@@ -49,6 +49,7 @@ jQuery(function () {
     Viewer.prototype.didEnterStatusLabels = function (labels) { };
     Viewer.prototype.didEnterTransitions = function (paths) { };
     Viewer.prototype.didEnterTextDecorations = function (labels) { };
+    Viewer.prototype.didEnterPolygonDecorations = function (polygons) { };
 
     Viewer.prototype.renderStatusNodes = function () {
         var self = this;
@@ -169,7 +170,33 @@ jQuery(function () {
                       .text(function (d) { return d.text });
     };
 
+    Viewer.prototype.renderPolygonDecorations = function () {
+        var self = this;
+        var polygons = self.decorationContainer.selectAll("polygon")
+                           .data(self.lifecycle.decorations.polygon, function (d) { return d._key });
+
+        polygons.exit()
+            .classed("removing", true)
+            .transition().duration(200)
+              .remove();
+
+        polygons.enter().append("polygon")
+                     .attr("data-key", function (d) { return d._key })
+                     .on("click", function (d) {
+                         d3.event.stopPropagation();
+                         self.clickedDecoration(d);
+                     })
+                     .call(function (polygons) { self.didEnterPolygonDecorations(polygons) })
+              .merge(polygons)
+                     .attr("points", function (d) {
+                         return jQuery.map(d.points, function(p) {
+                             return [self.xScale(p.x),self.yScale(p.y)].join(",");
+                         }).join(" ");
+                     });
+    };
+
     Viewer.prototype.renderDecorations = function () {
+        this.renderPolygonDecorations();
         this.renderTextDecorations();
     };
 

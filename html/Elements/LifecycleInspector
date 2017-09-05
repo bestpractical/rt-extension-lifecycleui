@@ -5,5 +5,5 @@
 <& LifecycleInspectorStatus, %ARGS &>
 <& LifecycleInspectorTransition, %ARGS &>
 <& LifecycleInspectorText, %ARGS &>
-<& LifecycleInspectorShape, %ARGS &>
+<& LifecycleInspectorPolygon, %ARGS &>
 <& LifecycleInspectorAction, %ARGS &>

@@ -150,6 +150,7 @@ jQuery(function () {
         }
 
         self.decorations.text = self.decorations.text || [];
+        self.decorations.polygon = self.decorations.polygon || [];
     };
 
     Lifecycle.prototype.defaultRightForTransition = function (transition) {
@@ -383,7 +384,7 @@ jQuery(function () {
         else if (type == 'transition') {
             this.deleteTransition(key);
         }
-        else if (type == 'text') {
+        else if (type == 'text' || type == 'polygon') {
             this.deleteDecoration(type, key);
         }
         else {
