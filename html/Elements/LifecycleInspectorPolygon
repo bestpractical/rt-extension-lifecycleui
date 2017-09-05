@@ -1,5 +1,7 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="polygon">
     <div class="polygon">
+        Stroke: <span class="color-control" data-field="stroke"><span class="current-color" title="{{polygon.stroke}}" style="background-color: {{polygon.stroke}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
+        Fill: <span class="color-control" data-field="fill"><span class="current-color" title="{{polygon.fill}}" style="background-color: {{polygon.fill}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
         <button class="delete"><&|/l&>Delete Polygon</&></button>
     </div>
 </script>

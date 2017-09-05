@@ -30,6 +30,10 @@
     alignment-baseline: middle;
 }
 
+.lifecycle-ui .decorations polygon {
+    stroke-width: 2px;
+}
+
 .lifecycle-ui text {
     cursor: default;
     -webkit-user-select: none;

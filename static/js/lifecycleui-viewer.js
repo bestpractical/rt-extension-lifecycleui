@@ -188,6 +188,8 @@ jQuery(function () {
                      })
                      .call(function (polygons) { self.didEnterPolygonDecorations(polygons) })
               .merge(polygons)
+                     .attr("stroke", function (d) { return d.stroke })
+                     .attr("fill", function (d) { return d.fill })
                      .attr("points", function (d) {
                          return jQuery.map(d.points, function(p) {
                              return [self.xScale(p.x),self.yScale(p.y)].join(",");
