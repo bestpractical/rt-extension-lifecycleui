@@ -190,6 +190,7 @@ jQuery(function () {
               .merge(polygons)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
                      .attr("fill", function (d) { return d.renderFill ? d.fill : 'none' })
+                     .attr("transform", function (d) { return "translate(" + self.xScale(d.x) + ", " + self.yScale(d.y) + ")" })
                      .attr("points", function (d) {
                          return jQuery.map(d.points, function(p) {
                              return [self.xScale(p.x),self.yScale(p.y)].join(",");

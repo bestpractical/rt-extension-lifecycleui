@@ -280,6 +280,10 @@ jQuery(function () {
         labels.call(this._createDrag());
     };
 
+    Editor.prototype.didEnterPolygonDecorations = function (polygons) {
+        polygons.call(this._createDrag());
+    };
+
     Editor.prototype.initializeEditor = function (node, config) {
         var self = this;
         self.initializeViewer(node, config);
