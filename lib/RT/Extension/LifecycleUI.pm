@@ -133,6 +133,27 @@ sub CreateLifecycle {
     return $class->_CreateLifecycle(%args);
 }
 
+sub UpdateLifecycle {
+    my $class = shift;
+    my %args = (
+        CurrentUser  => undef,
+        LifecycleObj => undef,
+        NewConfig    => undef,
+        @_,
+    );
+
+    my $CurrentUser = $args{CurrentUser};
+    my $name = $args{LifecycleObj}->Name;
+    my $lifecycles = RT->Config->Get('Lifecycles');
+
+    $lifecycles->{$name} = $args{NewConfig};
+
+    my ($ok, $msg) = $class->_SaveLifecycles($lifecycles, $CurrentUser);
+    return ($ok, $msg) if !$ok;
+
+    return (1, $CurrentUser->loc("Lifecycle [_1] updated", $name));
+}
+
 =head1 NAME
 
 RT-Extension-LifecycleUI - manage lifecycles via admin UI
