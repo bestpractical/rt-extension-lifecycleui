@@ -71,8 +71,15 @@
     opacity: .2;
 }
 
-.lifecycle-ui .selection .decorations > .selected {
+.lifecycle-ui .selection .decorations > .selected,
+.lifecycle-ui .selection .decorations > .point-handle {
     opacity: 1;
+}
+
+.lifecycle-ui .selection .point-handle {
+    stroke: black;
+    fill: steelblue;
+    r: 5px;
 }
 
 .lifecycle-ui .inspector li.has-children {

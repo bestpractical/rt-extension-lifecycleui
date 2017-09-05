@@ -496,6 +496,12 @@ jQuery(function () {
         item.y = y;
     };
 
+    Lifecycle.prototype.movePolygonPoint = function (polygon, index, x, y) {
+        var point = polygon.points[index];
+        point.x = x;
+        point.y = y;
+    };
+
     Lifecycle.prototype.createStatus = function () {
         var name;
         var i = 0;

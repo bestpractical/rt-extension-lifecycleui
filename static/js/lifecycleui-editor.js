@@ -209,6 +209,8 @@ jQuery(function () {
         svg.selectAll('.selected-sink').classed('selected-sink', false);
         svg.selectAll('.reachable').classed('reachable', false);
 
+        this.removePointHandles();
+
         if (clearSelection) {
             this.setInspectorContent(null);
         }
@@ -257,6 +259,67 @@ jQuery(function () {
         this.svg.classed('selection', true);
         this.decorationContainer.selectAll('*[data-key="'+key+'"]').classed('selected', true);
         this.setInspectorContent(d);
+
+        if (d._type == 'polygon') {
+            this.addPointHandles(d);
+        }
+
+        this.renderDisplay();
+    };
+
+    Editor.prototype.addPointHandles = function (d) {
+        var points = [];
+        for (var i = 0; i < d.points.length; ++i) {
+            points.push({
+                i: i,
+                x: d.points[i].x,
+                y: d.points[i].y
+            });
+        }
+        this.pointHandles = points;
+    };
+
+    Editor.prototype.removePointHandles = function () {
+        if (!this.pointHandles) {
+            return;
+        }
+
+        delete this.pointHandles;
+        this.renderPolygonDecorations();
+    };
+
+    Editor.prototype.didDragPointHandle = function (d, node) {
+        var x = this.xScaleInvert(d3.event.x);
+        var y = this.yScaleInvert(d3.event.y);
+
+        d.x = x;
+        d.y = y;
+
+        this.lifecycle.movePolygonPoint(this.inspectorNode, d.i, x, y);
+
+        this.renderDisplay();
+    };
+
+    Editor.prototype.renderPolygonDecorations = function (initial) {
+        Super.prototype.renderPolygonDecorations.call(this, initial);
+
+        var self = this;
+        var handles = self.decorationContainer.selectAll("circle")
+                           .data(self.pointHandles || [], function (d) { return d.i });
+
+        handles.exit()
+              .remove();
+
+        handles.enter().append("circle")
+                     .classed("point-handle", true)
+                     .call(d3.drag()
+                         .subject(function (d) { return { x: self.xScale(d.x), y : self.yScale(d.y) } })
+                         .on("drag", function (d) { self.didDragPointHandle(d) })
+                     )
+              .merge(handles)
+                     .attr("transform", function (d) { return "translate(" + self.xScale(self.inspectorNode.x) + ", " + self.yScale(self.inspectorNode.y) + ")" })
+                     .attr("cx", function (d) { return self.xScale(d.x) })
+                     .attr("cy", function (d) { return self.yScale(d.y) })
     };
 
     Editor.prototype.clickedStatus = function (d) {
