@@ -299,11 +299,12 @@ jQuery(function () {
 
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
         var transition = {
-            _key  : _ELEMENT_KEY_SEQ++,
-            _type : 'transition',
-            from  : fromStatus,
-            to    : toStatus,
-            style : 'solid'
+            _key    : _ELEMENT_KEY_SEQ++,
+            _type   : 'transition',
+            from    : fromStatus,
+            to      : toStatus,
+            style   : 'solid',
+            actions : []
         };
         this.transitions.push(transition);
         this._keyMap[transition._key] = transition;
