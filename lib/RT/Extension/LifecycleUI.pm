@@ -41,27 +41,10 @@ sub _CloneLifecycleMaps {
     $maps->{"$clone -> $name"} = { %map };
 }
 
-sub _CreateLifecycle {
+sub _SaveLifecycles {
     my $class = shift;
-    my %args  = @_;
-    my $CurrentUser = $args{CurrentUser};
-
-    my $lifecycles = RT->Config->Get('Lifecycles');
-    my $lifecycle;
-
-    if ($args{Clone}) {
-        $lifecycle = Storable::dclone($lifecycles->{ $args{Clone} });
-        $class->_CloneLifecycleMaps(
-            $lifecycles->{__maps__},
-            $args{Name},
-            $args{Clone},
-        );
-    }
-    else {
-        $lifecycle = { type => $args{Type} };
-    }
-
-    $lifecycles->{$args{Name}} = $lifecycle;
+    my $lifecycles = shift;
+    my $CurrentUser = shift;
 
     my $setting = RT::DatabaseSetting->new($CurrentUser);
     $setting->Load('Lifecycles');
@@ -84,7 +67,35 @@ sub _CreateLifecycle {
 
     RT::Lifecycle->FillCache;
 
-    return (1, $CurrentUser->loc("Lifecycle created"));
+    return 1;
+}
+
+sub _CreateLifecycle {
+    my $class = shift;
+    my %args  = @_;
+    my $CurrentUser = $args{CurrentUser};
+
+    my $lifecycles = RT->Config->Get('Lifecycles');
+    my $lifecycle;
+
+    if ($args{Clone}) {
+        $lifecycle = Storable::dclone($lifecycles->{ $args{Clone} });
+        $class->_CloneLifecycleMaps(
+            $lifecycles->{__maps__},
+            $args{Name},
+            $args{Clone},
+        );
+    }
+    else {
+        $lifecycle = { type => $args{Type} };
+    }
+
+    $lifecycles->{$args{Name}} = $lifecycle;
+
+    my ($ok, $msg) = $class->_SaveLifecycles($lifecycles, $CurrentUser);
+    return ($ok, $msg) if !$ok;
+
+    return (1, $CurrentUser->loc("Lifecycle [_1] created", $args{Name}));
 }
 
 sub CreateLifecycle {
