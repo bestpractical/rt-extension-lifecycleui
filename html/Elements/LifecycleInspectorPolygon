@@ -1,5 +1,5 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="polygon">
     <div class="polygon">
-        Delete Polygon<br>
+        <button class="delete"><&|/l&>Delete Polygon</&></button>
     </div>
 </script>
