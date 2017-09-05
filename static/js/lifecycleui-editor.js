@@ -295,10 +295,12 @@ jQuery(function () {
         self.bindInspectorEvents();
 
         self.container.closest('form[name=ModifyLifecycle]').submit(function (e) {
-            e.preventDefault();
             var config = self.lifecycle.exportAsConfiguration();
-            console.log(config);
-            return false;
+            var form = jQuery(this);
+            var field = jQuery('<input type="hidden" name="Config">');
+            field.val(JSON.stringify(config));
+            form.append(field);
+            return true;
         });
 
         self.svg.on('click', function () { self.deselectAll(true) });

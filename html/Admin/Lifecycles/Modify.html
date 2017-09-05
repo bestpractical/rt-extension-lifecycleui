@@ -23,6 +23,15 @@ Abort("Invalid lifecycle") unless $LifecycleObj->Name
 
 $title = loc("Modify lifecycle [_1]", $LifecycleObj->Name);
 
+if ($Config) {
+    my ($ok, $msg) = RT::Extension::LifecycleUI->UpdateLifecycle(
+        CurrentUser  => $session{CurrentUser},
+        LifecycleObj => $LifecycleObj,
+        NewConfig    => JSON::from_json($Config),
+    );
+    push @results, $msg;
+}
+
 # This code does automatic redirection if any updates happen.
 MaybeRedirectForResults(
     Actions   => \@results,
@@ -32,4 +41,5 @@ MaybeRedirectForResults(
 <%ARGS>
 $Name => undef
 $Type => undef
+$Config => undef
 </%ARGS>
