@@ -24,12 +24,11 @@ jQuery(function () {
             if (config[type]) {
                 self.statuses = self.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
-                    var item = {
-                        _key:  _ELEMENT_KEY_SEQ++,
-                        _type: 'status',
-                        name:  statusName,
-                        type:  type
-                    };
+                    var item = config.statusExtra[statusName] || {};
+                    item._key  = _ELEMENT_KEY_SEQ++;
+                    item._type = 'status';
+                    item.name  = statusName;
+                    item.type  = type;
                     self._statusMeta[statusName] = item;
                     self._keyMap[item._key] = item;
                 });
@@ -64,14 +63,15 @@ jQuery(function () {
                 }
                 else {
                     jQuery.each(toList, function (i, toStatus) {
-                        var transition = {
-                            _key    : _ELEMENT_KEY_SEQ++,
-                            _type   : 'transition',
-                            from    : fromStatus,
-                            to      : toStatus,
-                            style   : 'solid',
-                            actions : []
-                        };
+                        var description = fromStatus + ' -> ' + toStatus;
+                        var transition = config.transitionExtra[description] || {};
+                        transition._key    = _ELEMENT_KEY_SEQ++;
+                        transition._type   = 'transition';
+                        transition.from    = fromStatus;
+                        transition.to      = toStatus;
+                        transition.style   = transition.style || 'solid';
+                        transition.actions = [];
+
                         self.transitions.push(transition);
                         self._keyMap[transition._key] = transition;
                     });
@@ -165,6 +165,32 @@ jQuery(function () {
         return 'ModifyTicket';
     };
 
+    Lifecycle.prototype._sanitizeForExport = function (o) {
+        var clone = jQuery.extend(true, {}, o);
+        var type = o._type;
+        jQuery.each(clone, function (key, value) {
+            if (key.substr(0, 1) == '_') {
+                delete clone[key];
+            }
+        });
+
+        // remove additional redundant information to provide a single source
+        // of truth
+        if (type == 'status') {
+            delete clone.name;
+            delete clone.type;
+            delete clone.creation;
+        }
+        else if (type == 'transition') {
+            delete clone.from;
+            delete clone.to;
+            delete clone.actions;
+            delete clone.right;
+        }
+
+        return clone;
+    };
+
     Lifecycle.prototype.exportAsConfiguration = function () {
         var self = this;
         var config = {
@@ -174,7 +200,10 @@ jQuery(function () {
             defaults: self.defaults,
             actions: [],
             rights: {},
-            transitions: self.transitions
+            transitions: self.transitions,
+
+            statusExtra: {},
+            transitionExtra: {}
         };
 
         config.type = self.type;
@@ -182,9 +211,12 @@ jQuery(function () {
         var transitions = { "": [] };
 
         jQuery.each(self.statuses, function (i, statusName) {
-            var statusType = self._statusMeta[statusName].type;
+            var meta = self._statusMeta[statusName];
+            var statusType = meta.type;
             config[statusType].push(statusName);
-            if (self._statusMeta[statusName].creation) {
+            config.statusExtra[statusName] = self._sanitizeForExport(meta);
+
+            if (meta.creation) {
                 transitions[""].push(statusName);
             }
         });
@@ -193,6 +225,8 @@ jQuery(function () {
             var from = transition.from;
             var to = transition.to;
             var description = transition.from + ' -> ' + transition.to;
+
+            config.transitionExtra[description] = self._sanitizeForExport(transition);
 
             if (!transitions[from]) {
                 transitions[from] = [];
