@@ -51,6 +51,21 @@ jQuery(function () {
 
         inspector.html(self.templates[type](params));
         inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
+
+        inspector.find(':checkbox[data-show-hide]').each(function () {
+            var field = jQuery(this);
+            var selector = field.data('show-hide');
+            console.log(field, selector);
+            var toggle = function () {
+                if (field.prop('checked')) {
+                    jQuery(selector).show();
+                } else {
+                    jQuery(selector).hide();
+                }
+            }
+            field.change(function (e) { toggle() });
+            toggle();
+        });
     };
 
     Editor.prototype.bindInspectorEvents = function () {
