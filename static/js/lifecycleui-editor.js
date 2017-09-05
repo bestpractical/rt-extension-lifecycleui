@@ -81,6 +81,8 @@ jQuery(function () {
 
         inspector.on('click', 'button.change-color', function (e) {
             e.preventDefault();
+            var container = jQuery(this).closest('.color-control');
+            var field = container.data('field');
             var picker = jQuery('<div class="color-picker"></div>');
             jQuery(this).replaceWith(picker);
 
@@ -89,14 +91,14 @@ jQuery(function () {
                 if (skipUpdateCallback) {
                     return;
                 }
-                inspector.find('.current-color').val(newColor);
-                lifecycle.updateItem(self.inspectorNode, 'color', newColor);
+                container.find('.current-color').val(newColor);
+                lifecycle.updateItem(self.inspectorNode, field, newColor);
                 self.renderDisplay();
             });
-            farb.setColor(self.inspectorNode.color);
+            farb.setColor(self.inspectorNode[field]);
 
             var input = jQuery('<input class="current-color" size=8 maxlength=7>');
-            inspector.find('.current-color').replaceWith(input);
+            container.find('.current-color').replaceWith(input);
             input.on('input', function () {
                 var newColor = input.val();
                 if (newColor.match(/^#[a-fA-F0-9]{6}$/)) {
@@ -104,11 +106,11 @@ jQuery(function () {
                     farb.setColor(newColor);
                     skipUpdateCallback = 0;
 
-                    lifecycle.updateItem(self.inspectorNode, 'color', newColor);
+                    lifecycle.updateItem(self.inspectorNode, field, newColor);
                     self.renderDisplay();
                 }
             });
-            input.val(self.inspectorNode.color);
+            input.val(self.inspectorNode[field]);
         });
 
         inspector.on('click', 'button.delete', function (e) {

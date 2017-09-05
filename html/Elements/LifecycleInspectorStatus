@@ -9,7 +9,7 @@
                   {{/select}}
               </select><br>
         Creation: <input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}><br>
-        Color: <span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button><br>
+        Color: <span class="color-control" data-field="color"><span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
 
         Add Transition:
         <ul>

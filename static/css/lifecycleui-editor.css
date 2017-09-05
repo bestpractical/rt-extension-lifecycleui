@@ -33,7 +33,7 @@
     stroke-width: 6px;
 }
 
-.lifecycle-ui .inspector .status span.current-color {
+.lifecycle-ui .inspector .color-control span.current-color {
     display: inline;
     padding-left: 1em;
     border: 1px solid black;
