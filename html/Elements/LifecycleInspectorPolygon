@@ -1,6 +1,13 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="polygon">
     <div class="polygon">
         Stroke: <input type="checkbox" name="renderStroke" {{#if polygon.renderStroke}}checked=checked{{/if}} data-show-hide=".color-control[data-field=stroke]"> <span class="color-control" data-field="stroke"><span class="current-color" title="{{polygon.stroke}}" style="background-color: {{polygon.stroke}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
+       Style: <select name="strokeStyle">
+                 {{#select polygon.strokeStyle}}
+                 <option value="solid"><&|/l&>solid</&></option>
+                 <option value="dashed"><&|/l&>dashed</&></option>
+                 <option value="dotted"><&|/l&>dotted</&></option>
+                 {{/select}}
+             </select><br>
         Fill: <input type="checkbox" name="renderFill" {{#if polygon.renderFill}}checked=checked{{/if}} data-show-hide=".color-control[data-field=fill]"> <span class="color-control" data-field="fill"><span class="current-color" title="{{polygon.fill}}" style="background-color: {{polygon.fill}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
         <button class="delete"><&|/l&>Delete Polygon</&></button>
     </div>

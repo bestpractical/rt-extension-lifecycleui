@@ -17,11 +17,11 @@
     marker-end: url(#marker_arrowhead);
 }
 
-.lifecycle-ui .transitions path.dotted {
+.lifecycle-ui .dotted {
     stroke-dasharray: 2;
 }
 
-.lifecycle-ui .transitions path.dashed {
+.lifecycle-ui .dashed {
     stroke-dasharray: 5;
 }
 

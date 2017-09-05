@@ -196,6 +196,8 @@ jQuery(function () {
                      .call(function (polygons) { self.didEnterPolygonDecorations(polygons) })
               .merge(polygons)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
+                      .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
+                      .classed("dotted", function (d) { return d.strokeStyle == 'dotted' })
                      .attr("fill", function (d) { return d.renderFill ? d.fill : 'none' })
                      .attr("transform", function (d) { return "translate(" + self.xScale(d.x) + ", " + self.yScale(d.y) + ")" })
                      .attr("points", function (d) {
