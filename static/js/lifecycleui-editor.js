@@ -194,6 +194,11 @@ jQuery(function () {
             e.preventDefault();
             self.addNewTextDecoration();
         });
+
+        inspector.on('click', '.add-polygon', function (e) {
+            e.preventDefault();
+            self.addNewPolygonDecoration(jQuery(this).data('type'));
+        });
     };
 
     Editor.prototype.deselectAll = function (clearSelection) {
@@ -302,6 +307,12 @@ jQuery(function () {
 
     Editor.prototype.addNewTextDecoration = function () {
         var text = this.lifecycle.createTextDecoration();
+        this.renderDisplay();
+        this.selectDecoration(text._key);
+    };
+
+    Editor.prototype.addNewPolygonDecoration = function (type) {
+        var text = this.lifecycle.createPolygonDecoration(type);
         this.renderDisplay();
         this.selectDecoration(text._key);
     };

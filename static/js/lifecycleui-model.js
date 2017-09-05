@@ -11,6 +11,20 @@ jQuery(function () {
 
         this._keyMap = {};
         this._statusMeta = {};
+
+        this._initialPointsForPolygon = {
+            triangle: [
+                {x:  .07, y: .2},
+                {x:    0, y:  0},
+                {x: -.06, y: .2}
+            ],
+            rectangle: [
+                {x: -.06, y: -.06},
+                {x:  .06, y: -.06},
+                {x:  .06, y:  .06},
+                {x: -.06, y:  .06}
+            ]
+        };
     };
 
     Lifecycle.prototype.initializeFromConfig = function (config) {
@@ -518,6 +532,24 @@ jQuery(function () {
             y:     0.5,
         };
         this.decorations.text.push(item);
+        this._keyMap[item._key] = item;
+        return item;
+    };
+
+    Lifecycle.prototype.createPolygonDecoration = function (type) {
+        var item = {
+            _key: _ELEMENT_KEY_SEQ++,
+            _type: 'polygon',
+            stroke: '#000000',
+            renderStroke: true,
+            strokeStyle: 'solid',
+            fill: '#ffffff',
+            renderFill: true,
+            x: 0.5,
+            y: 0.5,
+            points: this._initialPointsForPolygon[type]
+        };
+        this.decorations.polygon.push(item);
         this._keyMap[item._key] = item;
         return item;
     };
