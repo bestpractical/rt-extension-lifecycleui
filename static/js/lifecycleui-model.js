@@ -145,12 +145,22 @@ jQuery(function () {
             }
         }
 
-        if (config.decorations) {
-            self.decorations = config.decorations;
-        }
+        self.decorations = {};
 
-        self.decorations.text = self.decorations.text || [];
-        self.decorations.polygon = self.decorations.polygon || [];
+        jQuery.each(['text', 'polygon'], function (i, type) {
+            var decorations = [];
+
+            if (config.decorations[type]) {
+                jQuery.each(config.decorations[type], function (i, decoration) {
+                    decoration._key = _ELEMENT_KEY_SEQ++;
+                    decoration._type = type;
+                    decorations.push(decoration);
+                    self._keyMap[decoration._key] = decoration;
+                });
+            }
+
+            self.decorations[type] = decorations;
+        });
     };
 
     Lifecycle.prototype.defaultRightForTransition = function (transition) {
@@ -202,6 +212,7 @@ jQuery(function () {
             rights: {},
             transitions: self.transitions,
 
+            decorations: {},
             statusExtra: {},
             transitionExtra: {}
         };
@@ -249,6 +260,15 @@ jQuery(function () {
         });
 
         config.transitions = transitions;
+
+        config.decorations = {};
+        jQuery.each(self.decorations, function (type, decorations) {
+            var out = [];
+            jQuery.each(decorations, function (i, decoration) {
+                out.push(self._sanitizeForExport(decoration));
+            });
+            config.decorations[type] = out;
+        });
 
         return config;
     };
