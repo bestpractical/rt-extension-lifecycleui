@@ -184,6 +184,11 @@ jQuery(function () {
 
             self.selectTransition(fromStatus, toStatus);
         });
+
+        inspector.on('click', '.add-status', function (e) {
+            e.preventDefault();
+            self.addNewStatus();
+        });
     };
 
     Editor.prototype.deselectAll = function (clearSelection) {
@@ -282,6 +287,12 @@ jQuery(function () {
 
     Editor.prototype.didEnterPolygonDecorations = function (polygons) {
         polygons.call(this._createDrag());
+    };
+
+    Editor.prototype.addNewStatus = function () {
+        var status = this.lifecycle.createStatus();
+        this.renderDisplay();
+        this.selectStatus(status.name);
     };
 
     Editor.prototype.initializeEditor = function (node, config) {

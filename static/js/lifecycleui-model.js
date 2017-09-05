@@ -462,6 +462,33 @@ jQuery(function () {
         item.y = y;
     };
 
+    Lifecycle.prototype.createStatus = function () {
+        var name;
+        var i = 0;
+        while (1) {
+            name = 'status #' + ++i;
+            if (!this._statusMeta[name]) {
+                break;
+            }
+        }
+
+        this.statuses.push(name);
+
+        var item = {
+            _key: _ELEMENT_KEY_SEQ++,
+            _type: 'status',
+            name:  name,
+            type:  'initial',
+            x:     0.5,
+            y:     0.5,
+        };
+        item.color = defaultColors(item._key);
+
+        this._statusMeta[name] = item;
+        this._keyMap[item._key] = item;
+        return item;
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 
