@@ -1,5 +1,7 @@
 jQuery(function () {
     function Viewer (container) {
+        this.width  = 809;
+        this.height = 500;
         this.statusCircleRadius = 35;
         this.gridSize = 25;
         this.padding = this.statusCircleRadius;
@@ -367,9 +369,6 @@ jQuery(function () {
         self.transitionContainer = self.svg.select('g.transitions');
         self.statusContainer     = self.svg.select('g.statuses');
         self.decorationContainer = self.svg.select('g.decorations');
-
-        self.width  = self.svg.node().getBoundingClientRect().width;
-        self.height = self.svg.node().getBoundingClientRect().height;
 
         self._xScale = self.createScale(self.width, self.padding);
         self._yScale = self.createScale(self.height, self.padding);
