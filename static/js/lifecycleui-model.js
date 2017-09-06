@@ -231,6 +231,7 @@ jQuery(function () {
     Lifecycle.prototype.exportAsConfiguration = function () {
         var self = this;
         var config = {
+            type: self.type,
             initial: [],
             active: [],
             inactive: [],
@@ -243,8 +244,6 @@ jQuery(function () {
             statusExtra: {},
             transitionExtra: {}
         };
-
-        config.type = self.type;
 
         var transitions = { "": [] };
 
