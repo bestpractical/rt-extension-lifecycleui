@@ -525,6 +525,10 @@ jQuery(function () {
         return action;
     };
 
+    Lifecycle.prototype.beginDragging = function () {
+        this._saveUndoEntry();
+    };
+
     Lifecycle.prototype.moveItem = function (item, x, y) {
         item.x = x;
         item.y = y;

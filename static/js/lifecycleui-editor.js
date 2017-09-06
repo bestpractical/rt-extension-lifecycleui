@@ -391,6 +391,7 @@ jQuery(function () {
                      .classed("point-handle", true)
                      .call(d3.drag()
                          .subject(function (d) { return { x: d.xScale(d.x), y : d.yScale(d.y) } })
+                         .on("start", function (d) { self.lifecycle.beginDragging() })
                          .on("drag", function (d) { self.didDragPointHandle(d) })
                      )
               .merge(handles)
@@ -431,6 +432,7 @@ jQuery(function () {
         var self = this;
         return d3.drag()
                  .subject(function (d) { return { x: self.xScale(d.x), y : self.yScale(d.y) } })
+                 .on("start", function (d) { self.lifecycle.beginDragging() })
                  .on("drag", function (d) { self.didDragItem(d, this) });
     };
 
