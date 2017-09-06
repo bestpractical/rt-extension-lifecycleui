@@ -12,12 +12,18 @@
             jQuery(".lifecycle-ui#lifecycle-<% $id %>").each(function () {
                 var container = this;
                 var config = <% JSON($config) |n %>;
+% if ($Ticket) {
+                var ticketStatus = <% $Ticket->Status | j%>;
+% } else {
+                var ticketStatus = undefined;
+% }
+
 % if ($Editing) {
                 var editor = new RT.LifecycleEditor();
-                editor.initializeEditor(container, config);
+                editor.initializeEditor(container, config, ticketStatus);
 % } else {
                 var viewer = new RT.LifecycleViewer();
-                viewer.initializeViewer(container, config);
+                viewer.initializeViewer(container, config, ticketStatus);
 % }
             });
         });

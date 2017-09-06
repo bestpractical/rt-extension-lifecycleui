@@ -219,7 +219,23 @@ jQuery(function () {
         this.renderDecorations(initial);
     };
 
-    Viewer.prototype.initializeViewer = function (node, config) {
+    Viewer.prototype.centerOnItem = function (item) {
+        var x = this.xScale(item.x);
+        var y = this.yScale(item.y);
+        this.svg.selectAll("g")
+                .call(this._zoom.translateTo, x, y);
+    };
+
+    Viewer.prototype.focusOnStatus = function (statusName) {
+        if (!statusName) {
+            return;
+        }
+
+        var meta = this.lifecycle.statusObjectForName(statusName);
+        this.centerOnItem(meta);
+    };
+
+    Viewer.prototype.initializeViewer = function (node, config, focusStatus) {
         var self = this;
 
         self.container = jQuery(node);
@@ -240,6 +256,8 @@ jQuery(function () {
 
         self.createArrowHead();
         self.addZoomBehavior();
+
+        self.focusOnStatus(focusStatus);
 
         self.renderDisplay(true);
     };

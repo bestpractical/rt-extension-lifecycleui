@@ -391,7 +391,7 @@ jQuery(function () {
         this.selectDecoration(text._key);
     };
 
-    Editor.prototype.initializeEditor = function (node, config) {
+    Editor.prototype.initializeEditor = function (node, config, focusStatus) {
         var self = this;
         self.initializeViewer(node, config);
 
