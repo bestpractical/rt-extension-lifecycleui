@@ -55,7 +55,6 @@ jQuery(function () {
         inspector.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);
             var selector = field.data('show-hide');
-            console.log(field, selector);
             var toggle = function () {
                 if (field.prop('checked')) {
                     jQuery(selector).show();
