@@ -65,9 +65,9 @@ jQuery(function () {
                         .attr("cx", function (d) { return self.xScale(d.x) })
                         .attr("cy", function (d) { return self.yScale(d.y) })
                         .attr("fill", function (d) { return d.color })
-                        .classed("focus", function (d) { return self.focusStatus == d.name })
-                        .classed("focus-from", function (d) { return self.lifecycle.hasTransition(d.name, self.focusStatus) })
-                        .classed("focus-to", function (d) { return self.lifecycle.hasTransition(self.focusStatus, d.name) });
+                        .classed("focus", function (d) { return self.isFocused(d) })
+                        .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
+                        .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
     };
 
     Viewer.prototype.clickedStatus = function (d) { };
@@ -107,9 +107,9 @@ jQuery(function () {
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
                       .text(function (d) { return d.name }).each(function () { self.truncateLabel(this) })
-                      .classed("focus", function (d) { return self.focusStatus == d.name })
-                      .classed("focus-from", function (d) { return self.lifecycle.hasTransition(d.name, self.focusStatus) })
-                      .classed("focus-to", function (d) { return self.lifecycle.hasTransition(self.focusStatus, d.name) });
+                      .classed("focus", function (d) { return self.isFocused(d) })
+                      .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
+                      .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
     };
 
     Viewer.prototype.transitionArc = function (d) {
@@ -142,8 +142,9 @@ jQuery(function () {
                       .attr("d", function (d) { return self.transitionArc(d) })
                       .classed("dashed", function (d) { return d.style == 'dashed' })
                       .classed("dotted", function (d) { return d.style == 'dotted' })
-                      .classed("focus-from", function (d) { return self.focusStatus == d.to })
-                      .classed("focus-to", function (d) { return self.focusStatus == d.from });
+                      .classed("focus", function (d) { return self.isFocused(d) })
+                      .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
+                      .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
     };
 
     Viewer.prototype.renderTextDecorations = function (initial) {
@@ -166,7 +167,8 @@ jQuery(function () {
               .merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
-                      .text(function (d) { return d.text });
+                      .text(function (d) { return d.text })
+                      .classed("focus", function (d) { return self.isFocused(d) })
     };
 
     Viewer.prototype.renderPolygonDecorations = function (initial) {
@@ -188,15 +190,16 @@ jQuery(function () {
                      .call(function (polygons) { self.didEnterPolygonDecorations(polygons) })
               .merge(polygons)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
-                      .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
-                      .classed("dotted", function (d) { return d.strokeStyle == 'dotted' })
+                     .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
+                     .classed("dotted", function (d) { return d.strokeStyle == 'dotted' })
                      .attr("fill", function (d) { return d.renderFill ? d.fill : 'none' })
                      .attr("transform", function (d) { return "translate(" + self.xScale(d.x) + ", " + self.yScale(d.y) + ")" })
                      .attr("points", function (d) {
                          return jQuery.map(d.points, function(p) {
                              return [self.xScale(p.x),self.yScale(p.y)].join(",");
                          }).join(" ");
-                     });
+                     })
+                    .classed("focus", function (d) { return self.isFocused(d) })
     };
 
     Viewer.prototype.renderDecorations = function (initial) {
@@ -218,18 +221,73 @@ jQuery(function () {
                 .call(this._zoom.translateTo, x, y);
     };
 
+    Viewer.prototype.defocus = function () {
+        this._focusItem = null;
+        this.svg.classed("has-focus", false)
+                .attr('data-focus-type', undefined);
+    };
+
+    Viewer.prototype.focusItem = function (d) {
+        this._focusItem = d;
+        this.svg.classed("has-focus", true)
+                .attr('data-focus-type', d._type);
+    };
+
     Viewer.prototype.focusOnStatus = function (statusName, center) {
         if (!statusName) {
             return;
         }
 
-        this.focusStatus = statusName;
-        this.svg.classed("has-focus", true);
+        var meta = this.lifecycle.statusObjectForName(statusName);
+        this.focusItem(meta);
 
         if (center) {
-            var meta = this.lifecycle.statusObjectForName(statusName);
-            this.centerOnItem(meta);
+            this.centerOnItem(meta)
         }
+    };
+
+    Viewer.prototype.isFocused = function (d) {
+        if (!this._focusItem) {
+            return false;
+        }
+        return this._focusItem._key == d._key;
+    };
+
+    Viewer.prototype.isFocusedTransition = function (d, isFrom) {
+        if (!this._focusItem) {
+            return false;
+        }
+
+        if (d._type == 'status') {
+            if (this._focusItem._type == 'status') {
+                if (isFrom) {
+                    return this.lifecycle.hasTransition(d.name, this._focusItem.name);
+                }
+                else {
+                    return this.lifecycle.hasTransition(this._focusItem.name, d.name);
+                }
+            }
+            else if (this._focusItem._type == 'transition') {
+                if (isFrom) {
+                    return this._focusItem.from == d.name;
+                }
+                else {
+                    return this._focusItem.to == d.name;
+                }
+            }
+        }
+        else if (d._type == 'transition') {
+            if (this._focusItem._type == 'status') {
+                if (isFrom) {
+                    return d.to == this._focusItem.name;
+                }
+                else {
+                    return d.from == this._focusItem.name;
+                }
+            }
+        }
+
+        return false;
     };
 
     Viewer.prototype.initializeViewer = function (node, config, focusStatus) {

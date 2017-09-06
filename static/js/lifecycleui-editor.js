@@ -202,17 +202,15 @@ jQuery(function () {
 
     Editor.prototype.deselectAll = function (clearSelection) {
         var svg = this.svg;
-        svg.classed('selection', false);
-        svg.selectAll('.selected').classed('selected', false);
-        svg.selectAll('.selected-source').classed('selected-source', false);
-        svg.selectAll('.selected-sink').classed('selected-sink', false);
-        svg.selectAll('.reachable').classed('reachable', false);
 
         this.removePointHandles();
 
         if (clearSelection) {
             this.setInspectorContent(null);
         }
+
+        this.defocus();
+        this.renderDisplay();
     };
 
     Editor.prototype.selectStatus = function (name) {
@@ -220,17 +218,9 @@ jQuery(function () {
         var d = self.lifecycle.statusObjectForName(name);
 
         self.deselectAll(false);
-
-        self.svg.classed('selection', true);
-        self.statusContainer.selectAll('*[data-key="'+d._key+'"]').classed('selected', true);
-
-        jQuery.each(self.lifecycle.transitionsFrom(name), function (i, transition) {
-            var key = self.lifecycle.keyForStatusName(transition.to);
-            self.statusContainer.selectAll('*[data-key="'+key+'"]').classed('reachable', true);
-            self.transitionContainer.selectAll('path[data-key="'+transition._key+'"]').classed('selected', true);
-        });
-
+        self.focusItem(d);
         self.setInspectorContent(d);
+        self.renderDisplay();
     };
 
     Editor.prototype.selectTransition = function (fromStatus, toStatus) {
@@ -238,25 +228,16 @@ jQuery(function () {
         var d = self.lifecycle.hasTransition(fromStatus, toStatus);
 
         self.deselectAll(false);
-
-        self.svg.classed('selection', true);
-
-        var fromKey = self.lifecycle.keyForStatusName(fromStatus);
-        var toKey = self.lifecycle.keyForStatusName(toStatus);
-        self.statusContainer.selectAll('*[data-key="'+fromKey+'"]').classed('selected-source', true);
-        self.statusContainer.selectAll('*[data-key="'+toKey+'"]').classed('selected-sink', true);
-        self.transitionContainer.select('path[data-key="'+d._key+'"]').classed('selected', true);
-
+        self.focusItem(d);
         self.setInspectorContent(d);
+        self.renderDisplay();
     };
 
     Editor.prototype.selectDecoration = function (key) {
         var d = this.lifecycle.itemForKey(key);
 
         this.deselectAll(false);
-
-        this.svg.classed('selection', true);
-        this.decorationContainer.selectAll('*[data-key="'+key+'"]').classed('selected', true);
+        this.focusItem(d);
         this.setInspectorContent(d);
 
         if (d._type == 'polygon') {
