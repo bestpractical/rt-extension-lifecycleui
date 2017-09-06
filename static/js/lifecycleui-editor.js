@@ -400,20 +400,17 @@ jQuery(function () {
 
     Editor.prototype.addNewStatus = function () {
         var status = this.lifecycle.createStatus();
-        this.renderDisplay();
         this.selectStatus(status.name);
     };
 
     Editor.prototype.addNewTextDecoration = function () {
         var text = this.lifecycle.createTextDecoration();
-        this.renderDisplay();
         this.selectDecoration(text._key);
     };
 
     Editor.prototype.addNewPolygonDecoration = function (type) {
-        var text = this.lifecycle.createPolygonDecoration(type);
-        this.renderDisplay();
-        this.selectDecoration(text._key);
+        var polygon = this.lifecycle.createPolygonDecoration(type);
+        this.selectDecoration(polygon._key);
     };
 
     Editor.prototype.initializeEditor = function (node, config, focusStatus) {
