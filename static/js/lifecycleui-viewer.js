@@ -32,14 +32,14 @@ jQuery(function () {
     };
 
     Viewer.prototype.didZoom = function () {
-        this.svg.selectAll("g").attr("transform", d3.event.transform);
+        this.transformContainer.attr("transform", d3.event.transform);
     };
 
     Viewer.prototype.resetZoom = function () {
-        this.svg.selectAll("g")
+        this.transformContainer
                 .transition()
                 .duration(750)
-                .call(self._zoom.transform, d3.zoomIdentity);
+                .call(this._zoom.transform, d3.zoomIdentity);
     };
 
     Viewer.prototype.didEnterStatusNodes = function (statuses) { };
@@ -287,8 +287,7 @@ jQuery(function () {
     Viewer.prototype.centerOnItem = function (item) {
         var x = this.xScale(item.x);
         var y = this.yScale(item.y);
-        this.svg.selectAll("g")
-                .call(this._zoom.translateTo, x, y);
+        this.transformContainer.call(this._zoom.translateTo, x, y);
     };
 
     Viewer.prototype.defocus = function () {
@@ -366,6 +365,7 @@ jQuery(function () {
         self.container = jQuery(node);
         self.svg       = d3.select(node).select('svg');
 
+        self.transformContainer  = self.svg.select('g.transform');
         self.transitionContainer = self.svg.select('g.transitions');
         self.statusContainer     = self.svg.select('g.statuses');
         self.decorationContainer = self.svg.select('g.decorations');
