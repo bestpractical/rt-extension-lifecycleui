@@ -5,22 +5,6 @@ jQuery(function () {
         this.padding = this.statusCircleRadius;
     };
 
-    Viewer.prototype.createArrowHead = function () {
-        var defs = this.svg.append('defs');
-        defs.append('marker')
-            .attr('id', 'marker_arrowhead')
-            .attr('markerHeight', 5)
-            .attr('markerWidth', 5)
-            .attr('markerUnits', 'strokeWidth')
-            .attr('orient', 'auto')
-            .attr('refX', this.statusCircleRadius + 5)
-            .attr('refY', 0)
-            .attr('viewBox', '-5 -5 10 10')
-            .append('path')
-              .attr('d', 'M 0,0 m -5,-5 L 5,0 L -5,5 Z')
-              .attr('fill', 'black');
-    };
-
     Viewer.prototype.createScale = function (size, padding) {
         return d3.scaleLinear()
                  .domain([0, 1])
@@ -254,7 +238,6 @@ jQuery(function () {
         self.lifecycle = new RT.Lifecycle();
         self.lifecycle.initializeFromConfig(config);
 
-        self.createArrowHead();
         self.addZoomBehavior();
 
         self.focusOnStatus(focusStatus);
