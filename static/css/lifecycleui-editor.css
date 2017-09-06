@@ -78,3 +78,11 @@
 .lifecycle-ui svg.editing.has-focus[data-focus-type=transition] .statuses .focus-from {
     opacity: 1;
 }
+
+.lifecycle-ui svg.editing.has-focus .decorations .text-background {
+    stroke: none;
+    fill: white;
+    opacity: 1;
+    filter: url(#focus);
+}
+

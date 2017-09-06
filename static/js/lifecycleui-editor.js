@@ -297,6 +297,38 @@ jQuery(function () {
         this.renderDisplay();
     };
 
+    // add a rect under the focused text decoration for highlighting
+    Editor.prototype.renderTextDecorations = function (initial) {
+        Super.prototype.renderTextDecorations.call(this, initial);
+        var self = this;
+
+        if (!self._focusItem || self._focusItem._type != 'text') {
+            self.decorationContainer.selectAll("rect")
+                .data([])
+                .exit()
+                .remove();
+            return;
+        }
+
+        var d = self._focusItem;
+        var label = self.decorationContainer.select("text[data-key='"+d._key+"']");
+        var rect = label.node().getBoundingClientRect();
+        var width = rect.width;
+        var height = rect.height;
+        var padding = 5;
+
+        var background = self.decorationContainer.selectAll("rect")
+                             .data([d], function (d) { return d._key });
+
+        background.enter().insert("rect", ":first-child")
+                     .classed("text-background", true)
+              .merge(background)
+                     .attr("x", self.xScale(d.x)-padding)
+                     .attr("y", self.yScale(d.y)-height-padding)
+                     .attr("width", width+padding*2)
+                     .attr("height", height+padding*2)
+    };
+
     Editor.prototype.renderPolygonDecorations = function (initial) {
         Super.prototype.renderPolygonDecorations.call(this, initial);
 
