@@ -287,10 +287,10 @@ jQuery(function () {
     };
 
     Editor.prototype.didDragPointHandle = function (d, node) {
-        var x = this.xScaleInvert(d3.event.x);
-        var y = this.yScaleInvert(d3.event.y);
+        var x = this.xScaleZeroInvert(d3.event.x);
+        var y = this.yScaleZeroInvert(d3.event.y);
 
-        if (this.xScale(x) == this.xScale(d.x) && this.yScale(y) == this.yScale(d.y)) {
+        if (this.xScaleZero(x) == this.xScaleZero(d.x) && this.yScaleZero(y) == this.yScaleZero(d.y)) {
             return;
         }
 
@@ -347,13 +347,13 @@ jQuery(function () {
         handles.enter().append("circle")
                      .classed("point-handle", true)
                      .call(d3.drag()
-                         .subject(function (d) { return { x: self.xScale(d.x), y : self.yScale(d.y) } })
+                         .subject(function (d) { return { x: self.xScaleZero(d.x), y : self.yScaleZero(d.y) } })
                          .on("drag", function (d) { self.didDragPointHandle(d) })
                      )
               .merge(handles)
                      .attr("transform", function (d) { return "translate(" + self.xScale(self.inspectorNode.x) + ", " + self.yScale(self.inspectorNode.y) + ")" })
-                     .attr("cx", function (d) { return self.xScale(d.x) })
-                     .attr("cy", function (d) { return self.yScale(d.y) })
+                     .attr("cx", function (d) { return self.xScaleZero(d.x) })
+                     .attr("cy", function (d) { return self.yScaleZero(d.y) })
     };
 
     Editor.prototype.clickedStatus = function (d) {

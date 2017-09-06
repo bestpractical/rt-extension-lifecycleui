@@ -14,8 +14,12 @@ jQuery(function () {
     Viewer.prototype.gridScale = function (v) { return Math.round(v/this.gridSize) * this.gridSize };
     Viewer.prototype.xScale = function (x) { return this.gridScale(this._xScale(x)) };
     Viewer.prototype.yScale = function (y) { return this.gridScale(this._yScale(y)) };
+    Viewer.prototype.xScaleZero = function (x) { return this.gridScale(this._xScaleZero(x)) };
+    Viewer.prototype.yScaleZero = function (y) { return this.gridScale(this._yScaleZero(y)) };
     Viewer.prototype.xScaleInvert = function (x) { return this._xScale.invert(x) };
     Viewer.prototype.yScaleInvert = function (y) { return this._yScale.invert(y) };
+    Viewer.prototype.xScaleZeroInvert = function (x) { return this._xScaleZero.invert(x) };
+    Viewer.prototype.yScaleZeroInvert = function (y) { return this._yScaleZero.invert(y) };
 
     Viewer.prototype.addZoomBehavior = function () {
         var self = this;
@@ -197,7 +201,7 @@ jQuery(function () {
                      .attr("transform", function (d) { return "translate(" + self.xScale(d.x) + ", " + self.yScale(d.y) + ")" })
                      .attr("points", function (d) {
                          return jQuery.map(d.points, function(p) {
-                             return [self.xScale(p.x),self.yScale(p.y)].join(",");
+                             return [self.xScaleZero(p.x),self.yScaleZero(p.y)].join(",");
                          }).join(" ");
                      })
                     .classed("focus", function (d) { return self.isFocused(d) })
@@ -335,6 +339,8 @@ jQuery(function () {
 
         self._xScale = self.createScale(self.width, self.padding);
         self._yScale = self.createScale(self.height, self.padding);
+        self._xScaleZero = self.createScale(self.width, 0);
+        self._yScaleZero = self.createScale(self.height, 0);
 
         self.lifecycle = new RT.Lifecycle();
         self.lifecycle.initializeFromConfig(config);
