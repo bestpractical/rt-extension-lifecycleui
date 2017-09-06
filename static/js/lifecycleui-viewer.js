@@ -46,6 +46,7 @@ jQuery(function () {
     Viewer.prototype.didEnterTextDecorations = function (labels) { };
     Viewer.prototype.didEnterPolygonDecorations = function (polygons) { };
     Viewer.prototype.didEnterCircleDecorations = function (circles) { };
+    Viewer.prototype.didEnterLineDecorations = function (lines) { };
 
     Viewer.prototype.renderStatusNodes = function (initial) {
         var self = this;
@@ -236,9 +237,39 @@ jQuery(function () {
                      .classed("focus", function (d) { return self.isFocused(d) })
     };
 
+    Viewer.prototype.renderLineDecorations = function (initial) {
+        var self = this;
+        var lines = self.decorationContainer.selectAll("line")
+                           .data(self.lifecycle.decorations.line, function (d) { return d._key });
+
+        lines.exit()
+            .classed("removing", true)
+            .transition().duration(200)
+              .remove();
+
+        lines.enter().append("line")
+                     .attr("data-key", function (d) { return d._key })
+                     .on("click", function (d) {
+                         d3.event.stopPropagation();
+                         self.clickedDecoration(d);
+                     })
+                     .call(function (lines) { self.didEnterLineDecorations(lines) })
+              .merge(lines)
+                     .classed("dashed", function (d) { return d.style == 'dashed' })
+                     .classed("dotted", function (d) { return d.style == 'dotted' })
+                     .attr("x1", function (d) { return self.xScale(d.x1) })
+                     .attr("y1", function (d) { return self.yScale(d.y1) })
+                     .attr("x2", function (d) { return self.xScale(d.x2) })
+                     .attr("y2", function (d) { return self.yScale(d.y2) })
+                     .classed("focus", function (d) { return self.isFocused(d) })
+                     .attr("marker-start", function (d) { return d.startMarker == 'none' ? undefined : "url(#line_marker_" + d.startMarker + ")" })
+                     .attr("marker-end", function (d) { return d.endMarker == 'none' ? undefined : "url(#line_marker_" + d.endMarker + ")" })
+    };
+
     Viewer.prototype.renderDecorations = function (initial) {
         this.renderPolygonDecorations(initial);
         this.renderCircleDecorations(initial);
+        this.renderLineDecorations(initial);
         this.renderTextDecorations(initial);
     };
 

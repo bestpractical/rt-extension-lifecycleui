@@ -7,4 +7,5 @@
 <& LifecycleInspectorText, %ARGS &>
 <& LifecycleInspectorPolygon, %ARGS &>
 <& LifecycleInspectorCircle, %ARGS &>
+<& LifecycleInspectorLine, %ARGS &>
 <& LifecycleInspectorAction, %ARGS &>

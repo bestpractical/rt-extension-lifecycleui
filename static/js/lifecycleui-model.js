@@ -173,7 +173,7 @@ jQuery(function () {
 
         self.decorations = {};
 
-        jQuery.each(['text', 'polygon', 'circle'], function (i, type) {
+        jQuery.each(['text', 'polygon', 'circle', 'line'], function (i, type) {
             var decorations = [];
 
             if (config.decorations && config.decorations[type]) {
@@ -465,7 +465,7 @@ jQuery(function () {
         else if (type == 'transition') {
             this.deleteTransition(key);
         }
-        else if (type == 'text' || type == 'polygon' || type == 'circle') {
+        else if (type == 'text' || type == 'polygon' || type == 'circle' || type == 'line') {
             this.deleteDecoration(type, key);
         }
         else {
@@ -588,6 +588,24 @@ jQuery(function () {
             r: 35
         };
         this.decorations.circle.push(item);
+        this._keyMap[item._key] = item;
+        return item;
+    };
+
+    Lifecycle.prototype.createLineDecoration = function () {
+        var item = {
+            _key: _ELEMENT_KEY_SEQ++,
+            _type: 'line',
+            label: 'Line',
+            style: 'solid',
+            startMarker: 'none',
+            endMarker: 'arrowhead',
+            x1: 0.4,
+            y1: 0.5,
+            x2: 0.6,
+            y2: 0.5
+        };
+        this.decorations.line.push(item);
         this._keyMap[item._key] = item;
         return item;
     };

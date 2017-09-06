@@ -216,6 +216,11 @@ jQuery(function () {
             e.preventDefault();
             self.addNewCircleDecoration();
         });
+
+        inspector.on('click', '.add-line', function (e) {
+            e.preventDefault();
+            self.addNewLineDecoration();
+        });
     };
 
     Editor.prototype.deselectAll = function (clearSelection) {
@@ -407,6 +412,10 @@ jQuery(function () {
         circles.call(this._createDrag());
     };
 
+    Editor.prototype.didEnterLineDecorations = function (lines) {
+        lines.call(this._createDrag());
+    };
+
     Editor.prototype.addNewStatus = function () {
         var status = this.lifecycle.createStatus();
         this.selectStatus(status.name);
@@ -425,6 +434,11 @@ jQuery(function () {
     Editor.prototype.addNewCircleDecoration = function () {
         var circle = this.lifecycle.createCircleDecoration();
         this.selectDecoration(circle._key);
+    };
+
+    Editor.prototype.addNewLineDecoration = function () {
+        var line = this.lifecycle.createLineDecoration();
+        this.selectDecoration(line._key);
     };
 
     Editor.prototype.initializeEditor = function (node, config, focusStatus) {

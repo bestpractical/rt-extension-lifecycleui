@@ -30,8 +30,13 @@
     alignment-baseline: middle;
 }
 
+.lifecycle-ui .decorations line {
+    stroke: #000000;
+}
+
 .lifecycle-ui .decorations polygon,
-.lifecycle-ui .decorations circle {
+.lifecycle-ui .decorations circle,
+.lifecycle-ui .decorations line {
     stroke-width: 2px;
 }
 

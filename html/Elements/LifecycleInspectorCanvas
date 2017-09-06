@@ -9,6 +9,7 @@
                   <li><a href="#" class="add-polygon" data-type="Triangle">Add Triangle</a></li>
                   <li><a href="#" class="add-polygon" data-type="Rectangle">Add Rectangle</a></li>
                   <li><a href="#" class="add-circle">Add Circle</a></li>
+                  <li><a href="#" class="add-line">Add Line</a></li>
               </ul>
           </li>
           <li class="has-children">Select Status
@@ -31,6 +32,9 @@
               <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
               {{/each}}
               {{#each lifecycle.decorations.circle}}
+              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
+              {{/each}}
+              {{#each lifecycle.decorations.line}}
               <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
               {{/each}}
               </ul>
