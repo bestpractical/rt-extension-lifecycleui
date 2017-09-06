@@ -1,7 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="transition">
     <div class="transition">
-       From: <a href="#" class="select-status" data-name="{{transition.from}}">{{transition.from}}</a><br>
-       To: <a href="#" class="select-status" data-name="{{transition.to}}">{{transition.to}}</a><br>
+       Transition from <a href="#" class="select-status" data-name="{{transition.from}}">{{transition.from}}</a> to <a href="#" class="select-status" data-name="{{transition.to}}">{{transition.to}}</a><br><br>
        Right: <input type="text" name="right" value="{{transition.right}}"><br>
        Style: <select name="style">
                  {{#select transition.style}}

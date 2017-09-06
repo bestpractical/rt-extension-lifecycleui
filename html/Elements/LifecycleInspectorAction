@@ -1,6 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="action">
     <li class="action" data-key="{{action._key}}">
-        Label: <input type="text" name="label" value="{{action.label}}"></input><br>
+        Label: <input type="text" name="label" value="{{action.label}}"></input><br><br>
         Update: <select name="update">
                   {{#select action.update}}
                   <option value=""><&|/l&>quick</&></option>

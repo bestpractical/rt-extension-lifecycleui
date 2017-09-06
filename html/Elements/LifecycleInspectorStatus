@@ -1,6 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
     <div class="status">
-        Name: <input type="text" name="name" maxlength=25 value="{{status.name}}"><br>
+        Status: <input type="text" name="name" maxlength=25 value="{{status.name}}"><br><br>
         Type: <select name="type">
                   {{#select status.type}}
                   <option value="initial"><&|/l&>initial</&></option>

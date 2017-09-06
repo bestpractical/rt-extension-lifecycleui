@@ -1,6 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
-        Name: {{lifecycle.name}}<br>
+        Lifecycle: {{lifecycle.name}}<br><br>
         Type: {{lifecycle.type}}<br>
 
         {{#if lifecycle.is_ticket}}

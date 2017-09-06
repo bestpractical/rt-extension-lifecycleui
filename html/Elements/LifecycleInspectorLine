@@ -1,6 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="line">
     <div class="line">
-       Label: <input type="text" name="label" value="{{line.label}}" /><br>
+       Label: <input type="text" name="label" value="{{line.label}}" /><br><br>
        Start Marker: <select name="startMarker">
                  {{#select line.startMarker}}
                  <option value="none"><&|/l&>none</&></option>
