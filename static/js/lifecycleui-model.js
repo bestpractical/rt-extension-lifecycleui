@@ -11,6 +11,7 @@ jQuery(function () {
         this.transitions = [];
         this.decorations = {};
 
+        this._undoStack = [];
         this._keyMap = {};
         this._statusMeta = {};
 
@@ -355,6 +356,8 @@ jQuery(function () {
     Lifecycle.prototype.deleteStatus = function (key) {
         var self = this;
 
+        self._saveUndoEntry();
+
         var statusName = self.statusNameForKey(key);
         if (!statusName) {
             console.error("no status for key '" + key + "'; did you accidentally pass status name?");
@@ -385,6 +388,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
+        this._saveUndoEntry();
+
         var transition = {
             _key    : _ELEMENT_KEY_SEQ++,
             _type   : 'transition',
@@ -439,6 +444,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.deleteTransition = function (key) {
+        this._saveUndoEntry();
+
         this.transitions = jQuery.grep(this.transitions, function (transition) {
             if (transition._key == key) {
                 return false;
@@ -449,6 +456,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.deleteDecoration = function (type, key) {
+        this._saveUndoEntry();
+
         this.decorations[type] = jQuery.grep(this.decorations[type], function (decoration) {
             if (decoration._key == key) {
                 return false;
@@ -481,6 +490,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.deleteActionForTransition = function (transition, key) {
+        this._saveUndoEntry();
+
         transition.actions = jQuery.grep(transition.actions, function (action) {
             if (action._key == key) {
                 return false;
@@ -491,6 +502,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.updateItem = function (item, field, newValue) {
+        this._saveUndoEntry();
+
         var oldValue = item[field];
 
         item[field] = newValue;
@@ -501,6 +514,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createActionForTransition = function (transition) {
+        this._saveUndoEntry();
+
         var action = {
             _type : 'action',
             _key  : _ELEMENT_KEY_SEQ++,
@@ -522,6 +537,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createStatus = function () {
+        this._saveUndoEntry();
+
         var name;
         var i = 0;
         while (1) {
@@ -549,6 +566,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createTextDecoration = function () {
+        this._saveUndoEntry();
+
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
             _type: 'text',
@@ -562,6 +581,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createPolygonDecoration = function (type) {
+        this._saveUndoEntry();
+
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
             _type: 'polygon',
@@ -581,6 +602,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createCircleDecoration = function () {
+        this._saveUndoEntry();
+
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
             _type: 'circle',
@@ -600,6 +623,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createLineDecoration = function () {
+        this._saveUndoEntry();
+
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
             _type: 'line',
@@ -615,6 +640,8 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.update = function (field, value) {
+        this._saveUndoEntry();
+
         if (field == 'on_create' || field == 'approved' || field == 'denied' || field == 'reminder_on_open' || field == 'reminder_on_resolve') {
             this.defaults[field] = value;
         }
@@ -624,6 +651,39 @@ jQuery(function () {
         else {
             console.error("Unhandled field in Lifecycle.update: " + field);
         }
+    };
+
+    Lifecycle.prototype._saveUndoEntry = function () {
+        var undoStack = this._undoStack;
+        delete this._undoStack;
+        var entry = jQuery.extend(true, {}, this);
+        var extra = {};
+        if (this.saveUndoCallback) {
+            extra = this.saveUndoCallback();
+        }
+        undoStack.push([entry, extra]);
+        this._undoStack = undoStack;
+    };
+
+    Lifecycle.prototype.undo = function () {
+        var undoStack = this._undoStack;
+        if (undoStack.length == 0) {
+            return null;
+        }
+
+        delete this._undoStack;
+        var payload = undoStack.pop();
+        var entry = payload[0];
+
+        for (var key in entry) {
+            if (entry.hasOwnProperty(key)) {
+                this[key] = entry[key];
+            }
+        }
+
+        this._undoStack = undoStack;
+
+        return payload[1];
     };
 
     RT.Lifecycle = Lifecycle;

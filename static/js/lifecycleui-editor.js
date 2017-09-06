@@ -226,6 +226,29 @@ jQuery(function () {
 
         inspector.on('click', 'button.undo', function (e) {
             e.preventDefault();
+            var payload = self.lifecycle.undo();
+            if (!payload) {
+                return;
+            }
+
+            if (payload.inspectorKey) {
+                var node = self.lifecycle.itemForKey(payload.inspectorKey);
+                self.setInspectorContent(node);
+            }
+            else {
+                self.setInspectorContent(null);
+            }
+
+            if (payload.focusKey) {
+                var node = self.lifecycle.itemForKey(payload.focusKey);
+                self.focusItem(node);
+            }
+            else {
+                self.defocus();
+            }
+
+            self.renderDisplay();
+
         });
 
         inspector.on('click', 'button.redo', function (e) {
@@ -476,6 +499,17 @@ jQuery(function () {
         });
 
         self.svg.on('click', function () { self.deselectAll(true) });
+
+        self.lifecycle.saveUndoCallback = function () {
+            var payload = {};
+            if (self.inspectorNode) {
+                payload.inspectorKey = self.inspectorNode._key;
+            }
+            if (self._focusItem) {
+                payload.focusKey = self._focusItem._key;
+            }
+            return payload;
+        };
     };
 
     RT.LifecycleEditor = Editor;
