@@ -5,12 +5,14 @@
                  {{#select line.startMarker}}
                  <option value="none"><&|/l&>none</&></option>
                  <option value="arrowhead"><&|/l&>arrowhead</&></option>
+                 <option value="diamond"><&|/l&>diamond</&></option>
                  {{/select}}
                  </select><br>
        End Marker: <select name="endMarker">
                  {{#select line.endMarker}}
                  <option value="none"><&|/l&>none</&></option>
                  <option value="arrowhead"><&|/l&>arrowhead</&></option>
+                 <option value="diamond"><&|/l&>diamond</&></option>
                  {{/select}}
                  </select><br>
        Style: <select name="style">
