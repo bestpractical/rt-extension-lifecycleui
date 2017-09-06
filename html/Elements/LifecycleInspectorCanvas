@@ -1,6 +1,50 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
         Lifecycle: {{lifecycle.name}}<br>
+        On Create: <select name="on_create">
+                     {{#select lifecycle.defaults.on_create}}
+                       <option value=""><&|/l&>(no value)</&></option>
+                       {{#each lifecycle.statuses}}
+                         <option value="{{this}}">{{this}}</option>
+                       {{/each}}
+                     {{/select}}
+                   </select><br>
+
+        Approved: <select name="approved">
+                     {{#select lifecycle.defaults.approved}}
+                       <option value=""><&|/l&>(no value)</&></option>
+                       {{#each lifecycle.statuses}}
+                         <option value="{{this}}">{{this}}</option>
+                       {{/each}}
+                     {{/select}}
+                   </select><br>
+
+        Denied: <select name="denied">
+                     {{#select lifecycle.defaults.denied}}
+                       <option value=""><&|/l&>(no value)</&></option>
+                       {{#each lifecycle.statuses}}
+                         <option value="{{this}}">{{this}}</option>
+                       {{/each}}
+                     {{/select}}
+                   </select><br>
+
+        Reminder on Open: <select name="reminder_on_open">
+                     {{#select lifecycle.defaults.reminder_on_open}}
+                       <option value=""><&|/l&>(no value)</&></option>
+                       {{#each lifecycle.statuses}}
+                         <option value="{{this}}">{{this}}</option>
+                       {{/each}}
+                     {{/select}}
+                   </select><br>
+
+        Reminder on Resolve: <select name="reminder_on_resolve">
+                     {{#select lifecycle.defaults.reminder_on_resolve}}
+                       <option value=""><&|/l&>(no value)</&></option>
+                       {{#each lifecycle.statuses}}
+                         <option value="{{this}}">{{this}}</option>
+                       {{/each}}
+                     {{/select}}
+                   </select><br>
 
         <button class="add-status"><&|/l&>Add Status</&></button><br>
         <ul>

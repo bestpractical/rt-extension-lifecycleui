@@ -608,6 +608,15 @@ jQuery(function () {
         return item;
     };
 
+    Lifecycle.prototype.update = function (field, value) {
+        if (field == 'on_create' || field == 'approved' || field == 'denied' || field == 'reminder_on_open' || field == 'reminder_on_resolve') {
+            this.defaults[field] = value;
+        }
+        else {
+            console.error("Unhandled field in Lifecycle.update: " + field);
+        }
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 

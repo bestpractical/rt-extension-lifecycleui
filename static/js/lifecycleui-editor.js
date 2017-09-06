@@ -93,6 +93,9 @@ jQuery(function () {
                 var action = lifecycle.itemForKey(action.data('key'));
                 lifecycle.updateItem(action, field, value);
             }
+            else if (inspector.find('.canvas').length) {
+                lifecycle.update(field, value);
+            }
             else {
                 lifecycle.updateItem(self.inspectorNode, field, value);
             }
