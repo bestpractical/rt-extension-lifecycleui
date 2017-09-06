@@ -263,7 +263,7 @@ jQuery(function () {
         this.focusItem(d);
         this.setInspectorContent(d);
 
-        if (d._type == 'polygon') {
+        if (d._type == 'polygon' || d._type == 'line') {
             this.addPointHandles(d);
         }
 
@@ -271,15 +271,20 @@ jQuery(function () {
     };
 
     Editor.prototype.addPointHandles = function (d) {
+        var self = this;
         var points = [];
         for (var i = 0; i < d.points.length; ++i) {
             points.push({
                 i: i,
                 x: d.points[i].x,
-                y: d.points[i].y
+                y: d.points[i].y,
+                xScale: d._type == 'polygon' ? function (v) { return self.xScaleZero(v) } : function (v) { return self.xScale(v) },
+                yScale: d._type == 'polygon' ? function (v) { return self.yScaleZero(v) } : function (v) { return self.yScale(v) },
+                xScaleInvert: d._type == 'polygon' ? function (v) { return self.xScaleZeroInvert(v) } : function (v) { return self.xScaleInvert(v) },
+                yScaleInvert: d._type == 'polygon' ? function (v) { return self.yScaleZeroInvert(v) } : function (v) { return self.yScaleInvert(v) }
             });
         }
-        this.pointHandles = points;
+        self.pointHandles = points;
     };
 
     Editor.prototype.removePointHandles = function () {
@@ -288,14 +293,14 @@ jQuery(function () {
         }
 
         delete this.pointHandles;
-        this.renderPolygonDecorations();
+        this.renderDecorations();
     };
 
     Editor.prototype.didDragPointHandle = function (d, node) {
-        var x = this.xScaleZeroInvert(d3.event.x);
-        var y = this.yScaleZeroInvert(d3.event.y);
+        var x = d.xScaleInvert(d3.event.x);
+        var y = d.yScaleInvert(d3.event.y);
 
-        if (this.xScaleZero(x) == this.xScaleZero(d.x) && this.yScaleZero(y) == this.yScaleZero(d.y)) {
+        if (d.xScale(x) == d.xScale(d.x) && d.yScale(y) == d.yScale(d.y)) {
             return;
         }
 
@@ -352,13 +357,13 @@ jQuery(function () {
         handles.enter().append("circle")
                      .classed("point-handle", true)
                      .call(d3.drag()
-                         .subject(function (d) { return { x: self.xScaleZero(d.x), y : self.yScaleZero(d.y) } })
+                         .subject(function (d) { return { x: d.xScale(d.x), y : d.yScale(d.y) } })
                          .on("drag", function (d) { self.didDragPointHandle(d) })
                      )
               .merge(handles)
                      .attr("transform", function (d) { return "translate(" + self.xScale(self.inspectorNode.x) + ", " + self.yScale(self.inspectorNode.y) + ")" })
-                     .attr("cx", function (d) { return self.xScaleZero(d.x) })
-                     .attr("cy", function (d) { return self.yScaleZero(d.y) })
+                     .attr("cx", function (d) { return d.xScale(d.x) })
+                     .attr("cy", function (d) { return d.yScale(d.y) })
     };
 
     Editor.prototype.clickedStatus = function (d) {
@@ -410,10 +415,6 @@ jQuery(function () {
 
     Editor.prototype.didEnterCircleDecorations = function (circles) {
         circles.call(this._createDrag());
-    };
-
-    Editor.prototype.didEnterLineDecorations = function (lines) {
-        lines.call(this._createDrag());
     };
 
     Editor.prototype.addNewStatus = function () {

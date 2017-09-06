@@ -600,10 +600,7 @@ jQuery(function () {
             style: 'solid',
             startMarker: 'none',
             endMarker: 'arrowhead',
-            x1: 0.4,
-            y1: 0.5,
-            x2: 0.6,
-            y2: 0.5
+            points: [{x:0.4, y:0.5}, {x:0.6, y:0.5}]
         };
         this.decorations.line.push(item);
         this._keyMap[item._key] = item;
