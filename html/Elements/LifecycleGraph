@@ -1,5 +1,5 @@
-<div class="lifecycle-ui" id="lifecycle-<% $id %>">
-    <svg<% $Editing ? ' class="editing"' : '' |n %>>
+<div class="lifecycle-ui<% $Editing ? ' editing' : '' %>" id="lifecycle-<% $id %>">
+    <svg>
         <& /Elements/LifecycleGraphExtras, %ARGS &>
         <g class="decorations"></g>
         <g class="transitions"></g>

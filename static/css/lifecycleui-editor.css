@@ -1,4 +1,4 @@
-.lifecycle-ui svg.editing {
+.lifecycle-ui.editing svg {
     display: inline-block;
     float: left;
     width: 809px;
@@ -48,21 +48,21 @@
     padding: .5em;
 }
 
-.lifecycle-ui svg.editing.has-focus .decorations > * {
+.lifecycle-ui.editing svg.has-focus .decorations > * {
     opacity: .15;
 }
 
-.lifecycle-ui svg.editing.has-focus .decorations .focus,
-.lifecycle-ui svg.editing.has-focus .decorations .point-handle,
-.lifecycle-ui svg.editing.has-focus .transitions .focus {
+.lifecycle-ui.editing svg.has-focus .decorations .focus,
+.lifecycle-ui.editing svg.has-focus .decorations .point-handle,
+.lifecycle-ui.editing svg.has-focus .transitions .focus {
     opacity: 1;
 }
 
-.lifecycle-ui svg.editing.has-focus[data-focus-type=transition] .statuses .focus-from {
+.lifecycle-ui.editing svg.has-focus[data-focus-type=transition] .statuses .focus-from {
     opacity: 1;
 }
 
-.lifecycle-ui svg.editing.has-focus .decorations .text-background {
+.lifecycle-ui.editing svg.has-focus .decorations .text-background {
     stroke: none;
     fill: white;
     opacity: 1;
