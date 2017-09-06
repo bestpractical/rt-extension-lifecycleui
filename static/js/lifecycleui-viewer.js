@@ -35,6 +35,17 @@ jQuery(function () {
         this.transformContainer.attr("transform", d3.event.transform);
     };
 
+    Viewer.prototype.zoomScale = function (scaleBy, animated) {
+        if (animated) {
+            this.svg.transition()
+                    .duration(350)
+                    .call(this._zoom.scaleBy, scaleBy);
+        }
+        else {
+            this.svg.call(this._zoom.scaleBy, scaleBy);
+        }
+    }
+
     Viewer.prototype.resetZoom = function (animated) {
         if (animated) {
             this.svg.transition()
@@ -390,6 +401,21 @@ jQuery(function () {
         self.focusOnStatus(focusStatus, true, false);
 
         self.renderDisplay(true);
+
+        self.container.on('click', 'button.zoom-in', function (e) {
+            e.preventDefault();
+            self.zoomScale(1.25, true);
+        });
+
+        self.container.on('click', 'button.zoom-out', function (e) {
+            e.preventDefault();
+            self.zoomScale(.75, true);
+        });
+
+        self.container.on('click', 'button.zoom-reset', function (e) {
+            e.preventDefault();
+            self.resetZoom(true);
+        });
     };
 
     RT.LifecycleViewer = Viewer;
