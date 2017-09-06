@@ -27,6 +27,13 @@ jQuery(function () {
             return lifecycle.hasTransition(fromStatus, toStatus);
         });
 
+        Handlebars.registerHelper('truncate', function(text) {
+            if (text.length > 15) {
+                text = text.substr(0, 15) + '…';
+            }
+            return text;
+        });
+
         var templates = {};
         self.container.find('script.lifecycle-inspector-template').each(function () {
             var type = jQuery(this).data('type');
@@ -182,6 +189,12 @@ jQuery(function () {
             var toStatus   = button.data('to');
 
             self.selectTransition(fromStatus, toStatus);
+        });
+
+        inspector.on('click', 'a.select-decoration', function (e) {
+            e.preventDefault();
+            var key = jQuery(this).data('key');
+            self.selectDecoration(key);
         });
 
         inspector.on('click', '.add-status', function (e) {

@@ -17,9 +17,20 @@
               {{/each}}
               </ul>
            </li>
-           <li class="has-children">Select Transition</li>
-           <li class="has-children">Select Text</li>
-           <li class="has-children">Select Shape</li>
+           <li class="has-children">Select Text
+              <ul>
+              {{#each lifecycle.decorations.text}}
+              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.text}}</a></li>
+              {{/each}}
+              </ul>
+           </li>
+           <li class="has-children">Select Shape
+              <ul>
+              {{#each lifecycle.decorations.polygon}}
+              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
+              {{/each}}
+              </ul>
+           </li>
         </ul>
     </div>
 </script>
