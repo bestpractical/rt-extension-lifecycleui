@@ -209,7 +209,7 @@ jQuery(function () {
 
     Viewer.prototype.renderCircleDecorations = function (initial) {
         var self = this;
-        var circles = self.decorationContainer.selectAll("circle")
+        var circles = self.decorationContainer.selectAll("circle.decoration")
                            .data(self.lifecycle.decorations.circle, function (d) { return d._key });
 
         circles.exit()
@@ -218,6 +218,7 @@ jQuery(function () {
               .remove();
 
         circles.enter().append("circle")
+                     .classed("decoration", true)
                      .attr("data-key", function (d) { return d._key })
                      .on("click", function (d) {
                          d3.event.stopPropagation();

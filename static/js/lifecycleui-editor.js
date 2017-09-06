@@ -338,7 +338,7 @@ jQuery(function () {
         Super.prototype.renderPolygonDecorations.call(this, initial);
 
         var self = this;
-        var handles = self.decorationContainer.selectAll("circle")
+        var handles = self.decorationContainer.selectAll("circle.point-handle")
                            .data(self.pointHandles || [], function (d) { return d.i });
 
         handles.exit()
