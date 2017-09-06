@@ -35,6 +35,10 @@ jQuery(function () {
             self.type = config.type;
         }
 
+        if (config.ticket_display) {
+            self.ticket_display = config.ticket_display;
+        }
+
         jQuery.each(['initial', 'active', 'inactive'], function (i, type) {
             if (config[type]) {
                 self.statuses = self.statuses.concat(config[type]);
@@ -240,6 +244,7 @@ jQuery(function () {
             rights: {},
             transitions: self.transitions,
 
+            ticket_display: self.ticket_display,
             decorations: {},
             statusExtra: {},
             transitionExtra: {}
@@ -610,6 +615,9 @@ jQuery(function () {
     Lifecycle.prototype.update = function (field, value) {
         if (field == 'on_create' || field == 'approved' || field == 'denied' || field == 'reminder_on_open' || field == 'reminder_on_resolve') {
             this.defaults[field] = value;
+        }
+        else if (field == 'ticket_display') {
+            this[field] = value;
         }
         else {
             console.error("Unhandled field in Lifecycle.update: " + field);

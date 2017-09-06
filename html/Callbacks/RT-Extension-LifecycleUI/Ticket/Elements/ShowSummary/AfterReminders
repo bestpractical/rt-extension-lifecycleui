@@ -2,7 +2,8 @@
 $Ticket
 </%ARGS>
 <%INIT>
-return if 0; # XXX check to see if lifecycle should show on ticket
+my $config = $Ticket->LifecycleObj->{data}{ticket_display} || 'hidden';
+return unless $config eq 'readonly' || $config eq 'interactive';
 </%INIT>
 <&| /Widgets/TitleBox,
     title => loc("Lifecycle"),
