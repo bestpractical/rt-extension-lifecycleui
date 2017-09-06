@@ -361,7 +361,7 @@ jQuery(function () {
                          .on("drag", function (d) { self.didDragPointHandle(d) })
                      )
               .merge(handles)
-                     .attr("transform", function (d) { return "translate(" + self.xScale(self.inspectorNode.x) + ", " + self.yScale(self.inspectorNode.y) + ")" })
+                     .attr("transform", function (d) { return self.inspectorNode._type == 'polygon' ? "translate(" + self.xScale(self.inspectorNode.x) + ", " + self.yScale(self.inspectorNode.y) + ")" : 'translate(0, 20)'})
                      .attr("cx", function (d) { return d.xScale(d.x) })
                      .attr("cy", function (d) { return d.yScale(d.y) })
     };
