@@ -57,7 +57,6 @@ jQuery(function () {
         params[type] = node;
 
         inspector.html(self.templates[type](params));
-        inspector.find('sf-menu').supersubs().superfish({ dropShadows: false, speed: 'fast', delay: 0 }).supposition()
 
         inspector.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);

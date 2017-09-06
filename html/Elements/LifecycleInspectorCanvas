@@ -1,9 +1,8 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
         <button class="add-status"><&|/l&>Add Status</&></button><br>
-    <br>
-        <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
-          <li class="has-children">Add Decoration
+        <ul>
+          <li>Add Decoration...
               <ul>
                   <li><a href="#" class="add-text">Add Text</a></li>
                   <li><a href="#" class="add-polygon" data-type="Triangle">Add Triangle</a></li>
@@ -12,26 +11,26 @@
                   <li><a href="#" class="add-line">Add Line</a></li>
               </ul>
           </li>
-          <li class="has-children">Select Status
+          <li>Select Status...
               <ul>
               {{#each lifecycle.statuses}}
-              <li><a href="#" class="select-status menu-item" data-name="{{this}}">{{this}}</a></li>
+              <li><a href="#" class="select-status" data-name="{{this}}">{{this}}</a></li>
               {{/each}}
               </ul>
            </li>
-           <li class="has-children">Select Decoration
+           <li>Select Decoration...
               <ul>
               {{#each lifecycle.decorations.text}}
-              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.text}}</a></li>
+              <li><a href="#" class="select-decoration" data-key="{{this._key}}">{{truncate this.text}}</a></li>
               {{/each}}
               {{#each lifecycle.decorations.polygon}}
-              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
+              <li><a href="#" class="select-decoration" data-key="{{this._key}}">{{truncate this.label}}</a></li>
               {{/each}}
               {{#each lifecycle.decorations.circle}}
-              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
+              <li><a href="#" class="select-decoration" data-key="{{this._key}}">{{truncate this.label}}</a></li>
               {{/each}}
               {{#each lifecycle.decorations.line}}
-              <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
+              <li><a href="#" class="select-decoration" data-key="{{this._key}}">{{truncate this.label}}</a></li>
               {{/each}}
               </ul>
            </li>

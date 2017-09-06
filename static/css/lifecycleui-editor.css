@@ -37,23 +37,6 @@
     r: 5px;
 }
 
-.lifecycle-ui .inspector li.has-children {
-    background: transparent;
-}
-
-.lifecycle-ui .inspector a {
-    border: none;
-    color: #000;
-}
-
-.lifecycle-ui .inspector a.sf-with-ul {
-    padding-top: .3em;
-}
-
-.lifecycle-ui .inspector .sf-sub-indicator {
-    top: .2em;
-}
-
 .lifecycle-ui .inspector .actions {
     list-style-type: none;
     padding: 0;
@@ -88,4 +71,14 @@
 
 .lifecycle-ui .inspector button.delete {
     margin-top: 2em;
+}
+
+.lifecycle-ui .inspector .canvas ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.lifecycle-ui .inspector .canvas ul ul {
+    padding-left: 3em;
+    margin-bottom: 1em;
 }
