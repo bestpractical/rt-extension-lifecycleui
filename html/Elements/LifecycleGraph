@@ -1,9 +1,9 @@
 <div class="lifecycle-ui" id="lifecycle-<% $id %>">
     <svg<% $Editing ? ' class="editing"' : '' |n %>>
         <& /Elements/LifecycleGraphExtras, %ARGS &>
+        <g class="decorations"></g>
         <g class="transitions"></g>
         <g class="statuses"></g>
-        <g class="decorations"></g>
     </svg>
 % if ($Editing) {
     <& /Elements/LifecycleInspector &>
