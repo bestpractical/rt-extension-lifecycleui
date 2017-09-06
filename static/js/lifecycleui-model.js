@@ -13,12 +13,12 @@ jQuery(function () {
         this._statusMeta = {};
 
         this._initialPointsForPolygon = {
-            triangle: [
+            Triangle: [
                 {x:  .07, y: .2},
                 {x:    0, y:  0},
                 {x: -.06, y: .2}
             ],
-            rectangle: [
+            Rectangle: [
                 {x: -.06, y: -.06},
                 {x:  .06, y: -.06},
                 {x:  .06, y:  .06},
@@ -558,6 +558,7 @@ jQuery(function () {
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
             _type: 'polygon',
+            label: type,
             stroke: '#000000',
             renderStroke: true,
             strokeStyle: 'solid',

@@ -6,8 +6,8 @@
         <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
           <li class="has-children">Add Shape
               <ul>
-                  <li><a href="#" class="add-polygon" data-type="triangle">Add Triangle</a></li>
-                  <li><a href="#" class="add-polygon" data-type="rectangle">Add Rectangle</a></li>
+                  <li><a href="#" class="add-polygon" data-type="Triangle">Add Triangle</a></li>
+                  <li><a href="#" class="add-polygon" data-type="Rectangle">Add Rectangle</a></li>
               </ul>
           </li>
           <li class="has-children">Select Status

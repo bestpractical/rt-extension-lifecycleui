@@ -1,5 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="polygon">
     <div class="polygon">
+       Label: <input type="text" name="label" value="{{polygon.label}}" /><br>
        Stroke: <input type="checkbox" name="renderStroke" {{#if polygon.renderStroke}}checked=checked{{/if}} data-show-hide=".color-control[data-field=stroke], .stroke-style"> <span class="color-control" data-field="stroke"><span class="current-color" title="{{polygon.stroke}}" style="background-color: {{polygon.stroke}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
        <div class="stroke-style">Style: <select name="strokeStyle">
                  {{#select polygon.strokeStyle}}
