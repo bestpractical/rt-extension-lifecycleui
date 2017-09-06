@@ -84,3 +84,11 @@
     opacity: 1;
 }
 
+.lifecycle-ui .decorations text.bold {
+    font-weight: bold;
+}
+
+.lifecycle-ui .decorations text.italic {
+    font-style: italic;
+}
+

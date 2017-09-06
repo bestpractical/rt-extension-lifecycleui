@@ -174,6 +174,8 @@ jQuery(function () {
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .text(function (d) { return d.text })
+                      .classed("bold", function (d) { return d.bold })
+                      .classed("italic", function (d) { return d.italic })
                       .classed("focus", function (d) { return self.isFocused(d) })
     };
 
