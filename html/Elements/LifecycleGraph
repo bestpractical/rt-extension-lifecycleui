@@ -1,4 +1,9 @@
 <div class="lifecycle-ui<% $Editing ? ' editing' : '' %>" id="lifecycle-<% $id %>">
+    <div class="overlay-buttons">
+        <button class="zoom-in">+</button>
+        <button class="zoom-reset">0</button>
+        <button class="zoom-out">-</button>
+    </div>
     <svg>
         <& /Elements/LifecycleGraphExtras, %ARGS &>
         <g class="decorations"></g>

@@ -13,6 +13,10 @@
     background-size: 25px 25px;
 }
 
+.lifecycle-ui.editing .overlay-buttons {
+    left: 700px;
+}
+
 .lifecycle-ui .inspector {
     display: inline-block;
     width: 250px;
