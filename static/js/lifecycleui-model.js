@@ -501,8 +501,10 @@ jQuery(function () {
         delete this._keyMap[key];
     };
 
-    Lifecycle.prototype.updateItem = function (item, field, newValue) {
-        this._saveUndoEntry();
+    Lifecycle.prototype.updateItem = function (item, field, newValue, skipUndo) {
+        if (!skipUndo) {
+            this._saveUndoEntry();
+        }
 
         var oldValue = item[field];
 
@@ -526,6 +528,10 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.beginDragging = function () {
+        this._saveUndoEntry();
+    };
+
+    Lifecycle.prototype.beginChangingColor = function () {
         this._saveUndoEntry();
     };
 

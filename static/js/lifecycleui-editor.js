@@ -115,10 +115,15 @@ jQuery(function () {
                     return;
                 }
                 container.find('.current-color').val(newColor);
-                lifecycle.updateItem(self.inspectorNode, field, newColor);
+                lifecycle.updateItem(self.inspectorNode, field, newColor, true);
                 self.renderDisplay();
             });
             farb.setColor(self.inspectorNode[field]);
+
+            // see farbtastic's implementation
+            jQuery('*', picker).mousedown(function () {
+                self.lifecycle.beginChangingColor();
+            });
 
             var input = jQuery('<input class="current-color" size=8 maxlength=7>');
             container.find('.current-color').replaceWith(input);
