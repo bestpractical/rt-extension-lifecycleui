@@ -1,11 +1,11 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
         <button class="add-status"><&|/l&>Add Status</&></button><br>
-        <button class="add-text"><&|/l&>Add Text</&></button><br>
     <br>
         <ul class="toplevel sf-menu sf-vertical sf-js-enabled sf-shadow">
-          <li class="has-children">Add Shape
+          <li class="has-children">Add Decoration
               <ul>
+                  <li><a href="#" class="add-text">Add Text</a></li>
                   <li><a href="#" class="add-polygon" data-type="Triangle">Add Triangle</a></li>
                   <li><a href="#" class="add-polygon" data-type="Rectangle">Add Rectangle</a></li>
                   <li><a href="#" class="add-circle">Add Circle</a></li>
@@ -19,15 +19,11 @@
               {{/each}}
               </ul>
            </li>
-           <li class="has-children">Select Text
+           <li class="has-children">Select Decoration
               <ul>
               {{#each lifecycle.decorations.text}}
               <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.text}}</a></li>
               {{/each}}
-              </ul>
-           </li>
-           <li class="has-children">Select Shape
-              <ul>
               {{#each lifecycle.decorations.polygon}}
               <li><a href="#" class="select-decoration menu-item" data-key="{{this._key}}">{{truncate this.label}}</a></li>
               {{/each}}
