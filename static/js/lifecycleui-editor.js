@@ -379,6 +379,10 @@ jQuery(function () {
     };
 
     Editor.prototype.didDragItem = function (d, node) {
+        if (this.inspectorNode && this.inspectorNode._key != d._key) {
+            return;
+        }
+
         var x = this.xScaleInvert(d3.event.x);
         var y = this.yScaleInvert(d3.event.y);
 
