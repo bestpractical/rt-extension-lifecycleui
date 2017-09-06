@@ -20,9 +20,17 @@
 .lifecycle-ui .inspector {
     display: inline-block;
     width: 250px;
-    padding: 10px;
-    min-height: 480px;
+    min-height: 500px;
     border: 1px solid black;
+}
+
+.lifecycle-ui .inspector .content {
+    padding: 1em;
+}
+
+.lifecycle-ui .inspector .controls {
+    padding: 1em;
+    background: #EEE;
 }
 
 .lifecycle-ui .inspector .color-control span.current-color {

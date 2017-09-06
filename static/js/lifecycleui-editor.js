@@ -56,7 +56,7 @@ jQuery(function () {
         var params = { lifecycle: lifecycle };
         params[type] = node;
 
-        inspector.html(self.templates[type](params));
+        inspector.find('.content').html(self.templates[type](params));
 
         inspector.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);
@@ -222,6 +222,14 @@ jQuery(function () {
         inspector.on('click', '.add-line', function (e) {
             e.preventDefault();
             self.addNewLineDecoration();
+        });
+
+        inspector.on('click', 'button.undo', function (e) {
+            e.preventDefault();
+        });
+
+        inspector.on('click', 'button.redo', function (e) {
+            e.preventDefault();
         });
     };
 

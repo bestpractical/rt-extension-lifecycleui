@@ -1,4 +1,10 @@
 <div class="inspector">
+  <div class="controls">
+    <button class="undo">Undo</button>
+    <button class="redo">Redo</button>
+  </div>
+  <div class="content">
+  </div>
 </div>
 
 <& LifecycleInspectorCanvas, %ARGS &>
