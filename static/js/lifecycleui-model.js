@@ -395,7 +395,7 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.hasTransition = function (fromStatus, toStatus) {
-        if (fromStatus == toStatus) {
+        if (fromStatus == toStatus || !fromStatus || !toStatus) {
             return false;
         }
 
