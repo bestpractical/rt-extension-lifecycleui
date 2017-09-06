@@ -5,6 +5,7 @@ jQuery(function () {
     function Lifecycle (name) {
         this.name = name;
         this.type = 'ticket';
+        this.is_ticket = true;
         this.statuses = [];
         this.defaults = {};
         this.transitions = [];
@@ -33,6 +34,7 @@ jQuery(function () {
 
         if (config.type) {
             self.type = config.type;
+            self.is_ticket = self.type == 'ticket';
         }
 
         if (config.ticket_display) {

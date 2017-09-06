@@ -1,14 +1,18 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
-        Lifecycle: {{lifecycle.name}}<br>
+        Name: {{lifecycle.name}}<br>
+        Type: {{lifecycle.type}}<br>
 
+        {{#if lifecycle.is_ticket}}
         Lifecycle on Tickets: <select name="ticket_display">
                      {{#select lifecycle.ticket_display}}
                        <option value="hidden"><&|/l&>hidden</&>
                        <option value="readonly"><&|/l&>read-only</&>
                        <option value="interactive"><&|/l&>interactive</&>
                      {{/select}}
-                   </select><br><br>
+                   </select><br>
+        {{/if}}
+        <br>
 
         On Create: <select name="on_create">
                      {{#select lifecycle.defaults.on_create}}
