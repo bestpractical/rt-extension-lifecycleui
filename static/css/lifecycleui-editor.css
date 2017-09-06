@@ -15,7 +15,7 @@
 
 .lifecycle-ui .inspector {
     display: inline-block;
-    min-width: 100px;
+    width: 250px;
     padding: 10px;
     min-height: 480px;
     border: 1px solid black;
