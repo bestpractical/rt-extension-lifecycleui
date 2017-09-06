@@ -73,6 +73,10 @@
     margin-top: 2em;
 }
 
+.lifecycle-ui .inspector .actions button.delete {
+    margin-top: 0;
+}
+
 .lifecycle-ui .inspector .canvas ul {
     list-style-type: none;
     padding: 0;
