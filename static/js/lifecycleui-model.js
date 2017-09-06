@@ -38,7 +38,13 @@ jQuery(function () {
             if (config[type]) {
                 self.statuses = self.statuses.concat(config[type]);
                 jQuery.each(config[type], function (j, statusName) {
-                    var item = config.statusExtra[statusName] || {};
+                    var item;
+                    if (config.statusExtra) {
+                        item = config.statusExtra[statusName] || {};
+                    }
+                    else {
+                        item = {};
+                    }
                     item._key  = _ELEMENT_KEY_SEQ++;
                     item._type = 'status';
                     item.name  = statusName;
@@ -78,7 +84,13 @@ jQuery(function () {
                 else {
                     jQuery.each(toList, function (i, toStatus) {
                         var description = fromStatus + ' -> ' + toStatus;
-                        var transition = config.transitionExtra[description] || {};
+                        var transition;
+                        if (config.transitionExtra) {
+                            transition = config.transitionExtra[description] || {};
+                        }
+                        else {
+                            transition = {};
+                        }
                         transition._key    = _ELEMENT_KEY_SEQ++;
                         transition._type   = 'transition';
                         transition.from    = fromStatus;
@@ -164,7 +176,7 @@ jQuery(function () {
         jQuery.each(['text', 'polygon'], function (i, type) {
             var decorations = [];
 
-            if (config.decorations[type]) {
+            if (config.decorations && config.decorations[type]) {
                 jQuery.each(config.decorations[type], function (i, decoration) {
                     decoration._key = _ELEMENT_KEY_SEQ++;
                     decoration._type = type;
