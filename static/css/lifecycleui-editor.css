@@ -86,3 +86,10 @@
     padding-left: 3em;
     margin-bottom: 1em;
 }
+
+.lifecycle-ui .inspector .hint {
+    vertical-align: super;
+    font-size: .8em;
+    color: gray;
+}
+
