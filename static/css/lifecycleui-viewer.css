@@ -45,3 +45,23 @@
     background: none;
 }
 
+.lifecycle-ui .has-focus .statuses > * {
+    opacity: .15;
+}
+
+.lifecycle-ui .has-focus .transitions > * {
+    opacity: 0;
+}
+
+.lifecycle-ui .has-focus .statuses .focus {
+    opacity: 1;
+}
+
+.lifecycle-ui .has-focus .statuses .focus-to,
+.lifecycle-ui .has-focus .transitions .focus-to {
+    opacity: 1;
+}
+
+.lifecycle-ui .has-focus .transitions .focus-from {
+    opacity: .15;
+}

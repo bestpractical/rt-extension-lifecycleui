@@ -64,7 +64,10 @@ jQuery(function () {
                 .merge(statuses)
                         .attr("cx", function (d) { return self.xScale(d.x) })
                         .attr("cy", function (d) { return self.yScale(d.y) })
-                        .attr("fill", function (d) { return d.color });
+                        .attr("fill", function (d) { return d.color })
+                        .classed("focus", function (d) { return self.focusStatus == d.name })
+                        .classed("focus-from", function (d) { return self.lifecycle.hasTransition(d.name, self.focusStatus) })
+                        .classed("focus-to", function (d) { return self.lifecycle.hasTransition(self.focusStatus, d.name) });
     };
 
     Viewer.prototype.clickedStatus = function (d) { };
@@ -104,6 +107,9 @@ jQuery(function () {
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
                       .text(function (d) { return d.name }).each(function () { self.truncateLabel(this) })
+                      .classed("focus", function (d) { return self.focusStatus == d.name })
+                      .classed("focus-from", function (d) { return self.lifecycle.hasTransition(d.name, self.focusStatus) })
+                      .classed("focus-to", function (d) { return self.lifecycle.hasTransition(self.focusStatus, d.name) });
     };
 
     Viewer.prototype.transitionArc = function (d) {
@@ -136,6 +142,8 @@ jQuery(function () {
                       .attr("d", function (d) { return self.transitionArc(d) })
                       .classed("dashed", function (d) { return d.style == 'dashed' })
                       .classed("dotted", function (d) { return d.style == 'dotted' })
+                      .classed("focus-from", function (d) { return self.focusStatus == d.to })
+                      .classed("focus-to", function (d) { return self.focusStatus == d.from });
     };
 
     Viewer.prototype.renderTextDecorations = function (initial) {
@@ -210,13 +218,18 @@ jQuery(function () {
                 .call(this._zoom.translateTo, x, y);
     };
 
-    Viewer.prototype.focusOnStatus = function (statusName) {
+    Viewer.prototype.focusOnStatus = function (statusName, center) {
         if (!statusName) {
             return;
         }
 
-        var meta = this.lifecycle.statusObjectForName(statusName);
-        this.centerOnItem(meta);
+        this.focusStatus = statusName;
+        this.svg.classed("has-focus", true);
+
+        if (center) {
+            var meta = this.lifecycle.statusObjectForName(statusName);
+            this.centerOnItem(meta);
+        }
     };
 
     Viewer.prototype.initializeViewer = function (node, config, focusStatus) {
@@ -240,7 +253,7 @@ jQuery(function () {
 
         self.addZoomBehavior();
 
-        self.focusOnStatus(focusStatus);
+        self.focusOnStatus(focusStatus, true);
 
         self.renderDisplay(true);
     };
