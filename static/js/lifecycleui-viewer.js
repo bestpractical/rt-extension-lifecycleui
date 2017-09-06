@@ -35,11 +35,15 @@ jQuery(function () {
         this.transformContainer.attr("transform", d3.event.transform);
     };
 
-    Viewer.prototype.resetZoom = function () {
-        this.transformContainer
-                .transition()
-                .duration(750)
-                .call(this._zoom.transform, d3.zoomIdentity);
+    Viewer.prototype.resetZoom = function (animated) {
+        if (animated) {
+            this.svg.transition()
+                    .duration(750)
+                    .call(this._zoom.transform, this._zoomIdentity);
+        }
+        else {
+            this.svg.call(this._zoom.transform, this._zoomIdentity);
+        }
     };
 
     Viewer.prototype.didEnterStatusNodes = function (statuses) { };
@@ -284,10 +288,12 @@ jQuery(function () {
         this.renderDecorations(initial);
     };
 
-    Viewer.prototype.centerOnItem = function (item) {
-        var x = this.xScale(item.x);
-        var y = this.yScale(item.y);
-        this.transformContainer.call(this._zoom.translateTo, x, y);
+    Viewer.prototype.centerOnItem = function (item, animated) {
+        var rect = this.svg.node().getBoundingClientRect();
+        var x = rect.width/2 - this.xScale(item.x);
+        var y = rect.height/2 - this.yScale(item.y);
+        this._zoomIdentity = d3.zoomIdentity.translate(x, y);
+        this.resetZoom(animated);
     };
 
     Viewer.prototype.defocus = function () {
@@ -302,7 +308,7 @@ jQuery(function () {
                 .attr('data-focus-type', d._type);
     };
 
-    Viewer.prototype.focusOnStatus = function (statusName, center) {
+    Viewer.prototype.focusOnStatus = function (statusName, center, animated) {
         if (!statusName) {
             return;
         }
@@ -311,7 +317,7 @@ jQuery(function () {
         this.focusItem(meta);
 
         if (center) {
-            this.centerOnItem(meta)
+            this.centerOnItem(meta, animated)
         }
     };
 
@@ -374,13 +380,14 @@ jQuery(function () {
         self._yScale = self.createScale(self.height, self.padding);
         self._xScaleZero = self.createScale(self.width, 0);
         self._yScaleZero = self.createScale(self.height, 0);
+        self._zoomIdentity = d3.zoomIdentity;
 
         self.lifecycle = new RT.Lifecycle(name);
         self.lifecycle.initializeFromConfig(config);
 
         self.addZoomBehavior();
 
-        self.focusOnStatus(focusStatus, true);
+        self.focusOnStatus(focusStatus, true, false);
 
         self.renderDisplay(true);
     };
