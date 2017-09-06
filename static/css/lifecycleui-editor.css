@@ -86,3 +86,6 @@
     filter: url(#focus);
 }
 
+.lifecycle-ui .inspector button.delete {
+    margin-top: 2em;
+}
