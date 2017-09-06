@@ -445,9 +445,9 @@ jQuery(function () {
         this.selectDecoration(line._key);
     };
 
-    Editor.prototype.initializeEditor = function (node, config, focusStatus) {
+    Editor.prototype.initializeEditor = function (node, name, config, focusStatus) {
         var self = this;
-        self.initializeViewer(node, config);
+        self.initializeViewer(node, name, config, focusStatus);
 
         self.templates = self._initializeTemplates(self.container);
         self.inspector = self.container.find('.inspector');

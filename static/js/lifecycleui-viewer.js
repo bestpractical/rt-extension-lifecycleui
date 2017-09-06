@@ -360,7 +360,7 @@ jQuery(function () {
         return false;
     };
 
-    Viewer.prototype.initializeViewer = function (node, config, focusStatus) {
+    Viewer.prototype.initializeViewer = function (node, name, config, focusStatus) {
         var self = this;
 
         self.container = jQuery(node);
@@ -375,7 +375,7 @@ jQuery(function () {
         self._xScaleZero = self.createScale(self.width, 0);
         self._yScaleZero = self.createScale(self.height, 0);
 
-        self.lifecycle = new RT.Lifecycle();
+        self.lifecycle = new RT.Lifecycle(name);
         self.lifecycle.initializeFromConfig(config);
 
         self.addZoomBehavior();

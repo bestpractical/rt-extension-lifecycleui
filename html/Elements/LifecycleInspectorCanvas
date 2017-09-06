@@ -1,5 +1,7 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
+        Lifecycle: {{lifecycle.name}}<br>
+
         <button class="add-status"><&|/l&>Add Status</&></button><br>
         <ul>
           <li>Add Decoration...

@@ -2,7 +2,8 @@ jQuery(function () {
     var _ELEMENT_KEY_SEQ = 0;
     var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
 
-    function Lifecycle () {
+    function Lifecycle (name) {
+        this.name = name;
         this.type = 'ticket';
         this.statuses = [];
         this.defaults = {};
