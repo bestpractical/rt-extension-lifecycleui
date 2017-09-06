@@ -3,3 +3,12 @@
     <path d="M 0,0 m -5,-5 L 5,0 L -5,5 Z" fill="black" />
   </marker>
 </defs>
+
+<filter id="focus" height="150%">
+  <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+  <feOffset dx="0" dy="0" result="offsetblur"/>
+  <feMerge>
+    <feMergeNode/>
+    <feMergeNode in="SourceGraphic"/>
+  </feMerge>
+</filter>

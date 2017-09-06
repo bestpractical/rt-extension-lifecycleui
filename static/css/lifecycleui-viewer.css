@@ -57,6 +57,10 @@
     opacity: 1;
 }
 
+.lifecycle-ui .has-focus .statuses circle.focus {
+    filter: url(#focus);
+}
+
 .lifecycle-ui .has-focus .statuses .focus-to,
 .lifecycle-ui .has-focus .transitions .focus-to {
     opacity: 1;
