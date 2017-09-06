@@ -41,6 +41,7 @@ jQuery(function () {
     Viewer.prototype.didEnterTransitions = function (paths) { };
     Viewer.prototype.didEnterTextDecorations = function (labels) { };
     Viewer.prototype.didEnterPolygonDecorations = function (polygons) { };
+    Viewer.prototype.didEnterCircleDecorations = function (circles) { };
 
     Viewer.prototype.renderStatusNodes = function (initial) {
         var self = this;
@@ -202,8 +203,37 @@ jQuery(function () {
                     .classed("focus", function (d) { return self.isFocused(d) })
     };
 
+    Viewer.prototype.renderCircleDecorations = function (initial) {
+        var self = this;
+        var circles = self.decorationContainer.selectAll("circle")
+                           .data(self.lifecycle.decorations.circle, function (d) { return d._key });
+
+        circles.exit()
+            .classed("removing", true)
+            .transition().duration(200)
+              .remove();
+
+        circles.enter().append("circle")
+                     .attr("data-key", function (d) { return d._key })
+                     .on("click", function (d) {
+                         d3.event.stopPropagation();
+                         self.clickedDecoration(d);
+                     })
+                     .call(function (circles) { self.didEnterCircleDecorations(circles) })
+              .merge(circles)
+                     .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
+                     .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
+                     .classed("dotted", function (d) { return d.strokeStyle == 'dotted' })
+                     .attr("fill", function (d) { return d.renderFill ? d.fill : 'none' })
+                     .attr("cx", function (d) { return self.xScale(d.x) })
+                     .attr("cy", function (d) { return self.yScale(d.y) })
+                     .attr("r", function (d) { return d.r })
+                     .classed("focus", function (d) { return self.isFocused(d) })
+    };
+
     Viewer.prototype.renderDecorations = function (initial) {
         this.renderPolygonDecorations(initial);
+        this.renderCircleDecorations(initial);
         this.renderTextDecorations(initial);
     };
 

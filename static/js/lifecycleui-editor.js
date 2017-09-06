@@ -211,6 +211,11 @@ jQuery(function () {
             e.preventDefault();
             self.addNewPolygonDecoration(jQuery(this).data('type'));
         });
+
+        inspector.on('click', '.add-circle', function (e) {
+            e.preventDefault();
+            self.addNewCircleDecoration();
+        });
     };
 
     Editor.prototype.deselectAll = function (clearSelection) {
@@ -398,6 +403,10 @@ jQuery(function () {
         polygons.call(this._createDrag());
     };
 
+    Editor.prototype.didEnterCircleDecorations = function (circles) {
+        circles.call(this._createDrag());
+    };
+
     Editor.prototype.addNewStatus = function () {
         var status = this.lifecycle.createStatus();
         this.selectStatus(status.name);
@@ -411,6 +420,11 @@ jQuery(function () {
     Editor.prototype.addNewPolygonDecoration = function (type) {
         var polygon = this.lifecycle.createPolygonDecoration(type);
         this.selectDecoration(polygon._key);
+    };
+
+    Editor.prototype.addNewCircleDecoration = function () {
+        var circle = this.lifecycle.createCircleDecoration();
+        this.selectDecoration(circle._key);
     };
 
     Editor.prototype.initializeEditor = function (node, config, focusStatus) {

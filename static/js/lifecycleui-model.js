@@ -173,7 +173,7 @@ jQuery(function () {
 
         self.decorations = {};
 
-        jQuery.each(['text', 'polygon'], function (i, type) {
+        jQuery.each(['text', 'polygon', 'circle'], function (i, type) {
             var decorations = [];
 
             if (config.decorations && config.decorations[type]) {
@@ -465,7 +465,7 @@ jQuery(function () {
         else if (type == 'transition') {
             this.deleteTransition(key);
         }
-        else if (type == 'text' || type == 'polygon') {
+        else if (type == 'text' || type == 'polygon' || type == 'circle') {
             this.deleteDecoration(type, key);
         }
         else {
@@ -569,6 +569,25 @@ jQuery(function () {
             points: this._initialPointsForPolygon[type]
         };
         this.decorations.polygon.push(item);
+        this._keyMap[item._key] = item;
+        return item;
+    };
+
+    Lifecycle.prototype.createCircleDecoration = function () {
+        var item = {
+            _key: _ELEMENT_KEY_SEQ++,
+            _type: 'circle',
+            label: 'Circle',
+            stroke: '#000000',
+            renderStroke: true,
+            strokeStyle: 'solid',
+            fill: '#ffffff',
+            renderFill: true,
+            x: 0.5,
+            y: 0.5,
+            r: 35
+        };
+        this.decorations.circle.push(item);
         this._keyMap[item._key] = item;
         return item;
     };
