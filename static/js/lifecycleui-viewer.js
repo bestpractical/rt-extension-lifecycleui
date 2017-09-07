@@ -314,6 +314,8 @@ jQuery(function () {
     };
 
     Viewer.prototype.focusItem = function (d) {
+        this.defocus();
+
         this._focusItem = d;
         this.svg.classed("has-focus", true)
                 .attr('data-focus-type', d._type);
