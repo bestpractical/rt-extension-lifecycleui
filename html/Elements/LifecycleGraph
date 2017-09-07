@@ -13,7 +13,10 @@
         </g>
     </svg>
 % if ($Editing) {
-    <& /Elements/LifecycleInspector &>
+    <& /Elements/LifecycleInspector, %ARGS &>
+% }
+% if ($Interactive) {
+    <& /Elements/LifecycleInteractive, %ARGS &>
 % }
     <script type="text/javascript">
         jQuery(function () {

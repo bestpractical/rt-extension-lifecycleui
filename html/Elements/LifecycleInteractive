@@ -1,0 +1,68 @@
+<div class="status-menus">
+% for my $status (keys %menus) {
+<div class="status-menu" data-status="<% $status %>">
+% my $menu = $menus{$status};
+<& /Elements/Menu, menu => $menu &>
+</div>
+% }
+</div>
+
+<%INIT>
+my $Lifecycle = $Ticket->LifecycleObj;
+my $id = $Ticket->Id;
+my %menus;
+
+# largely borrowed from /Elements/Tabs
+my $hide_resolve_with_deps = RT->Config->Get('HideResolveActionsWithDependencies')
+    && $Ticket->HasUnresolvedDependencies;
+my $query_string = sub {
+    my %args = @_;
+    my $u    = URI->new();
+    $u->query_form(map { $_ => $args{$_} } sort keys %args);
+    return $u->query;
+};
+
+for my $from ($Lifecycle->Valid) {
+    my $actions = RT::Interface::Web::Menu->new();
+    
+    foreach my $info ( $Lifecycle->Actions($from) ) {
+        my @class;
+        my $next = $info->{'to'};
+
+        if (!$Lifecycle->IsTransition( $from => $next )) {
+            push @class, 'no-transition';
+        }
+        else {
+            my $check = $Lifecycle->CheckRight( $from => $next );
+            if (!$Ticket->CurrentUserHasRight($check)) {
+                push @class, 'no-permission';
+            }
+        }
+    
+        if ($hide_resolve_with_deps
+            && $Lifecycle->IsInactive($next)
+            && !$Lifecycle->IsInactive($from)) {
+            push @class, 'hide-resolve-with-deps';
+        }
+    
+        my $action = $info->{'update'} || '';
+        my $url = '/Ticket/';
+        $url .= "Update.html?". $query_string->(
+            $action
+                ? (Action        => $action)
+                : (SubmitTicket  => 1, Status => $next),
+            DefaultStatus => $next,
+            id            => $id,
+        );
+        my $key = $info->{'label'} || ucfirst($next);
+        $actions->child( $key => title => loc( $key ), path => $url, class => (join " ", @class));
+    }
+
+    $m->callback( CallbackName => 'StatusMenu', TicketObj => $Ticket, LifecycleObj => $Lifecycle, Status => $from, Menu => $actions);
+
+    $menus{$from} = $actions;
+}
+</%INIT>
+<%ARGS>
+$Ticket => undef
+</%ARGS>
