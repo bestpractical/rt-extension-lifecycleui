@@ -477,10 +477,10 @@ jQuery(function () {
             return payload;
         };
 
-        self.lifecycle.undoStackChangedCallback = function () {
+        self.lifecycle.undoStateChangedCallback = function () {
             d3.select(node).select('button.undo').classed('invisible', !self.lifecycle.hasUndoStack());
         };
-        self.lifecycle.undoStackChangedCallback();
+        self.lifecycle.undoStateChangedCallback();
     };
 
     Editor.prototype.defocus = function () {
