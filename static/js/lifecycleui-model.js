@@ -14,20 +14,20 @@ jQuery(function () {
         this._undoStack = [];
         this._keyMap = {};
         this._statusMeta = {};
+    };
 
-        this._initialPointsForPolygon = {
-            Triangle: [
-                {x:  .07, y: .2},
-                {x:    0, y:  0},
-                {x: -.06, y: .2}
-            ],
-            Rectangle: [
-                {x: -.06, y: -.06},
-                {x:  .06, y: -.06},
-                {x:  .06, y:  .06},
-                {x: -.06, y:  .06}
-            ]
-        };
+    Lifecycle.prototype._initialPointsForPolygon = {
+        Triangle: [
+            {x:  .07, y: .2},
+            {x:    0, y:  0},
+            {x: -.06, y: .2}
+        ],
+        Rectangle: [
+            {x: -.06, y: -.06},
+            {x:  .06, y: -.06},
+            {x:  .06, y:  .06},
+            {x: -.06, y:  .06}
+        ]
     };
 
     Lifecycle.prototype.initializeFromConfig = function (config) {
