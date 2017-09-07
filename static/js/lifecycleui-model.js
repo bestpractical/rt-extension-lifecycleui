@@ -666,13 +666,17 @@ jQuery(function () {
     Lifecycle.prototype._saveUndoEntry = function () {
         var undoStack = this._undoStack;
         delete this._undoStack;
-        var entry = jQuery.extend(true, {}, this);
+        var keyMap = this._keyMap;
+        delete this._keyMap;
+
+        var entry = JSON.stringify(this);
         var extra = {};
         if (this.saveUndoCallback) {
             extra = this.saveUndoCallback();
         }
         undoStack.push([entry, extra]);
         this._undoStack = undoStack;
+        this._keyMap = keyMap;
 
         if (this.undoStackChangedCallback) {
             this.undoStackChangedCallback();
@@ -683,23 +687,46 @@ jQuery(function () {
         return this._undoStack.length > 0;
     };
 
+    Lifecycle.prototype._rebuildKeyMap = function () {
+        var keyMap = {};
+        jQuery.each(this._statusMeta, function (name, meta) {
+            keyMap[meta._key] = meta;
+        });
+
+        jQuery.each(this.transitions, function (i, transition) {
+            keyMap[transition._key] = transition;
+            jQuery.each(transition.actions, function (j, action) {
+                keyMap[action._key] = action;
+            });
+        });
+
+        jQuery.each(this.decorations, function (type, decorations) {
+            jQuery.each(decorations, function (i, decoration) {
+                keyMap[decoration._key] = decoration;
+            });
+        });
+
+        this._keyMap = keyMap;
+    };
+
+    Lifecycle.prototype._restoreState = function (state) {
+        for (var key in state) {
+            this[key] = state[key];
+        }
+
+        this._rebuildKeyMap();
+    };
+
     Lifecycle.prototype.undo = function () {
         var undoStack = this._undoStack;
         if (undoStack.length == 0) {
             return null;
         }
 
-        delete this._undoStack;
         var payload = undoStack.pop();
-        var entry = payload[0];
+        var entry = JSON.parse(payload[0]);
 
-        for (var key in entry) {
-            if (entry.hasOwnProperty(key)) {
-                this[key] = entry[key];
-            }
-        }
-
-        this._undoStack = undoStack;
+        this._restoreState(entry);
 
         if (this.undoStackChangedCallback) {
             this.undoStackChangedCallback();
