@@ -6,6 +6,12 @@ jQuery(function () {
     };
     Interactive.prototype = Object.create(Super.prototype);
 
+    Interactive.prototype.deselectStatus = function () {
+        delete this.selectedStatus;
+        delete this.selectedMenu;
+        this.menuContainer.find('.status-menu.selected').removeClass('selected');
+    };
+
     Interactive.prototype._setMenuPosition = function () {
         if (!this.selectedStatus) {
             return;
@@ -33,7 +39,19 @@ jQuery(function () {
 
     Interactive.prototype.didZoom = function () {
         Super.prototype.didZoom.call(this);
-        this._setMenuPosition();
+        if (this.selectedMenu) {
+            this._setMenuPosition();
+            var svgBox = this.svg.node().getBoundingClientRect();
+            var menuBox = this.selectedMenu[0].getBoundingClientRect();
+
+            var overlap = !(svgBox.right  < menuBox.left ||
+                            svgBox.left   > menuBox.right ||
+                            svgBox.bottom < menuBox.top ||
+                            svgBox.top    > menuBox.bottom);
+            if (!overlap) {
+                this.deselectStatus();
+            }
+        }
     };
 
     Interactive.prototype.initializeViewer = function (node, name, config, focusStatus) {
