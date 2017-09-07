@@ -286,6 +286,11 @@ jQuery(function () {
             return;
         }
 
+        if (!d._dragging) {
+            this.lifecycle.beginDragging();
+            d._dragging = true;
+        }
+
         d.x = x;
         d.y = y;
 
@@ -340,8 +345,9 @@ jQuery(function () {
                      .classed("point-handle", true)
                      .call(d3.drag()
                          .subject(function (d) { return { x: d.xScale(d.x), y : d.yScale(d.y) } })
-                         .on("start", function (d) { self.lifecycle.beginDragging() })
+                         .on("start", function (d) { self.didBeginDrag(d, this) })
                          .on("drag", function (d) { self.didDragPointHandle(d) })
+                         .on("end", function (d) { self.didEndDrag(d, this) })
                      )
               .merge(handles)
                      .attr("transform", function (d) { return self.inspectorNode._type == 'polygon' ? "translate(" + self.xScale(self.inspectorNode.x) + ", " + self.yScale(self.inspectorNode.y) + ")" : 'translate(0, 20)'})
@@ -361,6 +367,12 @@ jQuery(function () {
         this.focusItem(d);
     };
 
+    Editor.prototype.didBeginDrag = function (d, node) { };
+
+    Editor.prototype.didEndDrag = function (d, node) {
+        d._dragging = false;
+    };
+
     Editor.prototype.didDragItem = function (d, node) {
         if (this.inspectorNode && this.inspectorNode._key != d._key) {
             return;
@@ -373,6 +385,11 @@ jQuery(function () {
             return;
         }
 
+        if (!d._dragging) {
+            this.lifecycle.beginDragging();
+            d._dragging = true;
+        }
+
         this.lifecycle.moveItem(d, x, y);
         this.renderDisplay();
     };
@@ -381,8 +398,9 @@ jQuery(function () {
         var self = this;
         return d3.drag()
                  .subject(function (d) { return { x: self.xScale(d.x), y : self.yScale(d.y) } })
-                 .on("start", function (d) { self.lifecycle.beginDragging() })
-                 .on("drag", function (d) { self.didDragItem(d, this) });
+                 .on("start", function (d) { self.didBeginDrag(d, this) })
+                 .on("drag", function (d) { self.didDragItem(d, this) })
+                 .on("end", function (d) { self.didEndDrag(d, this) })
     };
 
     Editor.prototype.didEnterStatusNodes = function (statuses) {
