@@ -29,6 +29,10 @@ for my $from ($Lifecycle->Valid) {
         my @class;
         my $next = $info->{'to'};
 
+        if ($from ne $Ticket->Status) {
+            push @class, 'not-current';
+        }
+
         if (!$Lifecycle->IsTransition( $from => $next )) {
             push @class, 'no-transition';
         }
