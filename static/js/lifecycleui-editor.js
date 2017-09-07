@@ -256,6 +256,7 @@ jQuery(function () {
         var points = [];
         for (var i = 0; i < d.points.length; ++i) {
             points.push({
+                _key: d._key + '-' + i,
                 i: i,
                 x: d.points[i].x,
                 y: d.points[i].y,
@@ -330,7 +331,7 @@ jQuery(function () {
 
         var self = this;
         var handles = self.decorationContainer.selectAll("circle.point-handle")
-                           .data(self.pointHandles || [], function (d) { return d.i });
+                           .data(self.pointHandles || [], function (d) { return d._key });
 
         handles.exit()
               .remove();
