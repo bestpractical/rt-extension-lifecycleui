@@ -55,8 +55,10 @@ jQuery(function () {
     };
 
     Interactive.prototype.initializeViewer = function (node, name, config, focusStatus) {
-         Super.prototype.initializeViewer.call(this, node, name, config, focusStatus);
-         this.menuContainer = jQuery(node).find('.status-menus');
+         var self = this;
+         Super.prototype.initializeViewer.call(self, node, name, config, focusStatus);
+         self.menuContainer = jQuery(node).find('.status-menus');
+         self.svg.on('click', function () { self.deselectStatus() });
     };
 
     RT.LifecycleViewerInteractive = Interactive;
