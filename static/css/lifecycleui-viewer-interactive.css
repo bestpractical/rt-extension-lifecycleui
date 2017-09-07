@@ -1,3 +1,13 @@
 .lifecycle-ui .status-menu {
     display: none;
 }
+
+.lifecycle-ui .status-menu .not-current,
+.lifecycle-ui .status-menu .no-transition,
+.lifecycle-ui .status-menu .no-permission,
+.lifecycle-ui .status-menu .hide-resolve-with-deps {
+    color: #AAAAAA;
+    cursor: default;
+    text-decoration: none;
+}
+
