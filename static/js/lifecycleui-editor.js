@@ -151,8 +151,7 @@ jQuery(function () {
             }
             else {
                 lifecycle.deleteItemForKey(self.inspectorNode._key);
-                self.deselectAll(true);
-                self.renderDisplay();
+                self.defocus();
             }
         });
 
@@ -180,13 +179,13 @@ jQuery(function () {
             inspector.find('a.select-transition[data-from="'+fromStatus+'"][data-to="'+toStatus+'"]').closest('li').removeClass('hidden');
 
             self.renderDisplay();
-            self.selectStatus(self.inspectorNode.name);
         });
 
         inspector.on('click', 'a.select-status', function (e) {
             e.preventDefault();
             var statusName = jQuery(this).data('name');
-            self.selectStatus(statusName);
+            var d = self.lifecycle.statusObjectForName(statusName);
+            self.focusItem(d);
         });
 
         inspector.on('click', 'a.select-transition', function (e) {
@@ -195,13 +194,15 @@ jQuery(function () {
             var fromStatus = button.data('from');
             var toStatus   = button.data('to');
 
-            self.selectTransition(fromStatus, toStatus);
+            var d = self.lifecycle.hasTransition(fromStatus, toStatus);
+            self.focusItem(d);
         });
 
         inspector.on('click', 'a.select-decoration', function (e) {
             e.preventDefault();
             var key = jQuery(this).data('key');
-            self.selectDecoration(key);
+            var d = self.lifecycle.itemForKey(key);
+            self.focusItem(d);
         });
 
         inspector.on('click', '.add-status', function (e) {
@@ -236,14 +237,6 @@ jQuery(function () {
                 return;
             }
 
-            if (payload.inspectorKey) {
-                var node = self.lifecycle.itemForKey(payload.inspectorKey);
-                self.setInspectorContent(node);
-            }
-            else {
-                self.setInspectorContent(null);
-            }
-
             if (payload.focusKey) {
                 var node = self.lifecycle.itemForKey(payload.focusKey);
                 self.focusItem(node);
@@ -251,61 +244,11 @@ jQuery(function () {
             else {
                 self.defocus();
             }
-
-            self.renderDisplay();
-
         });
 
         inspector.on('click', 'button.redo', function (e) {
             e.preventDefault();
         });
-    };
-
-    Editor.prototype.deselectAll = function (clearSelection) {
-        var svg = this.svg;
-
-        this.removePointHandles();
-
-        if (clearSelection) {
-            this.setInspectorContent(null);
-        }
-
-        this.defocus();
-        this.renderDisplay();
-    };
-
-    Editor.prototype.selectStatus = function (name) {
-        var self = this;
-        var d = self.lifecycle.statusObjectForName(name);
-
-        self.deselectAll(false);
-        self.focusItem(d);
-        self.setInspectorContent(d);
-        self.renderDisplay();
-    };
-
-    Editor.prototype.selectTransition = function (fromStatus, toStatus) {
-        var self = this;
-        var d = self.lifecycle.hasTransition(fromStatus, toStatus);
-
-        self.deselectAll(false);
-        self.focusItem(d);
-        self.setInspectorContent(d);
-        self.renderDisplay();
-    };
-
-    Editor.prototype.selectDecoration = function (key) {
-        var d = this.lifecycle.itemForKey(key);
-
-        this.deselectAll(false);
-        this.focusItem(d);
-        this.setInspectorContent(d);
-
-        if (d._type == 'polygon' || d._type == 'line') {
-            this.addPointHandles(d);
-        }
-
-        this.renderDisplay();
     };
 
     Editor.prototype.addPointHandles = function (d) {
@@ -406,15 +349,15 @@ jQuery(function () {
     };
 
     Editor.prototype.clickedStatus = function (d) {
-        this.selectStatus(d.name);
+        this.focusItem(d);
     };
 
     Editor.prototype.clickedTransition = function (d) {
-        this.selectTransition(d.from, d.to);
+        this.focusItem(d);
     };
 
     Editor.prototype.clickedDecoration = function (d) {
-        this.selectDecoration(d._key);
+        this.focusItem(d);
     };
 
     Editor.prototype.didDragItem = function (d, node) {
@@ -463,27 +406,27 @@ jQuery(function () {
 
     Editor.prototype.addNewStatus = function () {
         var status = this.lifecycle.createStatus();
-        this.selectStatus(status.name);
+        this.focusItem(status);
     };
 
     Editor.prototype.addNewTextDecoration = function () {
         var text = this.lifecycle.createTextDecoration();
-        this.selectDecoration(text._key);
+        this.focusItem(text);
     };
 
     Editor.prototype.addNewPolygonDecoration = function (type) {
         var polygon = this.lifecycle.createPolygonDecoration(type);
-        this.selectDecoration(polygon._key);
+        this.focusItem(polygon);
     };
 
     Editor.prototype.addNewCircleDecoration = function () {
         var circle = this.lifecycle.createCircleDecoration();
-        this.selectDecoration(circle._key);
+        this.focusItem(circle);
     };
 
     Editor.prototype.addNewLineDecoration = function () {
         var line = this.lifecycle.createLineDecoration();
-        this.selectDecoration(line._key);
+        this.focusItem(line);
     };
 
     Editor.prototype.initializeEditor = function (node, name, config, focusStatus) {
@@ -505,13 +448,10 @@ jQuery(function () {
             return true;
         });
 
-        self.svg.on('click', function () { self.deselectAll(true) });
+        self.svg.on('click', function () { self.defocus() });
 
         self.lifecycle.saveUndoCallback = function () {
             var payload = {};
-            if (self.inspectorNode) {
-                payload.inspectorKey = self.inspectorNode._key;
-            }
             if (self._focusItem) {
                 payload.focusKey = self._focusItem._key;
             }
@@ -522,6 +462,24 @@ jQuery(function () {
             d3.select(node).select('button.undo').classed('invisible', !self.lifecycle.hasUndoStack());
         };
         self.lifecycle.undoStackChangedCallback();
+    };
+
+    Editor.prototype.defocus = function () {
+        Super.prototype.defocus.call(this);
+        this.setInspectorContent(null);
+        this.removePointHandles();
+        this.renderDisplay();
+    };
+
+    Editor.prototype.focusItem = function (item) {
+        Super.prototype.focusItem.call(this, item);
+        this.setInspectorContent(item);
+
+        if (item._type == 'polygon' || item._type == 'line') {
+            this.addPointHandles(item);
+        }
+
+        this.renderDisplay();
     };
 
     RT.LifecycleEditor = Editor;
