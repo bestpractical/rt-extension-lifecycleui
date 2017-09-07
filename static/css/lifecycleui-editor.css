@@ -105,3 +105,6 @@
     color: gray;
 }
 
+.lifecycle-ui .invisible {
+    visibility: hidden;
+}

@@ -673,6 +673,14 @@ jQuery(function () {
         }
         undoStack.push([entry, extra]);
         this._undoStack = undoStack;
+
+        if (this.undoStackChangedCallback) {
+            this.undoStackChangedCallback();
+        }
+    };
+
+    Lifecycle.prototype.hasUndoStack = function () {
+        return this._undoStack.length > 0;
     };
 
     Lifecycle.prototype.undo = function () {
@@ -692,6 +700,10 @@ jQuery(function () {
         }
 
         this._undoStack = undoStack;
+
+        if (this.undoStackChangedCallback) {
+            this.undoStackChangedCallback();
+        }
 
         return payload[1];
     };

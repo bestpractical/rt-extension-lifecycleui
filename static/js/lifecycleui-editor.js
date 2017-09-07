@@ -517,6 +517,11 @@ jQuery(function () {
             }
             return payload;
         };
+
+        self.lifecycle.undoStackChangedCallback = function () {
+            d3.select(node).select('button.undo').classed('invisible', !self.lifecycle.hasUndoStack());
+        };
+        self.lifecycle.undoStackChangedCallback();
     };
 
     RT.LifecycleEditor = Editor;
