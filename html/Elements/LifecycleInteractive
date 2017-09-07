@@ -27,19 +27,23 @@ for my $from ($Lifecycle->Valid) {
     
     foreach my $info ( $Lifecycle->Actions($from) ) {
         my @class;
+        my $include_url = 1;
         my $next = $info->{'to'};
 
         if ($from ne $Ticket->Status) {
             push @class, 'not-current';
+            $include_url = 0;
         }
 
         if (!$Lifecycle->IsTransition( $from => $next )) {
             push @class, 'no-transition';
+            $include_url = 0;
         }
         else {
             my $check = $Lifecycle->CheckRight( $from => $next );
             if (!$Ticket->CurrentUserHasRight($check)) {
                 push @class, 'no-permission';
+                $include_url = 0;
             }
         }
     
@@ -47,6 +51,7 @@ for my $from ($Lifecycle->Valid) {
             && $Lifecycle->IsInactive($next)
             && !$Lifecycle->IsInactive($from)) {
             push @class, 'hide-resolve-with-deps';
+            $include_url = 0;
         }
     
         my $action = $info->{'update'} || '';
@@ -59,7 +64,12 @@ for my $from ($Lifecycle->Valid) {
             id            => $id,
         );
         my $key = $info->{'label'} || ucfirst($next);
-        $actions->child( $key => title => loc( $key ), path => $url, class => (join " ", @class));
+        $actions->child(
+            $key =>
+            title => loc( $key ),
+            ($include_url ? (path => $url) : ()),
+            class => (join " ", @class),
+        );
     }
 
     $m->callback( CallbackName => 'StatusMenu', TicketObj => $Ticket, LifecycleObj => $Lifecycle, Status => $from, Menu => $actions);
