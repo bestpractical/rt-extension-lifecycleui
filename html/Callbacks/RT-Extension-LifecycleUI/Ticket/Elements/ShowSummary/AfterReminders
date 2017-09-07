@@ -9,5 +9,8 @@ return unless $config eq 'readonly' || $config eq 'interactive';
     title => loc("Lifecycle"),
     class => 'ticket-info-lifecycle',
 &>
-    <& /Elements/LifecycleGraph, Ticket => $Ticket &>
+    <& /Elements/LifecycleGraph,
+           Ticket => $Ticket,
+           Interactive => ($config eq 'interactive'),
+    &>
 </&>

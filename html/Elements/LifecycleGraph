@@ -1,4 +1,4 @@
-<div class="lifecycle-ui<% $Editing ? ' editing' : '' %>" id="lifecycle-<% $id %>">
+<div class="lifecycle-ui<% $Editing ? ' editing' : '' %><% $Interactive ? ' interactive' : '' %>" id="lifecycle-<% $id %>">
     <div class="overlay-buttons">
         <button class="zoom-in">+</button>
         <button class="zoom-reset">0</button>
@@ -32,7 +32,11 @@
                 var editor = new RT.LifecycleEditor();
                 editor.initializeEditor(container, name, config, ticketStatus);
 % } else {
+% if ($Interactive) {
+                var viewer = new RT.LifecycleViewerInteractive();
+% } else {
                 var viewer = new RT.LifecycleViewer();
+% }
                 viewer.initializeViewer(container, name, config, ticketStatus);
 % }
             });
@@ -41,6 +45,7 @@
 </div>
 <%ARGS>
 $Editing => 0
+$Interactive => 0
 $Lifecycle => undef
 $Ticket => undef
 </%ARGS>
