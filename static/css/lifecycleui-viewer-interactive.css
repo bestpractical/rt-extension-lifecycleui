@@ -1,5 +1,12 @@
 .lifecycle-ui .status-menu {
+    position: absolute;
+    top: 0;
+    left: 0;
     display: none;
+}
+
+.lifecycle-ui .status-menu.selected {
+    display: block;
 }
 
 .lifecycle-ui .status-menu .not-current,
