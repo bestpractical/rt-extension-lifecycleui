@@ -3,7 +3,7 @@ jQuery(function () {
         this.width  = 809;
         this.height = 500;
         this.statusCircleRadius = 35;
-        this.gridSize = 25;
+        this.gridSize = 10;
         this.padding = this.statusCircleRadius;
     };
 
