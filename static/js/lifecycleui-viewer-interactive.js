@@ -31,6 +31,11 @@ jQuery(function () {
         this._setMenuPosition();
     };
 
+    Interactive.prototype.didZoom = function () {
+        Super.prototype.didZoom.call(this);
+        this._setMenuPosition();
+    };
+
     Interactive.prototype.initializeViewer = function (node, name, config, focusStatus) {
          Super.prototype.initializeViewer.call(this, node, name, config, focusStatus);
          this.menuContainer = jQuery(node).find('.status-menus');
