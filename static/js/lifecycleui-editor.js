@@ -232,13 +232,11 @@ jQuery(function () {
 
         inspector.on('click', 'button.undo', function (e) {
             e.preventDefault();
-            var payload = self.lifecycle.undo();
-            if (!payload) {
-                return;
-            }
+            var frame = self.lifecycle.undo();
+            var uiState = frame[1];
 
-            if (payload.focusKey) {
-                var node = self.lifecycle.itemForKey(payload.focusKey);
+            if (uiState.focusKey) {
+                var node = self.lifecycle.itemForKey(uiState.focusKey);
                 self.focusItem(node);
             }
             else {
@@ -248,6 +246,16 @@ jQuery(function () {
 
         inspector.on('click', 'button.redo', function (e) {
             e.preventDefault();
+            var frame = self.lifecycle.redo();
+            var uiState = frame[1];
+
+            if (uiState.focusKey) {
+                var node = self.lifecycle.itemForKey(uiState.focusKey);
+                self.focusItem(node);
+            }
+            else {
+                self.defocus();
+            }
         });
     };
 
@@ -469,16 +477,17 @@ jQuery(function () {
 
         self.svg.on('click', function () { self.defocus() });
 
-        self.lifecycle.saveUndoCallback = function () {
-            var payload = {};
+        self.lifecycle.undoFrameCallback = function (frame) {
+            var uiState = {};
             if (self._focusItem) {
-                payload.focusKey = self._focusItem._key;
+                uiState.focusKey = self._focusItem._key;
             }
-            return payload;
+            frame.push(uiState);
         };
 
         self.lifecycle.undoStateChangedCallback = function () {
             d3.select(node).select('button.undo').classed('invisible', !self.lifecycle.hasUndoStack());
+            d3.select(node).select('button.redo').classed('invisible', !self.lifecycle.hasRedoStack());
         };
         self.lifecycle.undoStateChangedCallback();
     };

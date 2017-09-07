@@ -11,7 +11,7 @@ jQuery(function () {
         this.transitions = [];
         this.decorations = {};
 
-        this._undoState = { undoStack: [] };
+        this._undoState = { undoStack: [], redoStack: [] };
         this._keyMap = {};
         this._statusMeta = {};
     };
@@ -663,20 +663,29 @@ jQuery(function () {
         }
     };
 
-    Lifecycle.prototype._saveUndoEntry = function () {
+    Lifecycle.prototype._currentUndoFrame = function () {
         var undoState = this._undoState;
-        delete this._undoState;
         var keyMap = this._keyMap;
+        delete this._undoState;
         delete this._keyMap;
 
         var entry = JSON.stringify(this);
-        var extra = {};
-        if (this.saveUndoCallback) {
-            extra = this.saveUndoCallback();
-        }
-        undoState.undoStack.push([entry, extra]);
+
         this._undoState = undoState;
         this._keyMap = keyMap;
+
+        var frame = [entry];
+        if (this.undoFrameCallback) {
+            this.undoFrameCallback(frame);
+        }
+
+        return frame;
+    };
+
+    Lifecycle.prototype._saveUndoEntry = function () {
+        var frame = this._currentUndoFrame();
+        this._undoState.undoStack.push(frame);
+        this._undoState.redoStack = [];
 
         if (this.undoStateChangedCallback) {
             this.undoStateChangedCallback();
@@ -685,6 +694,10 @@ jQuery(function () {
 
     Lifecycle.prototype.hasUndoStack = function () {
         return this._undoState.undoStack.length > 0;
+    };
+
+    Lifecycle.prototype.hasRedoStack = function () {
+        return this._undoState.redoStack.length > 0;
     };
 
     Lifecycle.prototype._rebuildKeyMap = function () {
@@ -723,8 +736,10 @@ jQuery(function () {
             return null;
         }
 
-        var payload = undoStack.pop();
-        var entry = JSON.parse(payload[0]);
+        this._undoState.redoStack.push(this._currentUndoFrame());
+
+        var frame = undoStack.pop();
+        var entry = JSON.parse(frame[0]);
 
         this._restoreState(entry);
 
@@ -732,7 +747,27 @@ jQuery(function () {
             this.undoStateChangedCallback();
         }
 
-        return payload[1];
+        return frame;
+    };
+
+    Lifecycle.prototype.redo = function () {
+        var redoStack = this._undoState.redoStack;
+        if (redoStack.length == 0) {
+            return null;
+        }
+
+        this._undoState.undoStack.push(this._currentUndoFrame());
+
+        var frame = redoStack.pop();
+        var entry = JSON.parse(frame[0]);
+
+        this._restoreState(entry);
+
+        if (this.undoStateChangedCallback) {
+            this.undoStateChangedCallback();
+        }
+
+        return frame;
     };
 
     RT.Lifecycle = Lifecycle;
