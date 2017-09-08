@@ -20,14 +20,31 @@
 <label><input type="radio" name="Clone" value="" <% ($Clone//'') eq '' ? "checked=checked" : "" %> /> (none)</label>
 
 % for my $type (@types) {
+<div class="type" data-type="<% $type %>">
 % for my $lifecycle (@{ $lifecycles{$type} }) {
 <label><input type="radio" name="Clone" value="<% $lifecycle %>" <% ($Clone//'') eq $lifecycle ? "checked=checked" : "" %> /> <% $lifecycle %></label><br>
 % }
+</div>
 % }
 </td></tr>
 </table>
 
 <& /Elements/Submit, Name => 'Create', Label => loc('Create') &>
+
+<script type="text/javascript">
+jQuery(function () {
+    var showType = function (resetClone) {
+        var type = jQuery('select[name=Type]').val();
+        jQuery('.type').hide();
+        jQuery('.type[data-type="'+type+'"]').show();
+        if (resetClone) {
+            jQuery('input[name=Clone][value=""]').prop('checked', true);
+        }
+    };
+    showType(false);
+    jQuery('select[name=Type]').change(function () { showType(true) });
+});
+</script>
 <%INIT>
 my @results;
 
