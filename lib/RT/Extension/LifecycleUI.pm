@@ -156,6 +156,28 @@ sub UpdateLifecycle {
     return (1, $CurrentUser->loc("Lifecycle [_1] updated", $name));
 }
 
+sub UpdateMaps {
+    my $class = shift;
+    my %args = (
+        CurrentUser  => undef,
+        Maps         => undef,
+        @_,
+    );
+
+    my $CurrentUser = $args{CurrentUser};
+    my $lifecycles = RT->Config->Get('Lifecycles');
+
+    %{ $lifecycles->{__maps__} } = (
+        %{ $lifecycles->{__maps__} || {} },
+        %{ $args{Maps} },
+    );
+
+    my ($ok, $msg) = $class->_SaveLifecycles($lifecycles, $CurrentUser);
+    return ($ok, $msg) if !$ok;
+
+    return (1, $CurrentUser->loc("Lifecycle mappings updated"));
+}
+
 =head1 NAME
 
 RT-Extension-LifecycleUI - manage lifecycles via admin UI
