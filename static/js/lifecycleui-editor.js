@@ -58,6 +58,8 @@ jQuery(function () {
 
         inspector.find('.content').html(self.templates[type](params));
 
+        inspector.find(".toplevel").addClass('sf-menu sf-vertical sf-js-enabled sf-shadow').supersubs().superfish({ speed: 'fast' });
+
         inspector.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);
             var selector = field.data('show-hide');

@@ -89,16 +89,6 @@
     margin-top: 0;
 }
 
-.lifecycle-ui .inspector .canvas ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.lifecycle-ui .inspector .canvas ul ul {
-    padding-left: 3em;
-    margin-bottom: 1em;
-}
-
 .lifecycle-ui .inspector .hint {
     vertical-align: super;
     font-size: .8em;
@@ -108,3 +98,24 @@
 .lifecycle-ui .invisible {
     visibility: hidden;
 }
+
+.lifecycle-ui .inspector .sf-menu a:visited,
+.lifecycle-ui .inspector .sf-menu a {
+    border: none;
+    color: #000;
+}
+
+.lifecycle-ui .inspector .sf-menu.sf-vertical {
+    margin-left: -1em;
+}
+
+.lifecycle-ui .inspector .sf-menu.sf-vertical,
+.lifecycle-ui .inspector .sf-menu.sf-vertical > li {
+    width: 175px;
+}
+
+.lifecycle-ui .inspector .sf-vertical li:hover ul,
+.lifecycle-ui .inspector .sf-vertical li.sfHover ul {
+    left: 175px;
+}
+
