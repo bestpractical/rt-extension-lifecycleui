@@ -8,7 +8,7 @@
                   <option value="inactive"><&|/l&>inactive</&></option>
                   {{/select}}
               </select><br>
-        <span title="<&|/l&>Can this status be selected on creation?</&>">Creation<span class="hint" >[?]</span>: <input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}><br>
+        <span title="<&|/l&>Can this status be selected on creation?</&>">Creation<span class="hint" >[?]</span>: <input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}></span><br>
         Color: <span class="color-control" data-field="color"><span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
 
         Add Transition:
