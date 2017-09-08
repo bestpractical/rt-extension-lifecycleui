@@ -78,6 +78,23 @@
               {{/each}}
               </ul>
            </li>
+          <li class="has-children"><a href="javascript:void(0)" class="menu-item">Select Transition...</a>
+              <ul>
+              {{#each lifecycle.statuses}}
+              <li class="has-children"><a href="javascript:void(0)" class="menu-item select-status" data-name="{{this}}"><&|/l, "{{this}}"&>from [_1]</&></a>
+                <ul>
+                  {{#with this as |from|}}
+                  {{#with ../lifecycle as |lc|}}
+                  {{#each lc.statuses}}
+                    <li class="menu-item {{#if (canSelectTransition from this lc)}}{{else}}hidden{{/if}}"><a href="#" class="menu-item select-transition" data-from="{{from}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
+                  {{/each}}
+                  {{/with}}
+                  {{/with}}
+                </ul>
+              </li>
+              {{/each}}
+              </ul>
+           </li>
            <li class="has-children"><a href="javascript:void(0)" class="menu-item">Select Decoration...</a>
               <ul>
               {{#each lifecycle.decorations.text}}
