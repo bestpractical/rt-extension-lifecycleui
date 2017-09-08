@@ -3,7 +3,6 @@ jQuery(function () {
 
     function Editor (container) {
         Super.call(this);
-        this.padding = this.statusCircleRadius * 2;
     };
     Editor.prototype = Object.create(Super.prototype);
 

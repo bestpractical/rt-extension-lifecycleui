@@ -4,7 +4,7 @@ jQuery(function () {
         this.height = 500;
         this.statusCircleRadius = 35;
         this.gridSize = 10;
-        this.padding = this.statusCircleRadius;
+        this.padding = this.statusCircleRadius * 2;
     };
 
     Viewer.prototype.createScale = function (size, padding) {
