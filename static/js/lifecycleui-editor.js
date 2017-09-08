@@ -190,6 +190,12 @@ jQuery(function () {
             self.focusItem(d);
         });
 
+        inspector.on('mouseenter', 'a.select-status', function (e) {
+            var statusName = jQuery(this).data('name');
+            var d = self.lifecycle.statusObjectForName(statusName);
+            self.hoverItem(d);
+        });
+
         inspector.on('click', 'a.select-transition', function (e) {
             e.preventDefault();
             var button = jQuery(this);
@@ -200,11 +206,30 @@ jQuery(function () {
             self.focusItem(d);
         });
 
+        inspector.on('mouseenter', 'a.select-transition', function (e) {
+            var button = jQuery(this);
+            var fromStatus = button.data('from');
+            var toStatus   = button.data('to');
+
+            var d = self.lifecycle.hasTransition(fromStatus, toStatus);
+            self.hoverItem(d);
+        });
+
         inspector.on('click', 'a.select-decoration', function (e) {
             e.preventDefault();
             var key = jQuery(this).data('key');
             var d = self.lifecycle.itemForKey(key);
             self.focusItem(d);
+        });
+
+        inspector.on('mouseenter', 'a.select-decoration', function (e) {
+            var key = jQuery(this).data('key');
+            var d = self.lifecycle.itemForKey(key);
+            self.hoverItem(d);
+        });
+
+        inspector.on('mouseleave', 'a.select-status, a.select-transition, a.select-decoration', function () {
+            self.hoverItem(null);
         });
 
         inspector.on('click', '.add-status', function (e) {
@@ -509,6 +534,7 @@ jQuery(function () {
         Super.prototype.defocus.call(this);
         this.setInspectorContent(null);
         this.removePointHandles();
+        this.hoverItem(null);
         this.renderDisplay();
     };
 
@@ -521,6 +547,14 @@ jQuery(function () {
         }
 
         this.renderDisplay();
+    };
+
+    Editor.prototype.hoverItem = function (item) {
+        this.svg.selectAll(".hover").classed('hover', false);
+
+        if (item) {
+            this.svg.selectAll("*[data-key='"+item._key+"']").classed('hover', true);
+        }
     };
 
     RT.LifecycleEditor = Editor;

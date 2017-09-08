@@ -122,3 +122,13 @@
     left: 175px;
 }
 
+.lifecycle-ui .statuses circle.hover,
+.lifecycle-ui .transitions .hover,
+.lifecycle-ui .decorations :not(text).hover {
+    opacity: 1;
+    filter: url(#hover);
+}
+
+.lifecycle-ui.editing .decorations .hover.text-background {
+    fill: white;
+}
