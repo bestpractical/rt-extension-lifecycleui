@@ -611,7 +611,7 @@ jQuery(function () {
         return item;
     };
 
-    Lifecycle.prototype.createCircleDecoration = function (x, y) {
+    Lifecycle.prototype.createCircleDecoration = function (x, y, r) {
         this._saveUndoEntry();
 
         var item = {
@@ -625,7 +625,7 @@ jQuery(function () {
             renderFill: true,
             x: x,
             y: y,
-            r: 35
+            r: r
         };
         this.decorations.circle.push(item);
         this._keyMap[item._key] = item;

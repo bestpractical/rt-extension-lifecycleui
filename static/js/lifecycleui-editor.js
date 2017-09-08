@@ -496,7 +496,7 @@ jQuery(function () {
 
     Editor.prototype.addNewCircleDecoration = function () {
         var p = this.viewportCenterPoint();
-        var circle = this.lifecycle.createCircleDecoration(p[0], p[1]);
+        var circle = this.lifecycle.createCircleDecoration(p[0], p[1], self.statusCircleRadius);
         this.focusItem(circle);
     };
 
