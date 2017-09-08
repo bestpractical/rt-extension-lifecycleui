@@ -1,23 +1,36 @@
 <& /Admin/Elements/Header, Title => loc("Admin Lifecycles") &>
 <& /Elements/Tabs &>
+<& /Elements/ListActions, actions => \@results &>
 
 <form action="<%RT->Config->Get('WebPath')%>/Admin/Lifecycles/Create.html" name="CreateLifecycle" method="post" enctype="multipart/form-data">
 
-<&|/l&>New lifecycle name</&>: <input name="Name" value="" />
-<hr />
+<table>
+<tr><td align="right"><&|/l&>Lifecycle Name</&>:</td>
+<td><input name="Name" value="<% $Name %>" /></td>
+</tr>
+
+<tr><td align="right"><&|/l&>Type</&>:</td>
+<td><select name="Type">
+% for my $type (@types) {
+<option value="<% $type %>" <% $type eq $Type ? "checked=checked" : "" %>><% loc($type) %></option>
+% }
+</select></td></tr>
+
+<tr><td align="right"><&|/l&>Clone Lifecycle</&>:</td><td>
+<label><input type="radio" name="Clone" value="" <% ($Clone//'') eq '' ? "checked=checked" : "" %> /> (none)</label>
 
 % for my $type (@types) {
-% my @lifecycles = @{ $lifecycles{$type} };
-<h2><&|/l, $type&>"[_1]" lifecycles</&></h2>
-% for my $lifecycle (@lifecycles) {
-<button type="submit" name="Clone" value="<% $type %>--<% $lifecycle %>"><&|/l, $lifecycle&>Clone "[_1]" lifecycle</&></button><br>
+% for my $lifecycle (@{ $lifecycles{$type} }) {
+<label><input type="radio" name="Clone" value="<% $lifecycle %>" <% ($Clone//'') eq $lifecycle ? "checked=checked" : "" %> /> <% $lifecycle %></label><br>
 % }
-<br>
-<button type="submit" name="Blank" value="<% $type %>"><&|/l, $type&>Blank "[_1]" lifecycle</&></button><br>
 % }
-</form>
+</td></tr>
+</table>
 
+<& /Elements/Submit, Name => 'Create', Label => loc('Create') &>
 <%INIT>
+my @results;
+
 my @types = List::MoreUtils::uniq(
     'ticket',
     'asset',
@@ -32,34 +45,29 @@ for my $type (@types) {
                               RT::Lifecycle->ListAll($type);
 }
 
-if (defined($Clone) || defined($Blank)) {
-    my ($type, $clone_of);
-
-    if (defined($Clone)) {
-        ($type, $clone_of) = split '--', $Clone;
-    }
-    else {
-        $type = $Blank;
-    }
-
+if ($Create) {
     my ($ok, $msg) = RT::Extension::LifecycleUI->CreateLifecycle(
         CurrentUser => $session{CurrentUser},
         Name        => $Name,
-        Type        => $type,
-        Clone       => $clone_of,
+        Type        => $Type,
+        Clone       => $Clone,
     );
 
-    Abort($msg) if !$ok;
-
-    MaybeRedirectForResults(
-        Actions   => [ $msg ],
-        Path      => 'Admin/Lifecycles/Modify.html',
-        Arguments => { Type => $type, Name => $Name },
-    );
+    if ($ok) {
+        MaybeRedirectForResults(
+            Actions   => [ $msg ],
+            Path      => 'Admin/Lifecycles/Modify.html',
+            Arguments => { Type => $Type, Name => $Name },
+        );
+    }
+    else {
+        push @results, $msg if !$ok;
+    }
 }
 </%INIT>
 <%ARGS>
-$Clone => undef
-$Blank => undef
 $Name => undef
+$Type => 'ticket'
+$Clone => undef
+$Create => undef
 </%ARGS>
