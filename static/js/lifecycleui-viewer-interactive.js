@@ -34,6 +34,8 @@ jQuery(function () {
         this.menuContainer.find('.status-menu.selected').removeClass('selected');
         this.selectedMenu.addClass('selected');
 
+        this.selectedMenu.find(".toplevel").addClass('sf-menu sf-vertical sf-js-enabled sf-shadow').supersubs().superfish({ speed: 'fast' });
+
         this._setMenuPosition();
     };
 
