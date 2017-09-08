@@ -17,6 +17,10 @@ jQuery(function () {
     };
 
     Lifecycle.prototype._initialPointsForPolygon = {
+        Line: [
+            {x: -.07, y: 0},
+            {x:  .07, y: 0},
+        ],
         Triangle: [
             {x:  .07, y: .2},
             {x:    0, y:  0},
@@ -632,7 +636,7 @@ jQuery(function () {
         return item;
     };
 
-    Lifecycle.prototype.createLineDecoration = function () {
+    Lifecycle.prototype.createLineDecoration = function (x, y) {
         this._saveUndoEntry();
 
         var item = {
@@ -642,7 +646,9 @@ jQuery(function () {
             style: 'solid',
             startMarker: 'none',
             endMarker: 'arrowhead',
-            points: [{x:0.4, y:0.5}, {x:0.6, y:0.5}]
+            x: x,
+            y: y,
+            points: JSON.parse(JSON.stringify(this._initialPointsForPolygon.Line))
         };
         this.decorations.line.push(item);
         this._keyMap[item._key] = item;
