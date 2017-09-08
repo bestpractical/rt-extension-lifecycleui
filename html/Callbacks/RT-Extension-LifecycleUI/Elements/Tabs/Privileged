@@ -34,6 +34,7 @@ if ( $Path =~ m{^/Admin/Lifecycles} ) {
 
             my $menu = PageMenu();
             $menu->child( basics => title => loc('Modify'),  path => "/Admin/Lifecycles/Modify.html?Type=" . $Type_uri . "&Name=" . $Name_uri );
+            $menu->child( mappings => title => loc('Mappings'),  path => "/Admin/Lifecycles/Mappings.html?Type=" . $Type_uri . "&Name=" . $Name_uri );
         }
     }
     else {
