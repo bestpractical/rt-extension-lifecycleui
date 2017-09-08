@@ -289,6 +289,12 @@ jQuery(function () {
                 self.defocus();
             }
         });
+
+        inspector.on('focus', 'textarea[name=text]', function (e) {
+            if (jQuery(this).val() == jQuery(this).data('default')) {
+                jQuery(this).val("");
+            }
+        });
     };
 
     Editor.prototype.addPointHandles = function (d) {
