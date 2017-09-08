@@ -1,6 +1,6 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="text">
     <div class="text">
-        Text: <input type="text" name="text" value="{{text.text}}" /><br><br>
+        Text: <textarea name="text" rows=5>{{text.text}}</textarea><br><br>
         Bold: <input type="checkbox" name="bold" {{#if text.bold}}checked=checked{{/if}}><br>
         Italic: <input type="checkbox" name="italic" {{#if text.italic}}checked=checked{{/if}}><br>
         <button class="delete"><&|/l&>Delete Text</&></button>

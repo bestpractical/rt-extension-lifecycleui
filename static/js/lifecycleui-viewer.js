@@ -171,6 +171,24 @@ jQuery(function () {
                       .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
     };
 
+    Viewer.prototype._wrapTextDecoration = function (node, text) {
+        if (node.attr('data-text') == text) {
+            return;
+        }
+
+        var lines = text.split(/\n/),
+            lineHeight = 1.1;
+
+        if (node.attr('data-text')) {
+            node.selectAll("*").remove();
+        }
+        node.attr('data-text', text);
+
+        for (var i = 0; i < lines.length; ++i) {
+            node.append("tspan").attr("dy", (i+1) * lineHeight + "em").text(lines[i]);
+        }
+    };
+
     Viewer.prototype.renderTextDecorations = function (initial) {
         var self = this;
         var labels = self.decorationContainer.selectAll("text")
@@ -191,10 +209,13 @@ jQuery(function () {
               .merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
-                      .text(function (d) { return d.text })
                       .classed("bold", function (d) { return d.bold })
                       .classed("italic", function (d) { return d.italic })
                       .classed("focus", function (d) { return self.isFocused(d) })
+                      .each(function (d) { self._wrapTextDecoration(d3.select(this), d.text) })
+              .selectAll("tspan")
+                      .attr("x", function (d) { return self.xScale(d.x) })
+                      .attr("y", function (d) { return self.yScale(d.y) })
     };
 
     Viewer.prototype.renderPolygonDecorations = function (initial) {

@@ -367,7 +367,7 @@ jQuery(function () {
                           var padding = 5 / self._currentZoom.k;
 
                           rect.attr("x", self.xScale(d.x)-padding)
-                              .attr("y", self.yScale(d.y)-height-padding)
+                              .attr("y", self.yScale(d.y)-padding)
                               .attr("width", width+padding*2)
                               .attr("height", height+padding*2);
                       });
