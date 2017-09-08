@@ -64,7 +64,7 @@
           <li><a href="javascript:void(0)" class="menu-item add-status"><&|/l&>Add Status</&></a></li>
           <li class="has-children"><a href="javascript:void(0)" class="menu-item">Add Decoration...</a>
               <ul>
-                  <li><a href="javascript:void(0)" class="menu-item add-text">Add Text</a></li>
+                  <li><a href="javascript:void(0)" class="menu-item add-text">Add Label</a></li>
                   <li><a href="javascript:void(0)" class="menu-item add-polygon" data-type="Triangle">Add Triangle</a></li>
                   <li><a href="javascript:void(0)" class="menu-item add-polygon" data-type="Rectangle">Add Rectangle</a></li>
                   <li><a href="javascript:void(0)" class="menu-item add-circle">Add Circle</a></li>
