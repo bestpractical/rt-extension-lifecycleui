@@ -11,6 +11,7 @@
              </select>
         </div>
         Fill: <input type="checkbox" name="renderFill" {{#if polygon.renderFill}}checked=checked{{/if}} data-show-hide=".color-control[data-field=fill]"> <span class="color-control" data-field="fill"><span class="current-color" title="{{polygon.fill}}" style="background-color: {{polygon.fill}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
+        <button class="clone"><&|/l&>Clone Polygon</&></button><br>
         <button class="delete"><&|/l&>Delete Polygon</&></button>
     </div>
 </script>

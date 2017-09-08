@@ -776,6 +776,25 @@ jQuery(function () {
         return frame;
     };
 
+    Lifecycle.prototype.cloneItem = function (source, x, y) {
+        this._saveUndoEntry();
+
+        var clone = JSON.parse(JSON.stringify(source));
+        clone._key = _ELEMENT_KEY_SEQ++;
+        clone.x = x;
+        clone.y = y;
+
+        if (clone._type == 'polygon' || clone._type == 'circle' || clone._type == 'line' || clone._type == 'text') {
+            this.decorations[clone._type].push(clone);
+        }
+        else {
+            console.error("Unhandled type for clone: " + clone._type);
+        }
+
+        this._keyMap[clone._key] = clone;
+        return clone;
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 

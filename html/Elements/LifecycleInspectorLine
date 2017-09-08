@@ -22,6 +22,7 @@
                  <option value="dotted"><&|/l&>dotted</&></option>
                  {{/select}}
              </select><br>
+        <button class="clone"><&|/l&>Clone Line</&></button><br>
         <button class="delete"><&|/l&>Delete Line</&></button>
     </div>
 </script>

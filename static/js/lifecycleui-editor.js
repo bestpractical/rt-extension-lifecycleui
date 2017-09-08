@@ -156,6 +156,13 @@ jQuery(function () {
             }
         });
 
+        inspector.on('click', 'button.clone', function (e) {
+            e.preventDefault();
+            var p = self.viewportCenterPoint();
+            var clone = self.lifecycle.cloneItem(self.inspectorNode, p[0], p[1]);
+            self.focusItem(clone);
+        });
+
         inspector.on('click', 'button.add-action', function (e) {
             e.preventDefault();
             var action = lifecycle.createActionForTransition(self.inspectorNode);
@@ -514,7 +521,7 @@ jQuery(function () {
 
     Editor.prototype.addNewCircleDecoration = function () {
         var p = this.viewportCenterPoint();
-        var circle = this.lifecycle.createCircleDecoration(p[0], p[1], self.statusCircleRadius);
+        var circle = this.lifecycle.createCircleDecoration(p[0], p[1], this.statusCircleRadius);
         this.focusItem(circle);
     };
 

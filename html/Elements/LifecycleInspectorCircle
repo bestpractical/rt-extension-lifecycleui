@@ -11,6 +11,7 @@
              </select>
         </div>
         Fill: <input type="checkbox" name="renderFill" {{#if circle.renderFill}}checked=checked{{/if}} data-show-hide=".color-control[data-field=fill]"> <span class="color-control" data-field="fill"><span class="current-color" title="{{circle.fill}}" style="background-color: {{circle.fill}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
+        <button class="clone"><&|/l&>Clone Circle</&></button><br>
         <button class="delete"><&|/l&>Delete Circle</&></button>
     </div>
 </script>
