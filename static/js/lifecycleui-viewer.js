@@ -9,7 +9,7 @@ jQuery(function () {
 
     Viewer.prototype.createScale = function (size, padding) {
         return d3.scaleLinear()
-                 .domain([0, 1])
+                 .domain([0, 10000])
                  .range([padding, size - padding]);
     };
 
@@ -18,10 +18,10 @@ jQuery(function () {
     Viewer.prototype.yScale = function (y) { return this.gridScale(this._yScale(y)) };
     Viewer.prototype.xScaleZero = function (x) { return this.gridScale(this._xScaleZero(x)) };
     Viewer.prototype.yScaleZero = function (y) { return this.gridScale(this._yScaleZero(y)) };
-    Viewer.prototype.xScaleInvert = function (x) { return this._xScale.invert(x) };
-    Viewer.prototype.yScaleInvert = function (y) { return this._yScale.invert(y) };
-    Viewer.prototype.xScaleZeroInvert = function (x) { return this._xScaleZero.invert(x) };
-    Viewer.prototype.yScaleZeroInvert = function (y) { return this._yScaleZero.invert(y) };
+    Viewer.prototype.xScaleInvert = function (x) { return Math.floor(this._xScale.invert(x)) };
+    Viewer.prototype.yScaleInvert = function (y) { return Math.floor(this._yScale.invert(y)) };
+    Viewer.prototype.xScaleZeroInvert = function (x) { return Math.floor(this._xScaleZero.invert(x)) };
+    Viewer.prototype.yScaleZeroInvert = function (y) { return Math.floor(this._yScaleZero.invert(y)) };
 
     Viewer.prototype.addZoomBehavior = function () {
         var self = this;

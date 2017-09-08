@@ -18,19 +18,19 @@ jQuery(function () {
 
     Lifecycle.prototype._initialPointsForPolygon = {
         Line: [
-            {x: -.07, y: 0},
-            {x:  .07, y: 0},
+            {x: -700, y: 0},
+            {x:  700, y: 0},
         ],
         Triangle: [
-            {x:  .07, y: .2},
-            {x:    0, y:  0},
-            {x: -.06, y: .2}
+            {x:  700, y: 2000},
+            {x:   0, y:  0},
+            {x: -600, y: 2000}
         ],
         Rectangle: [
-            {x: -.06, y: -.06},
-            {x:  .06, y: -.06},
-            {x:  .06, y:  .06},
-            {x: -.06, y:  .06}
+            {x: -600, y: -600},
+            {x:  600, y: -600},
+            {x:  600, y:  600},
+            {x: -600, y:  600}
         ]
     };
 
@@ -73,8 +73,8 @@ jQuery(function () {
             var meta = self._statusMeta[statusName];
             // arrange statuses evenly-spaced around a circle
             if (!meta.x) {
-                meta.x = (Math.sin(2 * Math.PI * (i/statusCount)) + 1) / 2;
-                meta.y = (Math.cos(2 * Math.PI * (i/statusCount)) + 1) / 2;
+                meta.x = 10000 * (Math.sin(2 * Math.PI * (i/statusCount)) + 1) / 2;
+                meta.y = 10000 * (Math.cos(2 * Math.PI * (i/statusCount)) + 1) / 2;
             };
 
             if (!meta.color) {
