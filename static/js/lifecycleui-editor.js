@@ -309,36 +309,47 @@ jQuery(function () {
         this.renderDisplay();
     };
 
-    // add a rect under the focused text decoration for highlighting
+    // add rects under text decorations for highlighting
     Editor.prototype.renderTextDecorations = function (initial) {
         Super.prototype.renderTextDecorations.call(this, initial);
         var self = this;
 
-        if (!self._focusItem || self._focusItem._type != 'text') {
-            self.decorationContainer.selectAll("rect")
-                .data([])
-                .exit()
-                .remove();
-            return;
-        }
+        self.renderTextDecorationBackgrounds(initial);
+    };
 
-        var d = self._focusItem;
-        var label = self.decorationContainer.select("text[data-key='"+d._key+"']");
-        var rect = label.node().getBoundingClientRect();
-        var width = rect.width;
-        var height = rect.height;
-        var padding = 5;
+    Editor.prototype.renderTextDecorationBackgrounds = function (initial) {
+        var self = this;
+        var rects = self.decorationContainer.selectAll("rect.text-background")
+                         .data(self.lifecycle.decorations.text, function (d) { return d._key });
 
-        var background = self.decorationContainer.selectAll("rect")
-                             .data([d], function (d) { return d._key });
+        rects.exit()
+            .classed("removing", true)
+            .transition().duration(200)
+              .remove();
 
-        background.enter().insert("rect", ":first-child")
+        rects.enter().insert("rect", ":first-child")
+                     .attr("data-key", function (d) { return d._key })
                      .classed("text-background", true)
-              .merge(background)
-                     .attr("x", self.xScale(d.x)-padding)
-                     .attr("y", self.yScale(d.y)-height-padding)
-                     .attr("width", width+padding*2)
-                     .attr("height", height+padding*2)
+                     .on("click", function (d) {
+                         d3.event.stopPropagation();
+                         self.clickedDecoration(d);
+                     })
+                     .call(function (rects) { self.didEnterTextDecorations(rects) })
+              .merge(rects)
+                      .classed("focus", function (d) { return self.isFocused(d) })
+                      .each(function (d) {
+                          var rect = d3.select(this);
+                          var label = self.decorationContainer.select("text[data-key='"+d._key+"']");
+                          var bbox = label.node().getBoundingClientRect();
+                          var width = bbox.width;
+                          var height = bbox.height;
+                          var padding = 5;
+
+                          rect.attr("x", self.xScale(d.x)-padding)
+                              .attr("y", self.yScale(d.y)-height-padding)
+                              .attr("width", width+padding*2)
+                              .attr("height", height+padding*2);
+                      });
     };
 
     Editor.prototype.renderPolygonDecorations = function (initial) {

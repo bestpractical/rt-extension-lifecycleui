@@ -74,10 +74,13 @@
     opacity: 1;
 }
 
-.lifecycle-ui.editing svg.has-focus .decorations .text-background {
+.lifecycle-ui.editing .decorations .text-background {
     stroke: none;
+    fill: none;
+}
+
+.lifecycle-ui.editing svg.has-focus .decorations .focus.text-background {
     fill: white;
-    opacity: 1;
     filter: url(#focus);
 }
 
