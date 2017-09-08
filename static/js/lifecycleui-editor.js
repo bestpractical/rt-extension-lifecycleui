@@ -528,6 +528,10 @@ jQuery(function () {
             d3.select(node).select('button.redo').classed('invisible', !self.lifecycle.hasRedoStack());
         };
         self.lifecycle.undoStateChangedCallback();
+
+        setTimeout(function () {
+            jQuery('.results').slideUp();
+        }, 10*1000);
     };
 
     Editor.prototype.defocus = function () {
