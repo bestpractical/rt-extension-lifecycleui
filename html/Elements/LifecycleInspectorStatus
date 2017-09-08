@@ -11,21 +11,25 @@
         <span title="<&|/l&>Can this status be selected on creation?</&>">Creation<span class="hint" >[?]</span>: <input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}></span><br>
         Color: <span class="color-control" data-field="color"><span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
 
-        Add Transition:
-        <ul>
-          {{#each lifecycle.statuses}}
-            <li class="{{#if (canAddTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="add-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
-          {{/each}}
+        <ul class="toplevel">
+          <li><a href="javascript:void(0)" class="menu-item">Add Transition...</a>
+            <ul>
+            {{#each lifecycle.statuses}}
+              <li class="{{#if (canAddTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="javascript:void(0)" class="menu-item add-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
+            {{/each}}
+            </ul>
+          <li><a href="javascript:void(0)" class="menu-item">Select Transition...</a>
+            <ul>
+              {{#each lifecycle.statuses}}
+                <li class="{{#if (canSelectTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="menu-item select-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
+              {{/each}}
+              {{#each lifecycle.statuses}}
+                <li class="{{#if (canSelectTransition this ../status.name ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="menu-item select-transition" data-to="{{../status.name}}" data-from="{{this}}"><&|/l, "{{this}}"&>from [_1]</&></a></li>
+              {{/each}}
+            </ul>
+          </li>
         </ul>
-        Select Transition:
-        <ul>
-          {{#each lifecycle.statuses}}
-            <li class="{{#if (canSelectTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="select-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
-          {{/each}}
-          {{#each lifecycle.statuses}}
-            <li class="{{#if (canSelectTransition this ../status.name ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="select-transition" data-to="{{../status.name}}" data-from="{{this}}"><&|/l, "{{this}}"&>from [_1]</&></a></li>
-          {{/each}}
-        </ul>
+
         <button class="delete"><&|/l&>Delete Status</&></button>
     </div>
 </script>
