@@ -12,7 +12,7 @@
 <tr><td align="right"><&|/l&>Type</&>:</td>
 <td><select name="Type">
 % for my $type (@types) {
-<option value="<% $type %>" <% $type eq $Type ? "checked=checked" : "" %>><% loc($type) %></option>
+<option value="<% $type %>" <% $type eq $Type ? "selected=selected" : "" %>><% loc($type) %></option>
 % }
 </select></td></tr>
 
