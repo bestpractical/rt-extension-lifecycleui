@@ -9,13 +9,20 @@
     display: block;
 }
 
-.lifecycle-ui .status-menu .not-current,
-.lifecycle-ui .status-menu .no-transition,
-.lifecycle-ui .status-menu .no-permission,
-.lifecycle-ui .status-menu .hide-resolve-with-deps {
+.lifecycle-ui .status-menu a.not-current,
+.lifecycle-ui .status-menu a.no-transition,
+.lifecycle-ui .status-menu a.no-permission,
+.lifecycle-ui .status-menu a.hide-resolve-with-deps {
     color: #AAAAAA;
     cursor: default;
     text-decoration: none;
+}
+
+.lifecycle-ui .status-menu .not-current:hover,
+.lifecycle-ui .status-menu .no-transition:hover,
+.lifecycle-ui .status-menu .no-permission:hover,
+.lifecycle-ui .status-menu .hide-resolve-with-deps:hover {
+    background-color: #fff;
 }
 
 .lifecycle-ui .status-menu .sf-menu.sf-vertical {

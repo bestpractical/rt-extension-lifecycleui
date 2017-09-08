@@ -61,6 +61,14 @@ jQuery(function () {
          Super.prototype.initializeViewer.call(self, node, name, config, focusStatus);
          self.menuContainer = jQuery(node).find('.status-menus');
          self.svg.on('click', function () { self.deselectStatus() });
+
+         // copy classes from <a> to <li> for improved styling
+         self.menuContainer.find('.status-menu li a').each(function () {
+             var link = jQuery(this);
+             var item = link.closest('li');
+             item.addClass(link.attr("class"));
+             item.removeClass('menu-item');
+         });
     };
 
     RT.LifecycleViewerInteractive = Interactive;
