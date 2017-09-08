@@ -362,9 +362,9 @@ jQuery(function () {
                           var rect = d3.select(this);
                           var label = self.decorationContainer.select("text[data-key='"+d._key+"']");
                           var bbox = label.node().getBoundingClientRect();
-                          var width = bbox.width;
-                          var height = bbox.height;
-                          var padding = 5;
+                          var width = bbox.width / self._currentZoom.k;
+                          var height = bbox.height / self._currentZoom.k;
+                          var padding = 5 / self._currentZoom.k;
 
                           rect.attr("x", self.xScale(d.x)-padding)
                               .attr("y", self.yScale(d.y)-height-padding)
