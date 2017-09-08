@@ -324,9 +324,10 @@ jQuery(function () {
 
     Viewer.prototype.centerOnItem = function (item, animated) {
         var rect = this.svg.node().getBoundingClientRect();
-        var x = rect.width/2 - this.xScale(item.x);
-        var y = rect.height/2 - this.yScale(item.y);
-        this._zoomIdentity = d3.zoomIdentity.translate(x, y);
+        var scale = this._zoomIdentityScale;
+        var x = rect.width/2 - this.xScale(item.x) * scale;
+        var y = rect.height/2 - this.yScale(item.y) * scale;
+        this._zoomIdentity = d3.zoomIdentity.translate(x, y).scale(this._zoomIdentityScale);
         this.resetZoom(animated);
     };
 
@@ -416,7 +417,13 @@ jQuery(function () {
         self._yScale = self.createScale(self.height, self.padding);
         self._xScaleZero = self.createScale(self.width, 0);
         self._yScaleZero = self.createScale(self.height, 0);
-        self._zoomIdentity = self._currentZoom = d3.zoomIdentity;
+
+        // zoom in a bit, but not too much
+        var scale = self.svg.node().getBoundingClientRect().width / self.width;
+        scale = scale ** .6;
+
+        self._zoomIdentityScale = scale;
+        self._zoomIdentity = self._currentZoom = d3.zoomIdentity.scale(self._zoomIdentityScale);
 
         self.lifecycle = new RT.Lifecycle(name);
         self.lifecycle.initializeFromConfig(config);
