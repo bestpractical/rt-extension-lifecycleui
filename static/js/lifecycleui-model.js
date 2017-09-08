@@ -604,7 +604,7 @@ jQuery(function () {
             renderFill: true,
             x: 0.5,
             y: 0.5,
-            points: this._initialPointsForPolygon[type]
+            points: JSON.parse(JSON.stringify(this._initialPointsForPolygon[type]))
         };
         this.decorations.polygon.push(item);
         this._keyMap[item._key] = item;
