@@ -472,6 +472,10 @@ jQuery(function () {
         circles.call(this._createDrag());
     };
 
+    Editor.prototype.didEnterLineDecorations = function (lines) {
+        lines.call(this._createDrag());
+    };
+
     Editor.prototype.viewportCenterPoint = function () {
         var rect = this.svg.node().getBoundingClientRect();
         var x = (rect.width / 2 - this._currentZoom.x)/this._currentZoom.k;
