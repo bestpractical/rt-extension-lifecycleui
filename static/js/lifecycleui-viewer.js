@@ -32,6 +32,7 @@ jQuery(function () {
     };
 
     Viewer.prototype.didZoom = function () {
+        this._currentZoom = d3.event.transform;
         this.transformContainer.attr("transform", d3.event.transform);
     };
 
@@ -393,7 +394,7 @@ jQuery(function () {
         self._yScale = self.createScale(self.height, self.padding);
         self._xScaleZero = self.createScale(self.width, 0);
         self._yScaleZero = self.createScale(self.height, 0);
-        self._zoomIdentity = d3.zoomIdentity;
+        self._zoomIdentity = self._currentZoom = d3.zoomIdentity;
 
         self.lifecycle = new RT.Lifecycle(name);
         self.lifecycle.initializeFromConfig(config);

@@ -469,23 +469,34 @@ jQuery(function () {
         circles.call(this._createDrag());
     };
 
+    Editor.prototype.viewportCenterPoint = function () {
+        var rect = this.svg.node().getBoundingClientRect();
+        var x = (rect.width / 2 - this._currentZoom.x)/this._currentZoom.k;
+        var y = (rect.height / 2 - this._currentZoom.y)/this._currentZoom.k;
+        return [this.xScaleInvert(x), this.yScaleInvert(y)];
+    };
+
     Editor.prototype.addNewStatus = function () {
-        var status = this.lifecycle.createStatus();
+        var p = this.viewportCenterPoint();
+        var status = this.lifecycle.createStatus(p[0], p[1]);
         this.focusItem(status);
     };
 
     Editor.prototype.addNewTextDecoration = function () {
-        var text = this.lifecycle.createTextDecoration();
+        var p = this.viewportCenterPoint();
+        var text = this.lifecycle.createTextDecoration(p[0], p[1]);
         this.focusItem(text);
     };
 
     Editor.prototype.addNewPolygonDecoration = function (type) {
-        var polygon = this.lifecycle.createPolygonDecoration(type);
+        var p = this.viewportCenterPoint();
+        var polygon = this.lifecycle.createPolygonDecoration(p[0], p[1], type);
         this.focusItem(polygon);
     };
 
     Editor.prototype.addNewCircleDecoration = function () {
-        var circle = this.lifecycle.createCircleDecoration();
+        var p = this.viewportCenterPoint();
+        var circle = this.lifecycle.createCircleDecoration(p[0], p[1]);
         this.focusItem(circle);
     };
 

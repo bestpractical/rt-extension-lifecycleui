@@ -546,7 +546,7 @@ jQuery(function () {
         point.y = y;
     };
 
-    Lifecycle.prototype.createStatus = function () {
+    Lifecycle.prototype.createStatus = function (x, y) {
         this._saveUndoEntry();
 
         var name;
@@ -565,8 +565,8 @@ jQuery(function () {
             _type: 'status',
             name:  name,
             type:  'initial',
-            x:     0.5,
-            y:     0.5,
+            x:     x,
+            y:     y
         };
         item.color = defaultColors(item._key);
 
@@ -575,22 +575,22 @@ jQuery(function () {
         return item;
     };
 
-    Lifecycle.prototype.createTextDecoration = function () {
+    Lifecycle.prototype.createTextDecoration = function (x, y) {
         this._saveUndoEntry();
 
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
             _type: 'text',
             text:  'New label',
-            x:     0.5,
-            y:     0.5,
+            x:     x,
+            y:     y
         };
         this.decorations.text.push(item);
         this._keyMap[item._key] = item;
         return item;
     };
 
-    Lifecycle.prototype.createPolygonDecoration = function (type) {
+    Lifecycle.prototype.createPolygonDecoration = function (x, y, type) {
         this._saveUndoEntry();
 
         var item = {
@@ -602,8 +602,8 @@ jQuery(function () {
             strokeStyle: 'solid',
             fill: '#ffffff',
             renderFill: true,
-            x: 0.5,
-            y: 0.5,
+            x: x,
+            y: y,
             points: JSON.parse(JSON.stringify(this._initialPointsForPolygon[type]))
         };
         this.decorations.polygon.push(item);
@@ -611,7 +611,7 @@ jQuery(function () {
         return item;
     };
 
-    Lifecycle.prototype.createCircleDecoration = function () {
+    Lifecycle.prototype.createCircleDecoration = function (x, y) {
         this._saveUndoEntry();
 
         var item = {
@@ -623,8 +623,8 @@ jQuery(function () {
             strokeStyle: 'solid',
             fill: '#ffffff',
             renderFill: true,
-            x: 0.5,
-            y: 0.5,
+            x: x,
+            y: y,
             r: 35
         };
         this.decorations.circle.push(item);
