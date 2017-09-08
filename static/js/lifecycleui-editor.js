@@ -195,6 +195,12 @@ jQuery(function () {
             self.hoverItem(d);
         });
 
+        inspector.on('mouseenter', 'a.add-transition', function (e) {
+            var statusName = jQuery(this).data('to');
+            var d = self.lifecycle.statusObjectForName(statusName);
+            self.hoverItem(d);
+        });
+
         inspector.on('click', 'a.select-transition', function (e) {
             e.preventDefault();
             var button = jQuery(this);
@@ -227,7 +233,7 @@ jQuery(function () {
             self.hoverItem(d);
         });
 
-        inspector.on('mouseleave', 'a.select-status, a.select-transition, a.select-decoration', function () {
+        inspector.on('mouseleave', 'a.select-status, a.add-transition, a.select-transition, a.select-decoration', function () {
             self.hoverItem(null);
         });
 
