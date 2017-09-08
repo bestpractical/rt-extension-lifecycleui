@@ -65,7 +65,6 @@
 }
 
 .lifecycle-ui.editing svg.has-focus .decorations .focus,
-.lifecycle-ui.editing svg.has-focus .decorations .point-handle,
 .lifecycle-ui.editing svg.has-focus .transitions .focus {
     opacity: 1;
 }
