@@ -36,6 +36,7 @@
             </select></td>
           </tr>
 
+          {{#if lifecycle.is_ticket}}
           <tr>
             <td>Approved:</td>
             <td><select name="approved">
@@ -83,6 +84,7 @@
               {{/select}}
             </select></td>
           </tr>
+	  {{/if}}
         </table>
 
         <ul class="toplevel">
