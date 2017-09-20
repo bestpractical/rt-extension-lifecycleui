@@ -544,6 +544,10 @@ jQuery(function () {
         item.y = y;
     };
 
+    Lifecycle.prototype.moveCircleRadiusPoint = function (circle, x, y) {
+        circle.r = Math.max(10, Math.sqrt(x**2 + y**2));
+    }
+
     Lifecycle.prototype.movePolygonPoint = function (polygon, index, x, y) {
         var point = polygon.points[index];
         point.x = x;

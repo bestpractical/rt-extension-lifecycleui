@@ -308,13 +308,23 @@ jQuery(function () {
     Editor.prototype.addPointHandles = function (d) {
         var self = this;
         var points = [];
-        for (var i = 0; i < d.points.length; ++i) {
+
+        if (d._type == 'circle') {
             points.push({
-                _key: d._key + '-' + i,
-                i: i,
-                x: d.points[i].x,
-                y: d.points[i].y
+                _key: d._key + '-r',
+                x: this.xScaleZeroInvert(d.r + this.pointHandleRadius/2),
+                y: 0
             });
+        }
+        else {
+            for (var i = 0; i < d.points.length; ++i) {
+                points.push({
+                    _key: d._key + '-' + i,
+                    i: i,
+                    x: d.points[i].x,
+                    y: d.points[i].y
+                });
+            }
         }
         self.pointHandles = points;
     };
@@ -344,7 +354,12 @@ jQuery(function () {
         d.x = x;
         d.y = y;
 
-        this.lifecycle.movePolygonPoint(this.inspectorNode, d.i, x, y);
+        if (this.inspectorNode._type == 'circle') {
+            this.lifecycle.moveCircleRadiusPoint(this.inspectorNode, this.xScaleZero(x), this.yScaleZero(y));
+        }
+        else {
+            this.lifecycle.movePolygonPoint(this.inspectorNode, d.i, x, y);
+        }
 
         this.renderDisplay();
     };
@@ -585,7 +600,7 @@ jQuery(function () {
         Super.prototype.focusItem.call(this, item);
         this.setInspectorContent(item);
 
-        if (item._type == 'polygon' || item._type == 'line') {
+        if (item._type == 'polygon' || item._type == 'line' || item._type == 'circle') {
             this.addPointHandles(item);
         }
 
