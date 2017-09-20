@@ -46,7 +46,6 @@
 .lifecycle-ui .has-focus .point-handle {
     stroke: black;
     fill: steelblue;
-    r: 5px;
 }
 
 .lifecycle-ui .inspector .actions {

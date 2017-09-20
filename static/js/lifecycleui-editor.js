@@ -3,6 +3,7 @@ jQuery(function () {
 
     function Editor (container) {
         Super.call(this);
+        this.pointHandleRadius = 5;
     };
     Editor.prototype = Object.create(Super.prototype);
 
@@ -403,6 +404,7 @@ jQuery(function () {
 
         handles.enter().append("circle")
                      .classed("point-handle", true)
+                     .attr("r", self.pointHandleRadius)
                      .call(d3.drag()
                          .subject(function (d) { return { x: self.xScaleZero(d.x), y : self.yScaleZero(d.y) } })
                          .on("start", function (d) { self.didBeginDrag(d, this) })
