@@ -9,6 +9,8 @@ jQuery(function () {
     Interactive.prototype.deselectStatus = function () {
         delete this.selectedStatus;
         delete this.selectedMenu;
+
+        this.statusContainer.selectAll('.selected').classed('selected', false);
         this.menuContainer.find('.status-menu.selected').removeClass('selected');
     };
 
@@ -30,6 +32,10 @@ jQuery(function () {
         var statusName = d.name;
         this.selectedMenu = this.menuContainer.find('.status-menu[data-status="'+statusName+'"]');
         this.selectedStatus = d;
+        var circle = this.statusContainer.select('circle[data-key="'+ d._key + '"]');
+
+        this.statusContainer.selectAll('.selected').classed('selected', false);
+        circle.classed('selected', true);
 
         this.menuContainer.find('.status-menu.selected').removeClass('selected');
         this.selectedMenu.addClass('selected');
