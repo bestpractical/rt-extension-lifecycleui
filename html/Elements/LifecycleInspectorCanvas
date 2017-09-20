@@ -1,65 +1,90 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="canvas">
     <div class="canvas">
-        Lifecycle: {{lifecycle.name}}<br><br>
-        Type: {{lifecycle.type}}<br>
+        <table>
+          <tr>
+            <td>Lifecycle:</td>
+            <td>{{lifecycle.name}}</td>
+          </tr>
 
-        {{#if lifecycle.is_ticket}}
-        Lifecycle on Tickets: <select name="ticket_display">
-                     {{#select lifecycle.ticket_display}}
-                       <option value="hidden"><&|/l&>hidden</&>
-                       <option value="readonly"><&|/l&>read-only</&>
-                       <option value="interactive"><&|/l&>interactive</&>
-                     {{/select}}
-                   </select><br>
-        {{/if}}
-        <br>
+          <tr>
+            <td>Type:</td>
+            <td>{{lifecycle.type}}</td>
+          </tr>
 
-        On Create: <select name="on_create">
-                     {{#select lifecycle.defaults.on_create}}
-                       <option value=""><&|/l&>(no value)</&></option>
-                       {{#each lifecycle.statuses}}
-                         <option value="{{this}}">{{this}}</option>
-                       {{/each}}
-                     {{/select}}
-                   </select><br>
+          {{#if lifecycle.is_ticket}}
+          <tr>
+            <td>Lifecycle on Tickets:</td>
+            <td><select name="ticket_display">
+              {{#select lifecycle.ticket_display}}
+                <option value="hidden"><&|/l&>hidden</&>
+                <option value="readonly"><&|/l&>read-only</&>
+                <option value="interactive"><&|/l&>interactive</&>
+              {{/select}}
+            </select></td>
+          </tr>
+          {{/if}}
 
-        Approved: <select name="approved">
-                     {{#select lifecycle.defaults.approved}}
-                       <option value=""><&|/l&>(no value)</&></option>
-                       {{#each lifecycle.statuses}}
-                         <option value="{{this}}">{{this}}</option>
-                       {{/each}}
-                     {{/select}}
-                   </select><br>
+          <tr>
+            <td>On Create:</td>
+            <td><select name="on_create">
+              {{#select lifecycle.defaults.on_create}}
+                <option value=""><&|/l&>(no value)</&></option>
+                {{#each lifecycle.statuses}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              {{/select}}
+            </select></td>
+          </tr>
 
-        Denied: <select name="denied">
-                     {{#select lifecycle.defaults.denied}}
-                       <option value=""><&|/l&>(no value)</&></option>
-                       {{#each lifecycle.statuses}}
-                         <option value="{{this}}">{{this}}</option>
-                       {{/each}}
-                     {{/select}}
-                   </select><br>
+          <tr>
+            <td>Approved:</td>
+            <td><select name="approved">
+              {{#select lifecycle.defaults.approved}}
+                <option value=""><&|/l&>(no value)</&></option>
+                {{#each lifecycle.statuses}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              {{/select}}
+            </select></td>
+          </tr>
 
-        Reminder on Open: <select name="reminder_on_open">
-                     {{#select lifecycle.defaults.reminder_on_open}}
-                       <option value=""><&|/l&>(no value)</&></option>
-                       {{#each lifecycle.statuses}}
-                         <option value="{{this}}">{{this}}</option>
-                       {{/each}}
-                     {{/select}}
-                   </select><br>
+          <tr>
+            <td>Denied:</td>
+            <td><select name="denied">
+              {{#select lifecycle.defaults.denied}}
+                <option value=""><&|/l&>(no value)</&></option>
+                {{#each lifecycle.statuses}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              {{/select}}
+            </select><td>
+          </tr>
 
-        Reminder on Resolve: <select name="reminder_on_resolve">
-                     {{#select lifecycle.defaults.reminder_on_resolve}}
-                       <option value=""><&|/l&>(no value)</&></option>
-                       {{#each lifecycle.statuses}}
-                         <option value="{{this}}">{{this}}</option>
-                       {{/each}}
-                     {{/select}}
-                   </select><br>
-        <br>
-        
+          <tr>
+            <td>Reminder on Open:</td>
+            <td><select name="reminder_on_open">
+              {{#select lifecycle.defaults.reminder_on_open}}
+                <option value=""><&|/l&>(no value)</&></option>
+                {{#each lifecycle.statuses}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              {{/select}}
+            </select></td>
+          </tr>
+
+          <tr>
+            <td>Reminder on Resolve:</td>
+            <td><select name="reminder_on_resolve">
+              {{#select lifecycle.defaults.reminder_on_resolve}}
+                <option value=""><&|/l&>(no value)</&></option>
+                {{#each lifecycle.statuses}}
+                  <option value="{{this}}">{{this}}</option>
+                {{/each}}
+              {{/select}}
+            </select></td>
+          </tr>
+        </table>
+
         <ul class="toplevel">
           <li><a href="javascript:void(0)" class="menu-item add-status"><&|/l&>Add Status</&></a></li>
           <li class="has-children"><a href="javascript:void(0)" class="menu-item">Add Decoration...</a>

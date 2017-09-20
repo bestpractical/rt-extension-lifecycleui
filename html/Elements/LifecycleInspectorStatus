@@ -1,15 +1,37 @@
 <script type="text/x-template" class="lifecycle-inspector-template" data-type="status">
     <div class="status">
-        Status: <input type="text" name="name" maxlength=25 value="{{status.name}}"><br><br>
-        Type: <select name="type">
-                  {{#select status.type}}
-                  <option value="initial"><&|/l&>initial</&></option>
-                  <option value="active"><&|/l&>active</&></option>
-                  <option value="inactive"><&|/l&>inactive</&></option>
-                  {{/select}}
-              </select><br>
-        <span title="<&|/l&>Can this status be selected on creation?</&>">Creation<span class="hint" >[?]</span>: <input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}></span><br>
-        Color: <span class="color-control" data-field="color"><span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span> <button class="change-color"><&|/l&>Change</&></button></span><br>
+        <table>
+	  <tr>
+	    <td>Status:</td>
+	    <td><input type="text" name="name" maxlength=25 value="{{status.name}}"></td>
+	  </tr>
+
+	  <tr>
+            <td>Type:</td>
+	    <td><select name="type">
+              {{#select status.type}}
+              <option value="initial"><&|/l&>initial</&></option>
+              <option value="active"><&|/l&>active</&></option>
+              <option value="inactive"><&|/l&>inactive</&></option>
+              {{/select}}
+            </select></td>
+	  </tr>
+
+          <tr>
+	    <td><span title="<&|/l&>Can this status be selected on creation?</&>">Creation<span class="hint" >[?]</span>:</td>
+	    <td><input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}></td>
+	  </tr>
+
+	  <tr>
+            <td>Color:</td>
+	    <td>
+	      <span class="color-control" data-field="color">
+	        <span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span>
+		<button class="change-color"><&|/l&>Change</&></button>
+	      </span>
+	    </td>
+	  </tr>
+	</table>
 
         <ul class="toplevel">
           <li><a href="javascript:void(0)" class="menu-item">Add Transition...</a>

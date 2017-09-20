@@ -33,6 +33,10 @@
     background: #EEE;
 }
 
+.lifecycle-ui .inspector input[type=text] {
+    width: 10em;
+}
+
 .lifecycle-ui .inspector .color-control span.current-color {
     display: inline;
     padding-left: 1em;
