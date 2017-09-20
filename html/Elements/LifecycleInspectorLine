@@ -2,12 +2,12 @@
     <div class="line">
         <table>
          <tr>
-           <td>Label:</td>
+           <td><&|/l&>Label</&>:</td>
            <td><input type="text" name="label" value="{{line.label}}" /></td>
          </tr>
 
          <tr>
-           <td>Start Marker:</td>
+           <td><&|/l&>Start Marker</&>:</td>
            <td><select name="startMarker">
              {{#select line.startMarker}}
                <option value="none"><&|/l&>none</&></option>
@@ -18,7 +18,7 @@
          </tr>
 
          <tr>
-           <td>End Marker:</td>
+           <td><&|/l&>End Marker</&>:</td>
            <td><select name="endMarker">
              {{#select line.endMarker}}
                <option value="none"><&|/l&>none</&></option>
@@ -29,7 +29,7 @@
          </tr>
 
          <tr>
-           <td>Style:</td>
+           <td><&|/l&>Style</&>:</td>
            <td><select name="style">
              {{#select line.style}}
                <option value="solid"><&|/l&>solid</&></option>

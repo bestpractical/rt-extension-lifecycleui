@@ -2,12 +2,12 @@
     <li class="action" data-key="{{action._key}}">
         <table>
           <tr>
-            <td>Label:</td>
+            <td><&|/l&>Label</&>:</td>
             <td><input type="text" name="label" value="{{action.label}}"></input></td>
           </tr>
 
           <tr>
-            <td>Update:</td>
+            <td><&|/l&>Update</&>:</td>
             <td><select name="update">
               {{#select action.update}}
                 <option value=""><&|/l&>quick</&></option>

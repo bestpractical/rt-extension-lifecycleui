@@ -2,12 +2,12 @@
     <div class="circle">
        <table>
          <tr>
-           <td>Label:</td>
+           <td><&|/l&>Label</&>:</td>
            <td><input type="text" name="label" value="{{circle.label}}" /></td>
          </tr>
 
          <tr>
-           <td>Border:</td>
+           <td><&|/l&>Border</&>:</td>
            <td>
              <input type="checkbox" name="renderStroke" {{#if circle.renderStroke}}checked=checked{{/if}} data-show-hide=".color-control[data-field=stroke], .stroke-style">
              <span class="color-control" data-field="stroke">
@@ -18,7 +18,7 @@
          </tr>
 
          <tr class="stroke-style">
-           <td>Style:</td>
+           <td><&|/l&>Style</&>:</td>
            <td><select name="strokeStyle">
              {{#select circle.strokeStyle}}
              <option value="solid"><&|/l&>solid</&></option>
@@ -29,7 +29,7 @@
         </tr>
 
         <tr>
-          <td>Fill:</td>
+          <td><&|/l&>Fill</&>:</td>
           <td>
             <input type="checkbox" name="renderFill" {{#if circle.renderFill}}checked=checked{{/if}} data-show-hide=".color-control[data-field=fill]">
             <span class="color-control" data-field="fill">

@@ -2,18 +2,18 @@
     <div class="canvas">
         <table>
           <tr>
-            <td>Lifecycle:</td>
+            <td><&|/l&>Lifecycle</&>:</td>
             <td>{{lifecycle.name}}</td>
           </tr>
 
           <tr>
-            <td>Type:</td>
+            <td><&|/l&>Type</&>:</td>
             <td>{{lifecycle.type}}</td>
           </tr>
 
           {{#if lifecycle.is_ticket}}
           <tr>
-            <td>Lifecycle on Tickets:</td>
+            <td><&|/l&>Lifecycle on Tickets</&>:</td>
             <td><select name="ticket_display">
               {{#select lifecycle.ticket_display}}
                 <option value="hidden"><&|/l&>hidden</&>
@@ -25,7 +25,7 @@
           {{/if}}
 
           <tr>
-            <td>On Create:</td>
+            <td><&|/l&>On Create</&>:</td>
             <td><select name="on_create">
               {{#select lifecycle.defaults.on_create}}
                 <option value=""><&|/l&>(no value)</&></option>
@@ -38,7 +38,7 @@
 
           {{#if lifecycle.is_ticket}}
           <tr>
-            <td>Approved:</td>
+            <td><&|/l&>Approved</&>:</td>
             <td><select name="approved">
               {{#select lifecycle.defaults.approved}}
                 <option value=""><&|/l&>(no value)</&></option>
@@ -50,7 +50,7 @@
           </tr>
 
           <tr>
-            <td>Denied:</td>
+            <td><&|/l&>Denied</&>:</td>
             <td><select name="denied">
               {{#select lifecycle.defaults.denied}}
                 <option value=""><&|/l&>(no value)</&></option>
@@ -62,7 +62,7 @@
           </tr>
 
           <tr>
-            <td>Reminder on Open:</td>
+            <td><&|/l&>Reminder on Open</&>:</td>
             <td><select name="reminder_on_open">
               {{#select lifecycle.defaults.reminder_on_open}}
                 <option value=""><&|/l&>(no value)</&></option>
@@ -74,7 +74,7 @@
           </tr>
 
           <tr>
-            <td>Reminder on Resolve:</td>
+            <td><&|/l&>Reminder on Resolve</&>:</td>
             <td><select name="reminder_on_resolve">
               {{#select lifecycle.defaults.reminder_on_resolve}}
                 <option value=""><&|/l&>(no value)</&></option>
@@ -89,23 +89,23 @@
 
         <ul class="toplevel">
           <li><a href="javascript:void(0)" class="menu-item add-status"><&|/l&>Add Status</&></a></li>
-          <li class="has-children"><a href="javascript:void(0)" class="menu-item">Add Decoration...</a>
+          <li class="has-children"><a href="javascript:void(0)" class="menu-item"><&|/l&>Add Decoration...</&></a>
               <ul>
-                  <li><a href="javascript:void(0)" class="menu-item add-text">Add Label</a></li>
-                  <li><a href="javascript:void(0)" class="menu-item add-polygon" data-type="Triangle">Add Triangle</a></li>
-                  <li><a href="javascript:void(0)" class="menu-item add-polygon" data-type="Rectangle">Add Rectangle</a></li>
-                  <li><a href="javascript:void(0)" class="menu-item add-circle">Add Circle</a></li>
-                  <li><a href="javascript:void(0)" class="menu-item add-line">Add Line</a></li>
+                  <li><a href="javascript:void(0)" class="menu-item add-text"><&|/l&>Add Label</&></a></li>
+                  <li><a href="javascript:void(0)" class="menu-item add-polygon" data-type="Triangle"><&|/l&>Add Triangle</&></a></li>
+                  <li><a href="javascript:void(0)" class="menu-item add-polygon" data-type="Rectangle"><&|/l&>Add Rectangle</&></a></li>
+                  <li><a href="javascript:void(0)" class="menu-item add-circle"><&|/l&>Add Circle</&></a></li>
+                  <li><a href="javascript:void(0)" class="menu-item add-line"><&|/l&>Add Line</&></a></li>
               </ul>
           </li>
-          <li class="has-children"><a href="javascript:void(0)" class="menu-item">Select Status...</a>
+          <li class="has-children"><a href="javascript:void(0)" class="menu-item"><&|/l&>Select Status...</&></a>
               <ul>
               {{#each lifecycle.statuses}}
               <li><a href="javascript:void(0)" class="menu-item select-status" data-name="{{this}}">{{this}}</a></li>
               {{/each}}
               </ul>
            </li>
-          <li class="has-children"><a href="javascript:void(0)" class="menu-item">Select Transition...</a>
+          <li class="has-children"><a href="javascript:void(0)" class="menu-item"><&|/l&>Select Transition...</&></a>
               <ul>
               {{#each lifecycle.statuses}}
               <li class="has-children"><a href="javascript:void(0)" class="menu-item select-status" data-name="{{this}}"><&|/l, "{{this}}"&>from [_1]</&></a>
@@ -122,7 +122,7 @@
               {{/each}}
               </ul>
            </li>
-           <li class="has-children"><a href="javascript:void(0)" class="menu-item">Select Decoration...</a>
+           <li class="has-children"><a href="javascript:void(0)" class="menu-item"><&|/l&>Select Decoration...</&></a>
               <ul>
               {{#each lifecycle.decorations.text}}
               <li><a href="javascript:void(0)" class="menu-item select-decoration" data-key="{{this._key}}">{{truncate this.text}}</a></li>

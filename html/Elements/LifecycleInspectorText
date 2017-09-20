@@ -2,17 +2,17 @@
     <div class="text">
         <table>
 	  <tr>
-	    <td>Text:</td>
+	    <td><&|/l&>Text</&>:</td>
 	    <td><textarea name="text" rows=5 data-default="New label">{{text.text}}</textarea></td>
 	  </tr>
 
 	  <tr>
-	    <td>Bold:</td>
+	    <td><&|/l&>Bold</&>:</td>
 	    <td><input type="checkbox" name="bold" {{#if text.bold}}checked=checked{{/if}}></td>
 	  </tr>
 
 	  <tr>
-            <td>Italic:</td>
+            <td><&|/l&>Italic</&>:</td>
 	    <td><input type="checkbox" name="italic" {{#if text.italic}}checked=checked{{/if}}></td>
 	  </tr>
 	</table>

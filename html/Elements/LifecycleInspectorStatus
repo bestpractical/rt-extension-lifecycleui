@@ -2,12 +2,12 @@
     <div class="status">
         <table>
 	  <tr>
-	    <td>Status:</td>
+	    <td><&|/l&>Status</&>:</td>
 	    <td><input type="text" name="name" maxlength=25 value="{{status.name}}"></td>
 	  </tr>
 
 	  <tr>
-            <td>Type:</td>
+            <td><&|/l&>Type</&>:</td>
 	    <td><select name="type">
               {{#select status.type}}
               <option value="initial"><&|/l&>initial</&></option>
@@ -18,12 +18,12 @@
 	  </tr>
 
           <tr>
-	    <td><span title="<&|/l&>Can this status be selected on creation?</&>">Creation<span class="hint" >[?]</span>:</td>
+	    <td><span title="<&|/l&>Can this status be selected on creation?</&>"><&|/l&>Creation</&><span class="hint" ><&|/l&>~[?~]</&></span>:</td>
 	    <td><input type="checkbox" name="creation" {{#if status.creation}}checked=checked{{/if}}></td>
 	  </tr>
 
 	  <tr>
-            <td>Color:</td>
+            <td><&|/l&>Color</&>:</td>
 	    <td>
 	      <span class="color-control" data-field="color">
 	        <span class="current-color" title="{{status.color}}" style="background-color: {{status.color}}">&nbsp;</span>
@@ -34,13 +34,13 @@
 	</table>
 
         <ul class="toplevel">
-          <li><a href="javascript:void(0)" class="menu-item">Add Transition...</a>
+          <li><a href="javascript:void(0)" class="menu-item"><&|/l&>Add Transition...</&></a>
             <ul>
             {{#each lifecycle.statuses}}
               <li class="{{#if (canAddTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="javascript:void(0)" class="menu-item add-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
             {{/each}}
             </ul>
-          <li><a href="javascript:void(0)" class="menu-item">Select Transition...</a>
+          <li><a href="javascript:void(0)" class="menu-item"><&|/l&>Select Transition...</&></a>
             <ul>
               {{#each lifecycle.statuses}}
                 <li class="{{#if (canSelectTransition ../status.name this ../lifecycle)}}{{else}}hidden{{/if}}"><a href="#" class="menu-item select-transition" data-from="{{../status.name}}" data-to="{{this}}"><&|/l, "{{this}}"&>to [_1]</&></a></li>
