@@ -272,6 +272,13 @@ jQuery(function () {
                             })
                             .call(function (polygons) { self.didEnterPolygonDecorations(polygons) });
 
+        if (!initial) {
+            newPolygons.style("opacity", 0.15)
+                       .transition().duration(200*self.animationFactor)
+                           .style("opacity", 1)
+                           .on("end", function () { d3.select(this).style("opacity", undefined) });
+        }
+
         newPolygons.merge(polygons)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
                      .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
@@ -304,6 +311,13 @@ jQuery(function () {
                                self.clickedDecoration(d);
                            })
                            .call(function (circles) { self.didEnterCircleDecorations(circles) });
+
+        if (!initial) {
+            newCircles.style("opacity", 0.15)
+                      .transition().duration(200*self.animationFactor)
+                          .style("opacity", 1)
+                          .on("end", function () { d3.select(this).style("opacity", undefined) });
+        }
 
         newCircles.merge(circles)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })

@@ -435,6 +435,13 @@ jQuery(function () {
                                .on("end", function (d) { self.didEndDrag(d, this) })
                            );
 
+        if (!initial) {
+            newHandles.style("opacity", 0.15)
+                      .transition().duration(200*self.animationFactor)
+                          .style("opacity", 1)
+                          .on("end", function () { d3.select(this).style("opacity", undefined) });
+        }
+
         newHandles.merge(handles)
                      .attr("transform", function (d) {
                          var x = self.xScale(self.inspectorNode.x);
