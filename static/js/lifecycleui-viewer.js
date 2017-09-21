@@ -5,6 +5,7 @@ jQuery(function () {
         this.statusCircleRadius = 35;
         this.gridSize = 10;
         this.padding = this.statusCircleRadius * 2;
+        this.animationFactor = 1; // bump this to 10 debug JS animations
     };
 
     Viewer.prototype.createScale = function (size, padding) {
@@ -39,7 +40,7 @@ jQuery(function () {
     Viewer.prototype.zoomScale = function (scaleBy, animated) {
         if (animated) {
             this.svg.transition()
-                    .duration(350)
+                    .duration(350*this.animationFactor)
                     .call(this._zoom.scaleBy, scaleBy);
         }
         else {
@@ -50,7 +51,7 @@ jQuery(function () {
     Viewer.prototype.resetZoom = function (animated) {
         if (animated) {
             this.svg.transition()
-                    .duration(750)
+                    .duration(750*this.animationFactor)
                     .call(this._zoom.transform, this._zoomIdentity);
         }
         else {
@@ -73,7 +74,7 @@ jQuery(function () {
 
         statuses.exit()
               .classed("removing", true)
-              .transition().duration(200)
+              .transition().duration(200*self.animationFactor)
                 .attr("r", self.statusCircleRadius * .8)
                 .remove();
 
@@ -87,7 +88,7 @@ jQuery(function () {
                             .call(function (statuses) { self.didEnterStatusNodes(statuses) });
 
         if (!initial) {
-            newStatuses.transition().duration(200)
+            newStatuses.transition().duration(200*self.animationFactor)
                          .attr("r", self.statusCircleRadius)
         }
 
@@ -122,7 +123,7 @@ jQuery(function () {
 
         labels.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newLabels = labels.enter().append("text")
@@ -159,7 +160,7 @@ jQuery(function () {
 
         paths.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newPaths = paths.enter().append("path")
@@ -185,7 +186,7 @@ jQuery(function () {
                         path.attr("stroke-dasharray", length + " " + length)
                             .attr("stroke-dashoffset", length - self.statusCircleRadius)
                             .style("marker-end", "none")
-                            .transition().duration(200).ease(d3.easeLinear)
+                            .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
                               .attr("stroke-dashoffset", self.statusCircleRadius)
                               .on("end", function () {
                                 d3.select(this)
@@ -223,7 +224,7 @@ jQuery(function () {
 
         labels.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newLabels = labels.enter().append("text")
@@ -236,7 +237,7 @@ jQuery(function () {
 
         if (!initial) {
             newLabels.style("opacity", 0.15)
-                     .transition().duration(200)
+                     .transition().duration(200*self.animationFactor)
                          .style("opacity", 1)
                          .on("end", function () { d3.select(this).style("opacity", undefined) });
         }
@@ -260,7 +261,7 @@ jQuery(function () {
 
         polygons.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newPolygons = polygons.enter().append("polygon")
@@ -292,7 +293,7 @@ jQuery(function () {
 
         circles.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newCircles = circles.enter().append("circle")
@@ -322,7 +323,7 @@ jQuery(function () {
 
         lines.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newLines = lines.enter().append("line")

@@ -379,7 +379,7 @@ jQuery(function () {
 
         rects.exit()
             .classed("removing", true)
-            .transition().duration(200)
+            .transition().duration(200*self.animationFactor)
               .remove();
 
         var newRects = rects.enter().insert("rect", ":first-child")
@@ -393,7 +393,7 @@ jQuery(function () {
 
         if (!initial) {
             newRects.style("opacity", 0.15)
-                    .transition().duration(200)
+                    .transition().duration(200*self.animationFactor)
                         .style("opacity", 1)
                         .on("end", function () { d3.select(this).style("opacity", undefined) });
         }
