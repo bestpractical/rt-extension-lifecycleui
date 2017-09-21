@@ -391,6 +391,13 @@ jQuery(function () {
                      })
                      .call(function (rects) { self.didEnterTextDecorations(rects) });
 
+        if (!initial) {
+            newRects.style("opacity", 0.15)
+                    .transition().duration(200)
+                        .style("opacity", 1)
+                        .on("end", function () { d3.select(this).style("opacity", undefined) });
+        }
+
         newRects.merge(rects)
                       .classed("focus", function (d) { return self.isFocused(d) })
                       .each(function (d) {

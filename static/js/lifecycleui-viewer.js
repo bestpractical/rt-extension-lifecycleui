@@ -215,6 +215,13 @@ jQuery(function () {
                           })
                           .call(function (labels) { self.didEnterTextDecorations(labels) });
 
+        if (!initial) {
+            newLabels.style("opacity", 0.15)
+                     .transition().duration(200)
+                         .style("opacity", 1)
+                         .on("end", function () { d3.select(this).style("opacity", undefined) });
+        }
+
         newLabels.merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
