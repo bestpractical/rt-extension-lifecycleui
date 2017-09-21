@@ -1,6 +1,5 @@
 jQuery(function () {
     var _ELEMENT_KEY_SEQ = 0;
-    var defaultColors = d3.scaleOrdinal(d3.schemeCategory10);
 
     function Lifecycle (name) {
         this.name = name;
@@ -11,6 +10,7 @@ jQuery(function () {
         this.transitions = [];
         this.decorations = {};
 
+        this.defaultColor = '#547CCC';
         this._undoState = { undoStack: [], redoStack: [] };
         this._keyMap = {};
         this._statusMeta = {};
@@ -78,7 +78,7 @@ jQuery(function () {
             };
 
             if (!meta.color) {
-                meta.color = defaultColors(meta._key);
+                meta.color = self.defaultColor;
             };
         });
 
@@ -576,7 +576,7 @@ jQuery(function () {
             x:     x,
             y:     y
         };
-        item.color = defaultColors(item._key);
+        item.color = this.defaultColor;
 
         this._statusMeta[name] = item;
         this._keyMap[item._key] = item;
