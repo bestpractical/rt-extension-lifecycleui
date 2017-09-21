@@ -78,13 +78,18 @@ jQuery(function () {
                 .remove();
 
         var newStatuses = statuses.enter().append("circle")
-                            .attr("r", self.statusCircleRadius)
+                            .attr("r", initial ? self.statusCircleRadius : self.statusCircleRadius * .8)
                             .attr("data-key", function (d) { return d._key })
                             .on("click", function (d) {
                                 d3.event.stopPropagation();
                                 self.clickedStatus(d);
                             })
                             .call(function (statuses) { self.didEnterStatusNodes(statuses) });
+
+        if (!initial) {
+            newStatuses.transition().duration(200)
+                         .attr("r", self.statusCircleRadius)
+        }
 
         newStatuses.merge(statuses)
                         .attr("cx", function (d) { return self.xScale(d.x) })
