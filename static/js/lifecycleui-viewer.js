@@ -77,15 +77,16 @@ jQuery(function () {
                 .attr("r", self.statusCircleRadius * .8)
                 .remove();
 
-        statuses.enter().append("circle")
-                        .attr("r", self.statusCircleRadius)
-                        .attr("data-key", function (d) { return d._key })
-                        .on("click", function (d) {
-                            d3.event.stopPropagation();
-                            self.clickedStatus(d);
-                        })
-                        .call(function (statuses) { self.didEnterStatusNodes(statuses) })
-                .merge(statuses)
+        var newStatuses = statuses.enter().append("circle")
+                            .attr("r", self.statusCircleRadius)
+                            .attr("data-key", function (d) { return d._key })
+                            .on("click", function (d) {
+                                d3.event.stopPropagation();
+                                self.clickedStatus(d);
+                            })
+                            .call(function (statuses) { self.didEnterStatusNodes(statuses) });
+
+        newStatuses.merge(statuses)
                         .attr("cx", function (d) { return self.xScale(d.x) })
                         .attr("cy", function (d) { return self.yScale(d.y) })
                         .attr("fill", function (d) { return d.color })
@@ -119,14 +120,15 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        labels.enter().append("text")
-                      .attr("data-key", function (d) { return d._key })
-                      .on("click", function (d) {
-                          d3.event.stopPropagation();
-                          self.clickedStatus(d);
-                      })
-                     .call(function (labels) { self.didEnterStatusLabels(labels) })
-              .merge(labels)
+        var newLabels = labels.enter().append("text")
+                          .attr("data-key", function (d) { return d._key })
+                          .on("click", function (d) {
+                              d3.event.stopPropagation();
+                              self.clickedStatus(d);
+                          })
+                          .call(function (labels) { self.didEnterStatusLabels(labels) });
+
+        newLabels.merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
@@ -155,14 +157,15 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        paths.enter().append("path")
-                     .attr("data-key", function (d) { return d._key })
-                     .on("click", function (d) {
-                         d3.event.stopPropagation();
-                         self.clickedTransition(d);
-                     })
-                     .call(function (paths) { self.didEnterTransitions(paths) })
-              .merge(paths)
+        var newPaths = paths.enter().append("path")
+                         .attr("data-key", function (d) { return d._key })
+                         .on("click", function (d) {
+                             d3.event.stopPropagation();
+                             self.clickedTransition(d);
+                         })
+                         .call(function (paths) { self.didEnterTransitions(paths) });
+
+        newPaths.merge(paths)
                       .attr("d", function (d) { return self.transitionArc(d) })
                       .classed("dashed", function (d) { return d.style == 'dashed' })
                       .classed("dotted", function (d) { return d.style == 'dotted' })
@@ -199,14 +202,15 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        labels.enter().append("text")
-                     .attr("data-key", function (d) { return d._key })
-                     .on("click", function (d) {
-                         d3.event.stopPropagation();
-                         self.clickedDecoration(d);
-                     })
-                     .call(function (labels) { self.didEnterTextDecorations(labels) })
-              .merge(labels)
+        var newLabels = labels.enter().append("text")
+                          .attr("data-key", function (d) { return d._key })
+                          .on("click", function (d) {
+                              d3.event.stopPropagation();
+                              self.clickedDecoration(d);
+                          })
+                          .call(function (labels) { self.didEnterTextDecorations(labels) });
+
+        newLabels.merge(labels)
                       .attr("x", function (d) { return self.xScale(d.x) })
                       .attr("y", function (d) { return self.yScale(d.y) })
                       .classed("bold", function (d) { return d.bold })
@@ -228,14 +232,15 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        polygons.enter().append("polygon")
-                     .attr("data-key", function (d) { return d._key })
-                     .on("click", function (d) {
-                         d3.event.stopPropagation();
-                         self.clickedDecoration(d);
-                     })
-                     .call(function (polygons) { self.didEnterPolygonDecorations(polygons) })
-              .merge(polygons)
+        var newPolygons = polygons.enter().append("polygon")
+                            .attr("data-key", function (d) { return d._key })
+                            .on("click", function (d) {
+                                d3.event.stopPropagation();
+                                self.clickedDecoration(d);
+                            })
+                            .call(function (polygons) { self.didEnterPolygonDecorations(polygons) });
+
+        newPolygons.merge(polygons)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
                      .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
                      .classed("dotted", function (d) { return d.strokeStyle == 'dotted' })
@@ -259,15 +264,16 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        circles.enter().append("circle")
-                     .classed("decoration", true)
-                     .attr("data-key", function (d) { return d._key })
-                     .on("click", function (d) {
-                         d3.event.stopPropagation();
-                         self.clickedDecoration(d);
-                     })
-                     .call(function (circles) { self.didEnterCircleDecorations(circles) })
-              .merge(circles)
+        var newCircles = circles.enter().append("circle")
+                           .classed("decoration", true)
+                           .attr("data-key", function (d) { return d._key })
+                           .on("click", function (d) {
+                               d3.event.stopPropagation();
+                               self.clickedDecoration(d);
+                           })
+                           .call(function (circles) { self.didEnterCircleDecorations(circles) });
+
+        newCircles.merge(circles)
                      .attr("stroke", function (d) { return d.renderStroke ? d.stroke : 'none' })
                      .classed("dashed", function (d) { return d.strokeStyle == 'dashed' })
                      .classed("dotted", function (d) { return d.strokeStyle == 'dotted' })
@@ -288,14 +294,15 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        lines.enter().append("line")
-                     .attr("data-key", function (d) { return d._key })
-                     .on("click", function (d) {
-                         d3.event.stopPropagation();
-                         self.clickedDecoration(d);
-                     })
-                     .call(function (lines) { self.didEnterLineDecorations(lines) })
-              .merge(lines)
+        var newLines = lines.enter().append("line")
+                         .attr("data-key", function (d) { return d._key })
+                         .on("click", function (d) {
+                             d3.event.stopPropagation();
+                             self.clickedDecoration(d);
+                         })
+                         .call(function (lines) { self.didEnterLineDecorations(lines) });
+
+        newLines.merge(lines)
                      .classed("dashed", function (d) { return d.style == 'dashed' })
                      .classed("dotted", function (d) { return d.style == 'dotted' })
                      .attr("transform", function (d) { return "translate(" + self.xScale(d.x) + ", " + self.yScale(d.y) + ")" })

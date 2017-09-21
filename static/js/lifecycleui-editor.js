@@ -382,15 +382,16 @@ jQuery(function () {
             .transition().duration(200)
               .remove();
 
-        rects.enter().insert("rect", ":first-child")
+        var newRects = rects.enter().insert("rect", ":first-child")
                      .attr("data-key", function (d) { return d._key })
                      .classed("text-background", true)
                      .on("click", function (d) {
                          d3.event.stopPropagation();
                          self.clickedDecoration(d);
                      })
-                     .call(function (rects) { self.didEnterTextDecorations(rects) })
-              .merge(rects)
+                     .call(function (rects) { self.didEnterTextDecorations(rects) });
+
+        newRects.merge(rects)
                       .classed("focus", function (d) { return self.isFocused(d) })
                       .each(function (d) {
                           var rect = d3.select(this);
@@ -417,16 +418,17 @@ jQuery(function () {
         handles.exit()
               .remove();
 
-        handles.enter().append("circle")
-                     .classed("point-handle", true)
-                     .attr("r", self.pointHandleRadius)
-                     .call(d3.drag()
-                         .subject(function (d) { return { x: self.xScaleZero(d.x), y : self.yScaleZero(d.y) } })
-                         .on("start", function (d) { self.didBeginDrag(d, this) })
-                         .on("drag", function (d) { self.didDragPointHandle(d) })
-                         .on("end", function (d) { self.didEndDrag(d, this) })
-                     )
-              .merge(handles)
+        var newHandles = handles.enter().append("circle")
+                           .classed("point-handle", true)
+                           .attr("r", self.pointHandleRadius)
+                           .call(d3.drag()
+                               .subject(function (d) { return { x: self.xScaleZero(d.x), y : self.yScaleZero(d.y) } })
+                               .on("start", function (d) { self.didBeginDrag(d, this) })
+                               .on("drag", function (d) { self.didDragPointHandle(d) })
+                               .on("end", function (d) { self.didEndDrag(d, this) })
+                           );
+
+        newHandles.merge(handles)
                      .attr("transform", function (d) {
                          var x = self.xScale(self.inspectorNode.x);
                          var y = self.yScale(self.inspectorNode.y);
