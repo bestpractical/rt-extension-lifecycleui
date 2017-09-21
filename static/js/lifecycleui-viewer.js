@@ -158,10 +158,17 @@ jQuery(function () {
         var paths = self.transitionContainer.selectAll("path")
                         .data(self.lifecycle.transitions, function (d) { return d._key });
 
-        paths.exit()
-            .classed("removing", true)
-            .transition().duration(200*self.animationFactor)
-              .remove();
+        paths.exit().classed("removing", true)
+                    .each(function (d) {
+                        var length = this.getTotalLength();
+                        var path = d3.select(this);
+                        path.attr("stroke-dasharray", length + " " + length)
+                            .attr("stroke-dashoffset", self.statusCircleRadius)
+                            .style("marker-end", "none")
+                            .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
+                              .attr("stroke-dashoffset", length - self.statusCircleRadius)
+                              .remove();
+                    });
 
         var newPaths = paths.enter().append("path")
                          .attr("data-key", function (d) { return d._key })

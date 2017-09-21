@@ -47,6 +47,10 @@
     opacity: 0 !important;
 }
 
+.lifecycle-ui .transitions path.removing {
+    opacity: 1 !important;
+}
+
 .lifecycle-ui .has-focus .point-handle {
     stroke: black;
     fill: steelblue;
