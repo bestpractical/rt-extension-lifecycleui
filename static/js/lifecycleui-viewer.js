@@ -177,6 +177,25 @@ jQuery(function () {
                       .classed("focus", function (d) { return self.isFocused(d) })
                       .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
                       .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
+
+        if (!initial) {
+            newPaths.each(function (d) {
+                        var length = this.getTotalLength();
+                        var path = d3.select(this);
+                        path.attr("stroke-dasharray", length + " " + length)
+                            .attr("stroke-dashoffset", length - self.statusCircleRadius)
+                            .style("marker-end", "none")
+                            .transition().duration(200).ease(d3.easeLinear)
+                              .attr("stroke-dashoffset", self.statusCircleRadius)
+                              .on("end", function () {
+                                d3.select(this)
+                                  .attr("stroke-dasharray", undefined)
+                                  .attr("stroke-offset", undefined)
+                                  .style("marker-end", undefined)
+                              })
+                    });
+        }
+
     };
 
     Viewer.prototype._wrapTextDecoration = function (node, text) {
