@@ -348,6 +348,26 @@ jQuery(function () {
                          })
                          .call(function (lines) { self.didEnterLineDecorations(lines) });
 
+        if (!initial) {
+            newLines.each(function (d) {
+                        var length = Math.sqrt((d.points[1].x-d.points[0].x)**2 + (d.points[1].y-d.points[0].y)**2);
+                        var path = d3.select(this);
+                        path.attr("stroke-dasharray", length + " " + length)
+                            .attr("stroke-dashoffset", length)
+                            .style("marker-start", "none")
+                            .style("marker-end", "none")
+                            .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
+                              .attr("stroke-dashoffset", 0)
+                              .on("end", function () {
+                                d3.select(this)
+                                  .attr("stroke-dasharray", undefined)
+                                  .attr("stroke-offset", undefined)
+                                  .style("marker-start", undefined)
+                                  .style("marker-end", undefined)
+                              })
+                    });
+        }
+
         newLines.merge(lines)
                      .classed("dashed", function (d) { return d.style == 'dashed' })
                      .classed("dotted", function (d) { return d.style == 'dotted' })
