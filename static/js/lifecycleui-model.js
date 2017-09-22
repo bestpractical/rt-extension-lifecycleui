@@ -801,6 +801,14 @@ jQuery(function () {
 
     Lifecycle.prototype.selectedRights = function () {
         var rights = jQuery.map(this.transitions, function (transition) { return transition.right });
+
+        if (this.type == 'ticket') {
+            rights = rights.concat(['ModifyTicket', 'DeleteTicket']);
+        }
+        else if (this.type == 'asset') {
+            rights = rights.concat(['ModifyAsset']);
+        }
+
         return jQuery.unique(rights.sort());
     };
 
