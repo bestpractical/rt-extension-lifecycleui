@@ -73,6 +73,10 @@ jQuery(function () {
             field.change(function (e) { toggle() });
             toggle();
         });
+
+        inspector.find(".combobox input.combo-text").each(function () {
+            ComboBox_Load(this.id);
+        });
     };
 
     Editor.prototype.bindInspectorEvents = function () {
@@ -81,16 +85,23 @@ jQuery(function () {
         var inspector = self.inspector;
 
         inspector.on('change', ':input', function () {
-            var field = this.name;
+            var node = jQuery(this);
             var value;
-            if (jQuery(this).is(':checkbox')) {
-                value = this.checked;
+
+            if (node.is('.combo-list')) {
+                value = node.val();
+                node = node.closest('.combobox').find('.combo-text');
+            }
+            else if (node.is(':checkbox')) {
+                value = node[0].checked;
             }
             else {
-                value = jQuery(this).val();
+                value = node.val();
             }
 
-            var action = jQuery(this).closest('li.action');
+            var field = node.attr('name');
+
+            var action = node.closest('li.action');
             if (action.length) {
                 var action = lifecycle.itemForKey(action.data('key'));
                 lifecycle.updateItem(action, field, value);

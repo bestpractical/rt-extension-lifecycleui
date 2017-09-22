@@ -7,7 +7,30 @@
 
           <tr>
             <td><&|/l&>Right</&>:</td>
-            <td><input type="text" name="right" value="{{transition.right}}"></td>
+            <td>
+%# taken from RT's /Widgets/ComboBox, except we can't know at Mason time which
+%# values to provide
+% my $z_index = 9999;
+% my $Class = "";
+% my $Name = "right";
+% my $Size = undef;
+% my $Default = "{{transition.right}}";
+% my $Rows = 5;
+              <nobr>
+                <div id="<% $Name %>_Container" class="combobox <%$Class%>" style="z-index: <%$z_index--%>">
+                  <input name="<% $Name %>" id="<% $Name %>" class="combo-text" value="<% $Default || '' %>" type="text" <% $Size ? "size='$Size'" : '' |n %> autocomplete="off" />
+                  <br style="display: none" />
+                  <span id="<% $Name %>_Button" class="combo-button">&#9660;</span>
+                  <select name="List-<% $Name %>" id="<% $Name %>_List" class="combo-list" onchange="ComboBox_SimpleAttach(this, this.form[<% $Name |n,j%>]); " size="<% $Rows %>">
+% for my $map (map { $RT::ACE::RIGHTS{$_} } sort keys %RT::ACE::RIGHTS) {
+% for my $right (sort map { $_->{Name} } values %$map ) {
+                    <option value="<% $right %>"><% $right %></option>
+% }
+% }
+                  </select>
+                </div>
+              </nobr>
+            </td>
           </tr>
 
           <tr>
