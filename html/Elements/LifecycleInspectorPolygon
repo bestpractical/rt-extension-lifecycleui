@@ -9,11 +9,16 @@
           <tr>
             <td><&|/l&>Border</&>:</td>
             <td>
-              <input type="checkbox" name="renderStroke" {{#if polygon.renderStroke}}checked=checked{{/if}} data-show-hide=".color-control[data-field=stroke], .stroke-style">
+              <input type="checkbox" name="renderStroke" {{#if polygon.renderStroke}}checked=checked{{/if}} data-show-hide=".color-control[data-field=stroke], .stroke-style, tr.color-widget[data-field=stroke]">
               <span class="color-control" data-field="stroke">
                 <span class="current-color" title="{{polygon.stroke}}" style="background-color: {{polygon.stroke}}">&nbsp;</span>
                 <button class="change-color"><&|/l&>Change</&></button>
               </span>
+            </td>
+          </tr>
+          <tr class="color-widget" data-field="stroke">
+            <td colspan="2">
+              <div class="color-picker"></div>
             </td>
           </tr>
 
@@ -31,11 +36,16 @@
           <tr>
             <td><&|/l&>Fill</&>:</td>
             <td>
-              <input type="checkbox" name="renderFill" {{#if polygon.renderFill}}checked=checked{{/if}} data-show-hide=".color-control[data-field=fill]">
+              <input type="checkbox" name="renderFill" {{#if polygon.renderFill}}checked=checked{{/if}} data-show-hide=".color-control[data-field=fill], tr.color-widget[data-field=fill]">
               <span class="color-control" data-field="fill">
                 <span class="current-color" title="{{polygon.fill}}" style="background-color: {{polygon.fill}}">&nbsp;</span>
                 <button class="change-color"><&|/l&>Change</&></button>
               </span>
+            </td>
+          </tr>
+          <tr class="color-widget" data-field="fill">
+            <td colspan="2">
+              <div class="color-picker"></div>
             </td>
           </tr>
         </table>

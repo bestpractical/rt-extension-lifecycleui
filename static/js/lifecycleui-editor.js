@@ -121,17 +121,18 @@ jQuery(function () {
 
         inspector.on('click', 'button.change-color', function (e) {
             e.preventDefault();
-            var container = jQuery(this).closest('.color-control');
-            var field = container.data('field');
-            var picker = jQuery('<div class="color-picker"></div>');
-            jQuery(this).replaceWith(picker);
+            var inputContainer = jQuery(this).closest('.color-control');
+            var field = inputContainer.data('field');
+            var pickerContainer = jQuery('tr.color-widget[data-field="'+field+'"]');
+            var picker = pickerContainer.find('.color-picker');
+            jQuery(this).remove();
 
             var skipUpdateCallback = 0;
             var farb = jQuery.farbtastic(picker, function (newColor) {
                 if (skipUpdateCallback) {
                     return;
                 }
-                container.find('.current-color').val(newColor);
+                inputContainer.find('.current-color').val(newColor);
                 lifecycle.updateItem(self.inspectorNode, field, newColor, true);
                 self.renderDisplay();
             });
@@ -143,7 +144,7 @@ jQuery(function () {
             });
 
             var input = jQuery('<input class="current-color" size=8 maxlength=7>');
-            container.find('.current-color').replaceWith(input);
+            inputContainer.find('.current-color').replaceWith(input);
             input.on('input', function () {
                 var newColor = input.val();
                 if (newColor.match(/^#[a-fA-F0-9]{6}$/)) {

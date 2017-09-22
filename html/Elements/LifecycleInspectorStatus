@@ -31,6 +31,11 @@
 	      </span>
 	    </td>
 	  </tr>
+          <tr class="color-widget" data-field="color">
+            <td colspan="2">
+              <div class="color-picker"></div>
+            </td>
+          </tr>
 	</table>
 
         <ul class="toplevel">
