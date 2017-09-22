@@ -128,11 +128,11 @@
     left: 175px;
 }
 
-.lifecycle-ui .statuses text.hover {
+.lifecycle-ui .statuses .hover {
     opacity: 1;
 }
 
-.lifecycle-ui .statuses circle.hover,
+.lifecycle-ui .statuses .hover circle,
 .lifecycle-ui .transitions .hover,
 .lifecycle-ui .decorations :not(text).hover {
     opacity: 1;

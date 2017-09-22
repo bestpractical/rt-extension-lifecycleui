@@ -75,11 +75,11 @@
     opacity: 1;
 }
 
-.lifecycle-ui .has-focus .statuses circle.focus {
+.lifecycle-ui .has-focus .statuses .focus circle {
     stroke-width: 6px;
 }
 
-.lifecycle-ui .has-focus .statuses circle.focus,
+.lifecycle-ui .has-focus .statuses .focus circle,
 .lifecycle-ui .has-focus .transitions .focus,
 .lifecycle-ui .has-focus .decorations :not(text).focus {
     filter: url(#focus);

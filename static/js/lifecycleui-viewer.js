@@ -69,36 +69,41 @@ jQuery(function () {
 
     Viewer.prototype.renderStatusNodes = function (initial) {
         var self = this;
-        var statuses = self.statusContainer.selectAll("circle")
+        var statuses = self.statusContainer.selectAll("g")
                                            .data(self.lifecycle.statusObjects(), function (d) { return d._key });
 
-        statuses.exit()
-              .classed("removing", true)
-              .transition().duration(200*self.animationFactor)
-                .attr("r", self.statusCircleRadius * .8)
-                .remove();
+        var exitStatuses = statuses.exit()
+                                   .classed("removing", true)
+                                   .transition().duration(200*self.animationFactor)
+                                     .remove();
 
-        var newStatuses = statuses.enter().append("circle")
-                            .attr("r", initial ? self.statusCircleRadius : self.statusCircleRadius * .8)
+        exitStatuses.select('circle')
+                    .attr("r", self.statusCircleRadius * .8);
+
+        var newStatuses = statuses.enter().append("g")
                             .attr("data-key", function (d) { return d._key })
                             .on("click", function (d) {
                                 d3.event.stopPropagation();
                                 self.clickedStatus(d);
                             })
                             .call(function (statuses) { self.didEnterStatusNodes(statuses) });
+        newStatuses.append("circle")
+                   .attr("r", initial ? self.statusCircleRadius : self.statusCircleRadius * .8)
 
         if (!initial) {
             newStatuses.transition().duration(200*self.animationFactor)
+                         .select("circle")
                          .attr("r", self.statusCircleRadius)
         }
 
         newStatuses.merge(statuses)
-                        .attr("cx", function (d) { return self.xScale(d.x) })
-                        .attr("cy", function (d) { return self.yScale(d.y) })
-                        .attr("fill", function (d) { return d.color })
                         .classed("focus", function (d) { return self.isFocused(d) })
                         .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
-                        .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
+                        .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) })
+                   .select("circle")
+                        .attr("cx", function (d) { return self.xScale(d.x) })
+                        .attr("cy", function (d) { return self.yScale(d.y) })
+                        .attr("fill", function (d) { return d.color });
     };
 
     Viewer.prototype.clickedStatus = function (d) { };

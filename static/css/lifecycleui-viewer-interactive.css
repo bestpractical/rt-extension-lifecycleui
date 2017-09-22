@@ -48,7 +48,7 @@
     box-shadow: 2px 2px 8px -2px #999;
 }
 
-.lifecycle-ui .statuses circle.selected {
+.lifecycle-ui .statuses .selected circle {
     filter: url(#hover);
 }
 
