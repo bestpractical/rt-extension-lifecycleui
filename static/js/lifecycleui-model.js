@@ -799,6 +799,11 @@ jQuery(function () {
         return clone;
     };
 
+    Lifecycle.prototype.selectedRights = function () {
+        var rights = jQuery.map(this.transitions, function (transition) { return transition.right });
+        return jQuery.unique(rights.sort());
+    };
+
     RT.Lifecycle = Lifecycle;
 });
 

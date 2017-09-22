@@ -22,11 +22,18 @@
                   <br style="display: none" />
                   <span id="<% $Name %>_Button" class="combo-button">&#9660;</span>
                   <select name="List-<% $Name %>" id="<% $Name %>_List" class="combo-list" onchange="ComboBox_SimpleAttach(this, this.form[<% $Name |n,j%>]); " size="<% $Rows %>">
+                    <optgroup>
+{{#each (selectedRights lifecycle)}}
+                      <option value="{{this}}">{{this}}</option>
+{{/each}}
+                    </optgroup>
+                    <optgroup>
 % for my $map (map { $RT::ACE::RIGHTS{$_} } sort keys %RT::ACE::RIGHTS) {
 % for my $right (sort map { $_->{Name} } values %$map ) {
-                    <option value="<% $right %>"><% $right %></option>
+                      <option value="<% $right %>"><% $right %></option>
 % }
 % }
+                    </optgroup>
                   </select>
                 </div>
               </nobr>

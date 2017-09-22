@@ -27,6 +27,10 @@ jQuery(function () {
             return lifecycle.hasTransition(fromStatus, toStatus);
         });
 
+        Handlebars.registerHelper('selectedRights', function(lifecycle) {
+            return lifecycle.selectedRights();
+        });
+
         Handlebars.registerHelper('truncate', function(text) {
             if (text.length > 15) {
                 text = text.substr(0, 15) + '…';
