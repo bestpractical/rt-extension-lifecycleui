@@ -60,7 +60,6 @@ jQuery(function () {
     };
 
     Viewer.prototype.didEnterStatusNodes = function (statuses) { };
-    Viewer.prototype.didEnterStatusLabels = function (labels) { };
     Viewer.prototype.didEnterTransitions = function (paths) { };
     Viewer.prototype.didEnterTextDecorations = function (labels) { };
     Viewer.prototype.didEnterPolygonDecorations = function (polygons) { };
@@ -87,8 +86,11 @@ jQuery(function () {
                                 self.clickedStatus(d);
                             })
                             .call(function (statuses) { self.didEnterStatusNodes(statuses) });
+
         newStatuses.append("circle")
                    .attr("r", initial ? self.statusCircleRadius : self.statusCircleRadius * .8)
+
+        newStatuses.append("text");
 
         if (!initial) {
             newStatuses.transition().duration(200*self.animationFactor)
@@ -96,14 +98,21 @@ jQuery(function () {
                          .attr("r", self.statusCircleRadius)
         }
 
-        newStatuses.merge(statuses)
+        var allStatuses = newStatuses.merge(statuses)
                         .classed("focus", function (d) { return self.isFocused(d) })
                         .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
-                        .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) })
-                   .select("circle")
-                        .attr("cx", function (d) { return self.xScale(d.x) })
-                        .attr("cy", function (d) { return self.yScale(d.y) })
-                        .attr("fill", function (d) { return d.color });
+                        .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
+
+        allStatuses.select("circle")
+                     .attr("cx", function (d) { return self.xScale(d.x) })
+                     .attr("cy", function (d) { return self.yScale(d.y) })
+                     .attr("fill", function (d) { return d.color });
+
+        allStatuses.select("text")
+                      .attr("x", function (d) { return self.xScale(d.x) })
+                      .attr("y", function (d) { return self.yScale(d.y) })
+                      .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
+                      .text(function (d) { return d.name }).each(function () { self.truncateLabel(this) })
     };
 
     Viewer.prototype.clickedStatus = function (d) { };
@@ -119,34 +128,6 @@ jQuery(function () {
             node.text(text + '…');
             textLength = node.node().getComputedTextLength();
         }
-    };
-
-    Viewer.prototype.renderStatusLabels = function (initial) {
-        var self = this;
-        var labels = self.statusContainer.selectAll("text")
-                                         .data(self.lifecycle.statusObjects(), function (d) { return d._key });
-
-        labels.exit()
-            .classed("removing", true)
-            .transition().duration(200*self.animationFactor)
-              .remove();
-
-        var newLabels = labels.enter().append("text")
-                          .attr("data-key", function (d) { return d._key })
-                          .on("click", function (d) {
-                              d3.event.stopPropagation();
-                              self.clickedStatus(d);
-                          })
-                          .call(function (labels) { self.didEnterStatusLabels(labels) });
-
-        newLabels.merge(labels)
-                      .attr("x", function (d) { return self.xScale(d.x) })
-                      .attr("y", function (d) { return self.yScale(d.y) })
-                      .attr("fill", function (d) { return d3.hsl(d.color).l > 0.35 ? '#000' : '#fff' })
-                      .text(function (d) { return d.name }).each(function () { self.truncateLabel(this) })
-                      .classed("focus", function (d) { return self.isFocused(d) })
-                      .classed("focus-from", function (d) { return self.isFocusedTransition(d, true) })
-                      .classed("focus-to", function (d) { return self.isFocusedTransition(d, false) });
     };
 
     Viewer.prototype.transitionArc = function (d) {
@@ -403,7 +384,6 @@ jQuery(function () {
     Viewer.prototype.renderDisplay = function (initial) {
         this.renderTransitions(initial);
         this.renderStatusNodes(initial);
-        this.renderStatusLabels(initial);
         this.renderDecorations(initial);
     };
 

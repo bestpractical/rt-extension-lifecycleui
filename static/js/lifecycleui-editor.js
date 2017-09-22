@@ -523,10 +523,6 @@ jQuery(function () {
         statuses.call(this._createDrag());
     };
 
-    Editor.prototype.didEnterStatusLabels = function (statuses) {
-        statuses.call(this._createDrag());
-    };
-
     Editor.prototype.didEnterTextDecorations = function (labels) {
         labels.call(this._createDrag());
     };
