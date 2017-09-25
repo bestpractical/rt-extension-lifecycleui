@@ -3,6 +3,7 @@ jQuery(function () {
         this.width  = 809;
         this.height = 500;
         this.statusCircleRadius = 35;
+        this.statusCircleRadiusFudge = 4; // required to give room for the arrowhead
         this.gridSize = 10;
         this.padding = this.statusCircleRadius * 2;
         this.animationFactor = 1; // bump this to 10 debug JS animations
@@ -131,12 +132,32 @@ jQuery(function () {
     };
 
     Viewer.prototype.transitionArc = function (d) {
-      var from = this.lifecycle.statusObjectForName(d.from);
-      var to = this.lifecycle.statusObjectForName(d.to);
-      var dx = this.xScale(to.x - from.x),
-          dy = this.yScale(to.y - from.y),
-          dr = Math.abs(dx*6) + Math.abs(dy*6);
-      return "M" + this.xScale(from.x) + "," + this.yScale(from.y) + "A" + dr + "," + dr + " 0 0,1 " + this.xScale(to.x) + "," + this.yScale(to.y);
+        // c* variables are circle centers
+        // a* variables are for the arc path which is from circle edge to circle edge
+        var from = this.lifecycle.statusObjectForName(d.from),
+              to = this.lifecycle.statusObjectForName(d.to),
+             cx0 = this.xScale(from.x),
+             cx1 = this.xScale(to.x),
+             cy0 = this.yScale(from.y),
+             cy1 = this.yScale(to.y),
+             cdx = cx1 - cx0,
+             cdy = cy1 - cy0;
+
+        // the circles on top of each other would calculate atan2(0,0) which is
+        // undefined and a little nonsensical
+        if (cdx == 0 && cdy == 0) {
+            return null;
+        }
+
+        var theta = Math.atan2(cdy, cdx),
+                r = this.statusCircleRadius,
+              ax0 = cx0 + r * Math.cos(theta),
+              ay0 = cy0 + r * Math.sin(theta),
+              ax1 = cx1 - (r + this.statusCircleRadiusFudge) * Math.cos(theta),
+              ay1 = cy1 - (r + this.statusCircleRadiusFudge) * Math.sin(theta),
+               dr = Math.abs((ax1-ax0)*4) + Math.abs((ay1-ay0)*4);
+
+        return "M" + ax0 + "," + ay0 + " A" + dr + "," + dr + " 0 0,1 " + ax1 + "," + ay1;
     };
 
     Viewer.prototype.renderTransitions = function (initial) {
@@ -149,10 +170,10 @@ jQuery(function () {
                         var length = this.getTotalLength();
                         var path = d3.select(this);
                         path.attr("stroke-dasharray", length + " " + length)
-                            .attr("stroke-dashoffset", self.statusCircleRadius)
+                            .attr("stroke-dashoffset", 0)
                             .style("marker-end", "none")
                             .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
-                              .attr("stroke-dashoffset", length - self.statusCircleRadius)
+                              .attr("stroke-dashoffset", length)
                               .remove();
                     });
 
@@ -177,10 +198,10 @@ jQuery(function () {
                         var length = this.getTotalLength();
                         var path = d3.select(this);
                         path.attr("stroke-dasharray", length + " " + length)
-                            .attr("stroke-dashoffset", length - self.statusCircleRadius)
+                            .attr("stroke-dashoffset", length)
                             .style("marker-end", "none")
                             .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
-                              .attr("stroke-dashoffset", self.statusCircleRadius)
+                              .attr("stroke-dashoffset", 0)
                               .on("end", function () {
                                 d3.select(this)
                                   .attr("stroke-dasharray", undefined)
