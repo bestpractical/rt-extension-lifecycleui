@@ -149,10 +149,10 @@ jQuery(function () {
                         var length = this.getTotalLength();
                         var path = d3.select(this);
                         path.attr("stroke-dasharray", length + " " + length)
-                            .attr("stroke-dashoffset", self.statusCircleRadius)
+                            .attr("stroke-dashoffset", 0)
                             .style("marker-end", "none")
                             .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
-                              .attr("stroke-dashoffset", length - self.statusCircleRadius)
+                              .attr("stroke-dashoffset", length)
                               .remove();
                     });
 
@@ -177,10 +177,10 @@ jQuery(function () {
                         var length = this.getTotalLength();
                         var path = d3.select(this);
                         path.attr("stroke-dasharray", length + " " + length)
-                            .attr("stroke-dashoffset", length - self.statusCircleRadius)
+                            .attr("stroke-dashoffset", length)
                             .style("marker-end", "none")
                             .transition().duration(200*self.animationFactor).ease(d3.easeLinear)
-                              .attr("stroke-dashoffset", self.statusCircleRadius)
+                              .attr("stroke-dashoffset", 0)
                               .on("end", function () {
                                 d3.select(this)
                                   .attr("stroke-dasharray", undefined)
