@@ -44,11 +44,7 @@
 }
 
 .lifecycle-ui .removing {
-    opacity: 0 !important;
-}
-
-.lifecycle-ui .transitions path.removing {
-    opacity: 1 !important;
+    opacity: 0;
 }
 
 .lifecycle-ui .has-focus .point-handle {
