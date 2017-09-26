@@ -49,15 +49,19 @@ jQuery(function () {
         }
     }
 
-    Viewer.prototype.resetZoom = function (animated) {
+    Viewer.prototype._setZoom = function (zoom, animated) {
         if (animated) {
             this.svg.transition()
                     .duration(750*this.animationFactor)
-                    .call(this._zoom.transform, this._zoomIdentity);
+                    .call(this._zoom.transform, zoom);
         }
         else {
-            this.svg.call(this._zoom.transform, this._zoomIdentity);
+            this.svg.call(this._zoom.transform, zoom);
         }
+    };
+
+    Viewer.prototype.resetZoom = function (animated) {
+        this._setZoom(this._zoomIdentity, animated);
     };
 
     Viewer.prototype.didEnterStatusNodes = function (statuses) { };
