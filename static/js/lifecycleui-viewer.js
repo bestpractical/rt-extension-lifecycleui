@@ -64,6 +64,22 @@ jQuery(function () {
         this._setZoom(this._zoomIdentity, animated);
     };
 
+    Viewer.prototype.zoomToFit = function (animated) {
+        var bounds = this.transformContainer.node().getBBox();
+        var parent = this.transformContainer.node().parentElement;
+        var fullWidth = parent.clientWidth || parent.parentNode.clientWidth,
+            fullHeight = parent.clientHeight || parent.parentNode.clientHeight;
+        var width = bounds.width,
+            height = bounds.height;
+        var midX = bounds.x + width / 2,
+            midY = bounds.y + height / 2;
+        var scale = 0.75 / Math.max(width / fullWidth, height / fullHeight);
+        var tx = fullWidth / 2 - scale * midX;
+        var ty = fullHeight / 2 - scale * midY;
+
+        this._setZoom(this._zoomIdentity.translate(tx, ty).scale(scale), animated);
+    };
+
     Viewer.prototype.didEnterStatusNodes = function (statuses) { };
     Viewer.prototype.didEnterTransitions = function (paths) { };
     Viewer.prototype.didEnterTextDecorations = function (labels) { };
