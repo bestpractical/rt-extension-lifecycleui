@@ -372,7 +372,7 @@ jQuery(function () {
     Lifecycle.prototype.deleteStatus = function (key) {
         var self = this;
 
-        self._saveUndoEntry();
+        self._saveUndoEntry(false);
 
         var statusName = self.statusNameForKey(key);
         if (!statusName) {
@@ -401,10 +401,12 @@ jQuery(function () {
             }
             return true;
         });
+
+        self._undoStateChanged();
     };
 
     Lifecycle.prototype.addTransition = function (fromStatus, toStatus) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var transition = {
             _key    : _ELEMENT_KEY_SEQ++,
@@ -418,6 +420,8 @@ jQuery(function () {
         this._keyMap[transition._key] = transition;
 
         transition.right = this.defaultRightForTransition(transition);
+
+        this._undoStateChanged();
 
         return transition;
     };
@@ -460,7 +464,7 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.deleteTransition = function (key) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         this.transitions = jQuery.grep(this.transitions, function (transition) {
             if (transition._key == key) {
@@ -469,10 +473,12 @@ jQuery(function () {
             return true;
         });
         delete this._keyMap[key];
+
+        this._undoStateChanged();
     };
 
     Lifecycle.prototype.deleteDecoration = function (type, key) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         this.decorations[type] = jQuery.grep(this.decorations[type], function (decoration) {
             if (decoration._key == key) {
@@ -481,6 +487,8 @@ jQuery(function () {
             return true;
         });
         delete this._keyMap[key];
+
+        this._undoStateChanged();
     };
 
     Lifecycle.prototype.itemForKey = function (key) {
@@ -506,7 +514,7 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.deleteActionForTransition = function (transition, key) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         transition.actions = jQuery.grep(transition.actions, function (action) {
             if (action._key == key) {
@@ -515,11 +523,13 @@ jQuery(function () {
             return true;
         });
         delete this._keyMap[key];
+
+        this._undoStateChanged();
     };
 
     Lifecycle.prototype.updateItem = function (item, field, newValue, skipUndo) {
         if (!skipUndo) {
-            this._saveUndoEntry();
+            this._saveUndoEntry(false);
         }
 
         var oldValue = item[field];
@@ -529,10 +539,14 @@ jQuery(function () {
         if (item._type == 'status' && field == 'name') {
             this.updateStatusName(oldValue, newValue);
         }
+
+        if (!skipUndo) {
+            this._undoStateChanged();
+        }
     };
 
     Lifecycle.prototype.createActionForTransition = function (transition) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var action = {
             _type : 'action',
@@ -540,15 +554,18 @@ jQuery(function () {
         };
         transition.actions.push(action);
         this._keyMap[action._key] = action;
+
+        this._undoStateChanged();
+
         return action;
     };
 
     Lifecycle.prototype.beginDragging = function () {
-        this._saveUndoEntry();
+        this._saveUndoEntry(true);
     };
 
     Lifecycle.prototype.beginChangingColor = function () {
-        this._saveUndoEntry();
+        this._saveUndoEntry(true);
     };
 
     Lifecycle.prototype.moveItem = function (item, x, y) {
@@ -567,7 +584,7 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.createStatus = function (x, y) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var name;
         var i = 0;
@@ -592,11 +609,14 @@ jQuery(function () {
 
         this._statusMeta[name] = item;
         this._keyMap[item._key] = item;
+
+        this._undoStateChanged();
+
         return item;
     };
 
     Lifecycle.prototype.createTextDecoration = function (x, y) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
@@ -607,11 +627,13 @@ jQuery(function () {
         };
         this.decorations.text.push(item);
         this._keyMap[item._key] = item;
+
+        this._undoStateChanged();
         return item;
     };
 
     Lifecycle.prototype.createPolygonDecoration = function (x, y, type) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
@@ -628,11 +650,13 @@ jQuery(function () {
         };
         this.decorations.polygon.push(item);
         this._keyMap[item._key] = item;
+
+        this._undoStateChanged();
         return item;
     };
 
     Lifecycle.prototype.createCircleDecoration = function (x, y, r) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
@@ -649,11 +673,13 @@ jQuery(function () {
         };
         this.decorations.circle.push(item);
         this._keyMap[item._key] = item;
+
+        this._undoStateChanged();
         return item;
     };
 
     Lifecycle.prototype.createLineDecoration = function (x, y) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var item = {
             _key: _ELEMENT_KEY_SEQ++,
@@ -668,11 +694,13 @@ jQuery(function () {
         };
         this.decorations.line.push(item);
         this._keyMap[item._key] = item;
+
+        this._undoStateChanged();
         return item;
     };
 
     Lifecycle.prototype.update = function (field, value) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         if (field == 'on_create' || field == 'approved' || field == 'denied' || field == 'reminder_on_open' || field == 'reminder_on_resolve') {
             this.defaults[field] = value;
@@ -683,6 +711,8 @@ jQuery(function () {
         else {
             console.error("Unhandled field in Lifecycle.update: " + field);
         }
+
+        this._undoStateChanged();
     };
 
     Lifecycle.prototype._currentUndoFrame = function () {
@@ -713,11 +743,14 @@ jQuery(function () {
         }
     };
 
-    Lifecycle.prototype._saveUndoEntry = function () {
+    Lifecycle.prototype._saveUndoEntry = function (notify) {
         var frame = this._currentUndoFrame();
         this._undoState.undoStack.push(frame);
         this._undoState.redoStack = [];
-        this._undoStateChanged();
+
+        if (notify) {
+            this._undoStateChanged();
+        }
     };
 
     Lifecycle.prototype._rebuildKeyMap = function () {
@@ -787,7 +820,7 @@ jQuery(function () {
     };
 
     Lifecycle.prototype.cloneItem = function (source, x, y) {
-        this._saveUndoEntry();
+        this._saveUndoEntry(false);
 
         var clone = JSON.parse(JSON.stringify(source));
         clone._key = _ELEMENT_KEY_SEQ++;
@@ -802,6 +835,9 @@ jQuery(function () {
         }
 
         this._keyMap[clone._key] = clone;
+
+        this._undoStateChanged();
+
         return clone;
     };
 
