@@ -13,12 +13,34 @@
 
           {{#if lifecycle.is_ticket}}
           <tr>
-            <td><&|/l&>Lifecycle on Tickets</&>:</td>
+            <td colspan=2><&|/l&>Lifecycle on Tickets</&>:</td>
+          </tr>
+          <tr>
+            <td><&|/l&>Display</&>:</td>
             <td><select name="ticket_display">
               {{#select lifecycle.ticket_display}}
                 <option value="hidden"><&|/l&>hidden</&>
                 <option value="readonly"><&|/l&>read-only</&>
                 <option value="interactive"><&|/l&>interactive</&>
+              {{/select}}
+            </select></td>
+          </tr>
+          <tr>
+            <td><&|/l&>Pan and Zoom</&>:</td>
+            <td><select name="ticket_zoom">
+              {{#select lifecycle.ticket_zoom}}
+                <option value="dynamic"><&|/l&>adjustable</&>
+                <option value="static"><&|/l&>static</&>
+              {{/select}}
+            </select></td>
+          </tr>
+          <tr>
+            <td><&|/l&>Center Point</&>:</td>
+            <td><select name="ticket_center">
+              {{#select lifecycle.ticket_center}}
+                <option value="status"><&|/l&>current status</&>
+                <option value="origin"><&|/l&>origin</&>
+                <option value="fit"><&|/l&>zoom to fit</&>
               {{/select}}
             </select></td>
           </tr>

@@ -9,6 +9,8 @@ jQuery(function () {
         this.defaults = {};
         this.transitions = [];
         this.decorations = {};
+        this.ticket_zoom = 'dynamic';
+        this.ticket_center = 'status';
 
         this.defaultColor = '#547CCC';
         this._undoState = { undoStack: [], redoStack: [] };
@@ -44,6 +46,14 @@ jQuery(function () {
 
         if (config.ticket_display) {
             self.ticket_display = config.ticket_display;
+        }
+
+        if (config.ticket_zoom) {
+            self.ticket_zoom = config.ticket_zoom;
+        }
+
+        if (config.ticket_center) {
+            self.ticket_center = config.ticket_center;
         }
 
         jQuery.each(['initial', 'active', 'inactive'], function (i, type) {
@@ -252,6 +262,8 @@ jQuery(function () {
             transitions: self.transitions,
 
             ticket_display: self.ticket_display,
+            ticket_zoom: self.ticket_zoom,
+            ticket_center: self.ticket_center,
             decorations: {},
             statusExtra: {},
             transitionExtra: {}
@@ -665,7 +677,7 @@ jQuery(function () {
         if (field == 'on_create' || field == 'approved' || field == 'denied' || field == 'reminder_on_open' || field == 'reminder_on_resolve') {
             this.defaults[field] = value;
         }
-        else if (field == 'ticket_display') {
+        else if (field == 'ticket_display' || field == 'ticket_zoom' || field == 'ticket_center') {
             this[field] = value;
         }
         else {
