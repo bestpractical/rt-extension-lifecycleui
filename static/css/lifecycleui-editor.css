@@ -138,3 +138,8 @@
 .lifecycle-ui.editing .decorations .hover.text-background {
     fill: white;
 }
+
+.lifecycle-ui .inspector button:disabled {
+    background: hsl(222, 20%, 40%);
+    cursor: not-allowed;
+}
