@@ -38,7 +38,7 @@
           </tr>
 	</table>
 
-        <ul class="toplevel">
+        <ul class="toplevel sf-vertical">
           <li><a href="javascript:void(0)" class="menu-item"><&|/l&>Add Transition...</&></a>
             <ul>
             {{#each lifecycle.statuses}}

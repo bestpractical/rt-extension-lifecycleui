@@ -68,7 +68,7 @@ jQuery(function () {
             refreshedNode = inspector;
         }
 
-        refreshedNode.find(".toplevel").addClass('sf-menu sf-vertical sf-js-enabled sf-shadow').supersubs().superfish({ speed: 'fast' });
+        refreshedNode.find(".toplevel").addClass('sf-menu sf-js-enabled sf-shadow').supersubs().superfish({ speed: 'fast' });
 
         refreshedNode.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);

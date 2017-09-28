@@ -26,11 +26,15 @@
 
 .lifecycle-ui .inspector .content {
     padding: 1em;
+    border-top: 1px solid black;
 }
 
-.lifecycle-ui .inspector .header {
-    padding: 1em;
-    background: #EEE;
+.lifecycle-ui .inspector .header .toplevel {
+    padding-top: 1em;
+}
+
+.lifecycle-ui .inspector .header .controls {
+    padding: 0 0 1em 1em;
 }
 
 .lifecycle-ui .inspector input[type=text] {
