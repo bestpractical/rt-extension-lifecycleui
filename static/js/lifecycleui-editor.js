@@ -67,8 +67,27 @@ jQuery(function () {
         inspector.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);
             var selector = field.data('show-hide');
+            var flip = field.data('show-hide-flip') ? true : false;
+
             var toggle = function () {
-                if (field.prop('checked')) {
+                if ((field.prop('checked') ? true : false) != flip) {
+                    jQuery(selector).show();
+                } else {
+                    jQuery(selector).hide();
+                }
+            }
+            field.change(function (e) { toggle() });
+            toggle();
+        });
+
+        inspector.find('option[data-show-hide]').each(function () {
+            var option = jQuery(this);
+            var field = option.closest('select');
+            var selector = option.data('show-hide');
+            var flip = option.data('show-hide-flip') ? true : false;
+
+            var toggle = function () {
+                if ((field.val() == option.val()) != flip) {
                     jQuery(selector).show();
                 } else {
                     jQuery(selector).hide();

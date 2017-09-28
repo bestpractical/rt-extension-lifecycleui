@@ -19,13 +19,13 @@
             <td><&|/l&>Display</&>:</td>
             <td><select name="ticket_display">
               {{#select lifecycle.ticket_display}}
-                <option value="hidden"><&|/l&>hidden</&>
+                <option value="hidden" data-show-hide="tr.display-option" data-show-hide-flip=1><&|/l&>hidden</&>
                 <option value="readonly"><&|/l&>read-only</&>
                 <option value="interactive"><&|/l&>interactive</&>
               {{/select}}
             </select></td>
           </tr>
-          <tr>
+          <tr class="display-option">
             <td><&|/l&>Pan and Zoom</&>:</td>
             <td><select name="ticket_zoom">
               {{#select lifecycle.ticket_zoom}}
@@ -34,7 +34,7 @@
               {{/select}}
             </select></td>
           </tr>
-          <tr>
+          <tr class="display-option">
             <td><&|/l&>Center Point</&>:</td>
             <td><select name="ticket_center">
               {{#select lifecycle.ticket_center}}
