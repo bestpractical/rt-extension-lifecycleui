@@ -4,6 +4,10 @@
     height: 309px;
 }
 
+.lifecycle-ui.center-fit:not(.zoomable) svg {
+    border: none;
+}
+
 .lifecycle-ui .overlay-buttons {
     position: absolute;
     top: 1em;
