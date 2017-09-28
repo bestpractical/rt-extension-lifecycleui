@@ -10,6 +10,14 @@
     left: 391px;
 }
 
+.lifecycle-ui .overlay-buttons .zoom {
+    display: none;
+}
+
+.lifecycle-ui.zoomable .overlay-buttons .zoom {
+    display: inline-block;
+}
+
 .lifecycle-ui .statuses circle {
     stroke: black;
     stroke-width: 2px;

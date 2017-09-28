@@ -29,7 +29,12 @@ jQuery(function () {
         var self = this;
         self._zoom = d3.zoom()
                        .scaleExtent([.3, 2])
-                       .on("zoom", function () { self.didZoom() });
+                       .on("zoom", function () {
+                           if (self.zoomControl) {
+                               self.didZoom();
+                           }
+                       });
+
         self.svg.call(self._zoom);
     };
 
@@ -534,6 +539,9 @@ jQuery(function () {
         self.lifecycle = new RT.Lifecycle(name);
         self.lifecycle.initializeFromConfig(config);
 
+        // need to start with zoom control on to set the initial zoom
+        this.zoomControl = true;
+
         self.addZoomBehavior();
 
         if (self.container.hasClass('center-status')) {
@@ -553,6 +561,8 @@ jQuery(function () {
         }
 
         self._zoomIdentity = self._currentZoom;
+
+        self.zoomControl = self.container.hasClass('zoomable');
 
         self.container.on('click', 'button.zoom-in', function (e) {
             e.preventDefault();
