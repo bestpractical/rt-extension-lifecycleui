@@ -704,22 +704,20 @@ jQuery(function () {
         return frame;
     };
 
-    Lifecycle.prototype._saveUndoEntry = function () {
-        var frame = this._currentUndoFrame();
-        this._undoState.undoStack.push(frame);
-        this._undoState.redoStack = [];
+    Lifecycle.prototype._undoStateChanged = function () {
+        this._canUndo = this._undoState.undoStack.length > 0;
+        this._canRedo = this._undoState.redoStack.length > 0;
 
         if (this.undoStateChangedCallback) {
             this.undoStateChangedCallback();
         }
     };
 
-    Lifecycle.prototype.hasUndoStack = function () {
-        return this._undoState.undoStack.length > 0;
-    };
-
-    Lifecycle.prototype.hasRedoStack = function () {
-        return this._undoState.redoStack.length > 0;
+    Lifecycle.prototype._saveUndoEntry = function () {
+        var frame = this._currentUndoFrame();
+        this._undoState.undoStack.push(frame);
+        this._undoState.redoStack = [];
+        this._undoStateChanged();
     };
 
     Lifecycle.prototype._rebuildKeyMap = function () {
@@ -765,9 +763,7 @@ jQuery(function () {
 
         this._restoreState(entry);
 
-        if (this.undoStateChangedCallback) {
-            this.undoStateChangedCallback();
-        }
+        this._undoStateChanged();
 
         return frame;
     };
@@ -785,9 +781,7 @@ jQuery(function () {
 
         this._restoreState(entry);
 
-        if (this.undoStateChangedCallback) {
-            this.undoStateChangedCallback();
-        }
+        this._undoStateChanged();
 
         return frame;
     };

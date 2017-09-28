@@ -1,0 +1,6 @@
+<script type="text/x-template" class="lifecycle-inspector-template" data-type="header">
+  <div class="controls">
+    <button class="undo {{#unless lifecycle._canUndo}}invisible{{/unless}}"><&|/l&>Undo</&></button>
+    <button class="redo {{#unless lifecycle._canRedo}}invisible{{/unless}}"><&|/l&>Redo</&></button>
+  </div>
+</script>

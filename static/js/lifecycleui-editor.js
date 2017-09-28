@@ -49,22 +49,28 @@ jQuery(function () {
         return templates;
     };
 
-    Editor.prototype.setInspectorContent = function (node) {
+    Editor.prototype._refreshInspector = function (refreshContent) {
         var self = this;
         var lifecycle = self.lifecycle;
         var inspector = self.inspector;
-        self.inspectorNode = node;
-
-        var type = node ? node._type : 'canvas';
+        var node = self.inspectorNode;
 
         var params = { lifecycle: lifecycle };
-        params[type] = node;
 
-        inspector.find('.content').html(self.templates[type](params));
+        var header = inspector.find('.header');
+        header.html(self.templates.header(params));
 
-        inspector.find(".toplevel").addClass('sf-menu sf-vertical sf-js-enabled sf-shadow').supersubs().superfish({ speed: 'fast' });
+        var refreshedNode = header;
+        if (refreshContent) {
+            var type = node ? node._type : 'canvas';
+            params[type] = node;
+            inspector.find('.content').html(self.templates[type](params));
+            refreshedNode = inspector;
+        }
 
-        inspector.find(':checkbox[data-show-hide]').each(function () {
+        refreshedNode.find(".toplevel").addClass('sf-menu sf-vertical sf-js-enabled sf-shadow').supersubs().superfish({ speed: 'fast' });
+
+        refreshedNode.find(':checkbox[data-show-hide]').each(function () {
             var field = jQuery(this);
             var selector = field.data('show-hide');
             var flip = field.data('show-hide-flip') ? true : false;
@@ -80,7 +86,7 @@ jQuery(function () {
             toggle();
         });
 
-        inspector.find('option[data-show-hide]').each(function () {
+        refreshedNode.find('option[data-show-hide]').each(function () {
             var option = jQuery(this);
             var field = option.closest('select');
             var selector = option.data('show-hide');
@@ -97,9 +103,14 @@ jQuery(function () {
             toggle();
         });
 
-        inspector.find(".combobox input.combo-text").each(function () {
+        refreshedNode.find(".combobox input.combo-text").each(function () {
             ComboBox_Load(this.id);
         });
+    };
+
+    Editor.prototype.setInspectorContent = function (node) {
+        this.inspectorNode = node;
+        this._refreshInspector(true);
     };
 
     Editor.prototype.bindInspectorEvents = function () {
@@ -625,8 +636,7 @@ jQuery(function () {
         };
 
         self.lifecycle.undoStateChangedCallback = function () {
-            d3.select(node).select('button.undo').classed('invisible', !self.lifecycle.hasUndoStack());
-            d3.select(node).select('button.redo').classed('invisible', !self.lifecycle.hasRedoStack());
+            self._refreshInspector(false);
         };
         self.lifecycle.undoStateChangedCallback();
 
