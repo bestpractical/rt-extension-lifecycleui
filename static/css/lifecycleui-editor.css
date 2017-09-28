@@ -147,3 +147,7 @@
     background: hsl(222, 20%, 40%);
     cursor: not-allowed;
 }
+
+.lifecycle-ui .inspector tr.section td {
+    padding-top: 1em;
+}

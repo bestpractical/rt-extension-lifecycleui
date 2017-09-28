@@ -12,7 +12,7 @@
           </tr>
 
           {{#if lifecycle.is_ticket}}
-          <tr>
+          <tr class="section">
             <td colspan=2><&|/l&>Lifecycle on Tickets</&>:</td>
           </tr>
           <tr>
@@ -46,6 +46,9 @@
           </tr>
           {{/if}}
 
+          <tr class="section">
+            <td colspan=2><&|/l&>Defaults</&>:</td>
+          </tr>
           <tr>
             <td><&|/l&>On Create</&>:</td>
             <td><select name="on_create">
