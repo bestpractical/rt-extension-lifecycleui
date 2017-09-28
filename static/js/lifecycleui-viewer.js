@@ -536,9 +536,23 @@ jQuery(function () {
 
         self.addZoomBehavior();
 
-        self.focusOnStatus(focusStatus, true, false);
+        if (self.container.hasClass('center-status')) {
+            self.focusOnStatus(focusStatus, true, false);
+            self.renderDisplay(true);
+        }
+        else {
+            self.focusOnStatus(focusStatus, false, false);
+            self.renderDisplay(true);
 
-        self.renderDisplay(true);
+            if (self.container.hasClass('center-fit')) {
+                self.zoomToFit(false);
+            }
+            else if (self.container.hasClass('center-origin')) {
+                self.resetZoom(false);
+            }
+        }
+
+        self._zoomIdentity = self._currentZoom;
 
         self.container.on('click', 'button.zoom-in', function (e) {
             e.preventDefault();
