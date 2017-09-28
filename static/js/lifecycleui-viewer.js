@@ -73,11 +73,11 @@ jQuery(function () {
             height = bounds.height;
         var midX = bounds.x + width / 2,
             midY = bounds.y + height / 2;
-        var scale = 0.75 / Math.max(width / fullWidth, height / fullHeight);
+        var scale = .9 / Math.max(width / fullWidth, height / fullHeight);
         var tx = fullWidth / 2 - scale * midX;
         var ty = fullHeight / 2 - scale * midY;
 
-        this._setZoom(this._zoomIdentity.translate(tx, ty).scale(scale), animated);
+        this._setZoom(d3.zoomIdentity.translate(tx, ty).scale(scale), animated);
     };
 
     Viewer.prototype.didEnterStatusNodes = function (statuses) { };
